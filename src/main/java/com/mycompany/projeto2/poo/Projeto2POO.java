@@ -13,6 +13,6 @@ import java.io.IOException;
 public class Projeto2POO {
 
     public static void main(String[] args) throws IOException {
-        MapBuilder mapa = new MapBuilder();
+        Map map = new Map();
     }
 }

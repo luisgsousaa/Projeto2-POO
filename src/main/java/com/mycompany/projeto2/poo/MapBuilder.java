@@ -19,27 +19,21 @@ import java.util.Scanner;
  */
 public class MapBuilder {
     
-    private static final int  MIN_MAP_WIDTH = 20;
-    private static final int MAX_MAP_WIDTH = 60;
-    private static final int MIN_MAP_HEIGHT = 7;
-    private static final int MAX_MAP_HEIGHT = 20;
-    private static String[][] mapa;
-    private static File[] textFiles;
+    private final int  MIN_MAP_WIDTH = 20;
+    private final int MAX_MAP_WIDTH = 60;
+    private final int MIN_MAP_HEIGHT = 7;
+    private final int MAX_MAP_HEIGHT = 20;
+    private String[][] map;
+    private File[] textFiles;
     
     
     public MapBuilder() throws IOException{
         initializeGameMap();
         
         
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println("Lendo do array bidimensional");
-        
-        printMap();
     }
     
-    private static void getMapSelection(){
+    private void getMapSelection(){
         File folder = new File("."); //pasta do projeto onde se econtram os ficheiros
         
         
@@ -53,15 +47,15 @@ public class MapBuilder {
                                  + "\n"); // apresentar um número para poder escolher uma opção, retirar ".txt" do fim.                
             }
         } else {
-            System.out.println("Nao existem mapas na pasta. Verifique se estes la estao.");
+            System.out.println("Nao existem maps na pasta. Verifique se estes la estao.");
             setDefaultMap();
         }
         
     }
     
-    private static int selectMap(){
+    private int selectMap(){
         
-        System.out.println("Escolha um dos mapas");
+        System.out.println("Escolha um dos maps");
         int input = -1;
         boolean sair = false;
         Scanner scan = new Scanner(System.in);
@@ -89,7 +83,7 @@ public class MapBuilder {
         return input;
     }
     
-    private static String[][] getDefaultMap(){
+    private String[][] getDefaultMap(){
         String[][] map ={
                 {"- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",},
                 {"- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",},
@@ -126,8 +120,8 @@ public class MapBuilder {
         return newMap;
     }
     
-    private static void setDefaultMap(){
-        System.out.println("Se quiser carregar o mapa predefinido clique no enter");
+    private void setDefaultMap(){
+        System.out.println("Se quiser carregar o map predefinido clique no enter");
             Scanner scan = new Scanner(System.in);
             if(scan.nextLine() == ""){
                 getDefaultMap();
@@ -135,12 +129,12 @@ public class MapBuilder {
     }
     
     
-    private static boolean initializeMapArray(String file) throws FileNotFoundException, IOException{
+    private boolean initializeMapArray(String file) throws FileNotFoundException, IOException{
         try{
             FileReader inStream = new FileReader(file); // falta meter os try catch 
             BufferedReader reader = new BufferedReader(inStream);
 
-            //medidas do mapa
+            //medidas do map
             int width = 0; 
             int height = 0; 
 
@@ -161,19 +155,19 @@ public class MapBuilder {
             }
             
             if(width < MIN_MAP_WIDTH || width > MAX_MAP_WIDTH){
-                System.out.println("O mapa precisa de ter entre " + MIN_MAP_WIDTH + " e " + MAX_MAP_WIDTH + " celulas de comprimento, escolha outro mapa ou corrija as dimensoes deste");
+                System.out.println("O map precisa de ter entre " + MIN_MAP_WIDTH + " e " + MAX_MAP_WIDTH + " celulas de comprimento, escolha outro map ou corrija as dimensoes deste");
                 initializeGameMap();
                 return false;
             }
 
             if(height < MIN_MAP_HEIGHT || height > MAX_MAP_HEIGHT ){
-                System.out.println("O mapa precisa de ter entre " + MIN_MAP_HEIGHT + " e " + MAX_MAP_HEIGHT + " celulas de largura, escolha outro mapa ou corrija as dimensoes deste");
+                System.out.println("O map precisa de ter entre " + MIN_MAP_HEIGHT + " e " + MAX_MAP_HEIGHT + " celulas de largura, escolha outro map ou corrija as dimensoes deste");
                 initializeGameMap();
                 return false;
             }
 
             
-            mapa = new String[width][height];
+            map = new String[width][height];
             reader.close();
             
         }
@@ -194,12 +188,12 @@ public class MapBuilder {
         
         
     
-    private static void readMapFile(String file) throws FileNotFoundException, IOException{
+    private void readMapFile(String file) throws FileNotFoundException, IOException{
         try{
         FileReader inStream = new FileReader(file);
         BufferedReader reader = new BufferedReader(inStream);
         
-        System.out.println("Lendo do input do ficheiro");
+        
         
         //Indices para preencher o array bidimensional.
         int indexX = 0;
@@ -208,7 +202,6 @@ public class MapBuilder {
         String text = reader.readLine();
         
         while(text != null){ // percorrer o ficheiro linha a linha
-            System.out.println(text);
             
             
             int tamanho = text.length(); //tamanho da linha usado para definir quais caracteres guardar no array
@@ -217,11 +210,11 @@ public class MapBuilder {
 
             while(index < tamanho){ //percorrer a linha do ficheiro para preencher cada linha do array
                 
-                String teste ="" + text.charAt(index) + text.charAt(index+1); //copia a letra e o espaço(regra geral) se uma célula do mapa for duas letras também permite (ex. C1)
+                String teste ="" + text.charAt(index) + text.charAt(index+1); //copia a letra e o espaço(regra geral) se uma célula do map for duas letras também permite (ex. C1)
                 
-                mapa[indexX][indexY] = teste; //preenche o array
+                map[indexX][indexY] = teste; //preenche o array
                 indexX++; //aumenta o indice para preencher a proxima "coluna"
-                index+=3; //valor usado como o mapa usa dois espaços por célula 
+                index+=3; //valor usado como o map usa dois espaços por célula 
                 
             }
             text = reader.readLine(); // próxima linha do text
@@ -240,46 +233,19 @@ public class MapBuilder {
             }    
     }
     
-    private static void printMap(){
-        System.out.print("   "); //Espaço antes das coordenadas X para alinhar com as células do mapa
-        
-        for(int i = 0; i<mapa.length;i++){ // Coordenadas X
-            System.out.print(i);
-            coordinatesOffset(i); // offset para alinhar com as células devido aos números das dezenas
-            
-        }
-        System.out.println(); // Linha a baixo
-        
-        for(int i = 0; i<mapa[0].length;i++){
-            System.out.print(i); //Coordenadas Y antes de começar as células
-            coordinatesOffset(i); //offset para alinhar as células devido aos números das dezenas
-            
-            
-            for(int j = 0; j<mapa.length;j++){ //Impressão das células do mapa deixando um espaço entre estas.
-                System.out.print(mapa[j][i]);
-                System.out.print(" ");
-            }
-            System.out.println(); // linha a baixo
-        }
-    }
     
-           
-    private static void coordinatesOffset(int i){
-        if(i<10){
-                System.out.print("  ");
-            }
-            else{
-                System.out.print(" ");
-            }
-    }        
  
-    private static void initializeGameMap() throws IOException{
+    private void initializeGameMap() throws IOException{
         getMapSelection();
         int input = selectMap();
 
         if(initializeMapArray("" + textFiles[input])){
             readMapFile("" + textFiles[input]);      
         }
+    }
+    
+    public String[][] getMap(){
+        return map;
     }
 }
     
