@@ -37,6 +37,9 @@ public class MapBuilder {
         System.out.println("Lendo do array bidimensional");
         
         printMap();
+        printMap();
+        printMap();
+        printMap();
     }
     
     private static void getMapSelection(){
