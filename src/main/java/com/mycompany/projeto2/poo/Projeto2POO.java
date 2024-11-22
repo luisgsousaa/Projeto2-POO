@@ -4,13 +4,15 @@
 
 package com.mycompany.projeto2.poo;
 
+import java.io.IOException;
+
 /**
  *
  * @author Admin
  */
 public class Projeto2POO {
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+    public static void main(String[] args) throws IOException {
+        MapBuilder mapa = new MapBuilder();
     }
 }
