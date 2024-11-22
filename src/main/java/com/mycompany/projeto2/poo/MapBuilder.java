@@ -62,6 +62,7 @@ public class MapBuilder {
     private static int selectMap(){
         
         System.out.println("Escolha um dos mapas");
+        System.out.println("ALTERACAO TESTE sdfhfsiifhufewfhuwefhuew");
         int input = -1;
         boolean sair = false;
         Scanner scan = new Scanner(System.in);
