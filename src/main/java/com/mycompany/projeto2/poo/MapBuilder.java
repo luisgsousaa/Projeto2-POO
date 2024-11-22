@@ -20,10 +20,10 @@ import java.util.Scanner;
 public class MapBuilder {
     
     private final int  MIN_MAP_WIDTH = 20;
-    private final int MAX_MAP_WIDTH = 60;
+    private final int MAX_MAP_WIDTH = 70;
     private final int MIN_MAP_HEIGHT = 7;
-    private final int MAX_MAP_HEIGHT = 20;
-    private String[][] map;
+    private final int MAX_MAP_HEIGHT = 22;
+    private Cell[][] map;
     private File[] textFiles;
     
     
@@ -167,7 +167,7 @@ public class MapBuilder {
             }
 
             
-            map = new String[width][height];
+            map = new Cell[width][height];
             reader.close();
             
         }
@@ -210,9 +210,9 @@ public class MapBuilder {
 
             while(index < tamanho){ //percorrer a linha do ficheiro para preencher cada linha do array
                 
-                String teste ="" + text.charAt(index) + text.charAt(index+1); //copia a letra e o espaço(regra geral) se uma célula do map for duas letras também permite (ex. C1)
+                String c ="" + text.charAt(index) + text.charAt(index+1); //copia a letra e o espaço(regra geral) se uma célula do map for duas letras também permite (ex. C1)
                 
-                map[indexX][indexY] = teste; //preenche o array
+                map[indexX][indexY] = new Cell(c); //preenche o array
                 indexX++; //aumenta o indice para preencher a proxima "coluna"
                 index+=3; //valor usado como o map usa dois espaços por célula 
                 
@@ -244,7 +244,7 @@ public class MapBuilder {
         }
     }
     
-    public String[][] getMap(){
+    public Cell[][] getMap(){
         return map;
     }
 }

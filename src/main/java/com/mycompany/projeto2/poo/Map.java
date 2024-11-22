@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Admin
  */
 public class Map {
-   private String[][] map; // mudar para celulas
+   private static Cell[][] map; // mudar para celulas
    private int width;
    private int height;
    
@@ -47,7 +47,8 @@ public class Map {
             
             
             for(int j = 0; j<width;j++){ //Impressão das células do map deixando um espaço entre estas.
-                System.out.print(map[j][i]);
+                
+                System.out.print(map[j][i].getType());
                 System.out.print(" ");
             }
             System.out.println(); // linha a baixo
@@ -63,7 +64,7 @@ public class Map {
             }
     }
    
-    public String getCell(int x, int y){ // mudar para cell
+    public Cell getCell(int x, int y){ // mudar para cell
         
         try{
             return map[x][y];
@@ -73,7 +74,11 @@ public class Map {
         }
     }
     
-    public void setCell(int x, int y, String cell){ // mudar para cell
+    public void setCell(int x, int y, Cell cell){ // mudar para cell
         map[x][y] = cell;
+    }
+    
+    public static Cell[][] getMap(){
+        return map;
     }
 }
