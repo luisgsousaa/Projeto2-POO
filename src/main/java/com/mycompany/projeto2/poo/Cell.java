@@ -13,16 +13,18 @@ public class Cell {
     private int foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown, previousTypeShown;//
-    boolean somethingOnTop;
+    private boolean somethingOnTop;
     
-    UtilTerrains terrains;
-    ILand selectedTerrain;
+    private UtilTerrains terrains;
+    private ILand selectedTerrain;
     
     public Cell(String type){
         terrains = new UtilTerrains();
         selectedTerrain = terrains.matchSymbol(type);
         
         setCellVariables();
+    }
+    public Cell(){
     }
     
     
@@ -58,6 +60,6 @@ public class Cell {
     public boolean getSomethingOnTop(){return somethingOnTop;}
     
     
-    
+    public void setTypeShown(String s){this.typeShown = s;}
     
 }

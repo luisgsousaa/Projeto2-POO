@@ -20,6 +20,7 @@ public class UtilTerrains {
         terrains.add(new Water());
         terrains.add(new Plains());
         terrains.add(new Mountains());
+        terrains.add(new CityTerrain());
     }
     
     public ILand matchSymbol(String symbol){

@@ -31,7 +31,7 @@ public class Map {
    
    
    
-   private void showMap(){
+   public void showMap(){
         System.out.print("   "); //Espaço antes das coordenadas X para alinhar com as células do map
         
         for(int i = 0; i<width;i++){ // Coordenadas X
