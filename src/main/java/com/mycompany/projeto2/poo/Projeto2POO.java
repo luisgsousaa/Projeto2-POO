@@ -14,5 +14,6 @@ public class Projeto2POO {
 
     public static void main(String[] args) throws IOException {
         Map map = new Map();
+        
     }
 }

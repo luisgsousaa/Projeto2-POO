@@ -14,29 +14,16 @@ public class Cell {
     private static float goldProduction;
     private String type, typeShown, previousTypeShown;
     boolean somethingOnTop;
+    UtilTerrains terrains;
     
     public Cell(String type){
-        temp(type);
+        terrains = new UtilTerrains();
+        ILand selectedTerrain = terrains.matchSymbol(type);
+        this.type = selectedTerrain.getType();
+        this.typeShown = selectedTerrain.getType();
     }
     
-    private void temp(String type){
-        switch(type){
-            case "- ":
-                this.type = "- ";
-                this.typeShown = "- ";
-                break;
-            case "# ":
-                this.type = "# ";
-                this.typeShown = "# ";
-                break;
-            case "Z ":
-                this.type = "Z ";
-                this.typeShown = "Z ";
-                break;
-            default:
-                System.out.println("Erroffsdsd");
-        }
-    }
+    
     
     
     public String getType(){return type;}

@@ -8,6 +8,17 @@ package com.mycompany.projeto2.poo;
  *
  * @author Admin
  */
-public class Mountains {
+public class Mountains implements ILand {
+    String type = "Z ";
+    String typeShown = "Z ";
     
+    
+    @Override
+    public String getType(){
+        return type;
+    }
+    @Override
+    public String getTypeShown(){
+        return typeShown;
+    }
 }

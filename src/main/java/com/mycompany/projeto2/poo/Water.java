@@ -9,14 +9,16 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class Water implements ILand {
-    String symbol = " ";
-    String type = " ";
+    String type = "# ";
+    String typeShown = "# ";
     
     
-    public String getSymbol(){
-        return symbol;
-    }
+    @Override
     public String getType(){
         return type;
+    }
+    @Override
+    public String getTypeShown(){
+        return typeShown;
     }
 }
