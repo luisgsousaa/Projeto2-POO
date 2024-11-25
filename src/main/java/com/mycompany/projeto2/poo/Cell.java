@@ -11,37 +11,51 @@ package com.mycompany.projeto2.poo;
 public class Cell {
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
     private int foodProduction, industrialProduction;
-    private static float goldProduction;
-    private String type, typeShown, previousTypeShown;
+    private static double goldProduction;
+    private String type, typeShown, previousTypeShown;//
     boolean somethingOnTop;
     
+    UtilTerrains terrains;
+    ILand selectedTerrain;
+    
     public Cell(String type){
-        temp(type);
+        terrains = new UtilTerrains();
+        selectedTerrain = terrains.matchSymbol(type);
+        
+        setCellVariables();
     }
     
-    private void temp(String type){
-        switch(type){
-            case "- ":
-                this.type = "- ";
-                this.typeShown = "- ";
-                break;
-            case "# ":
-                this.type = "# ";
-                this.typeShown = "# ";
-                break;
-            case "Z ":
-                this.type = "Z ";
-                this.typeShown = "Z ";
-                break;
-            default:
-                System.out.println("Erroffsdsd");
-        }
+    
+    
+    private void setCellVariables(){
+        this.type = selectedTerrain.getType();
+        this.typeShown = selectedTerrain.getType();
+        this.previousTypeShown = typeShown;
+        this.productivity = selectedTerrain.getProductivity();
+        this.entryCost = selectedTerrain.getEntryCost();
+        this.cyclesToTraverse = selectedTerrain.getCyclesToTraverse();
+        this.maxNumWorkers = selectedTerrain.getMaxNumWorkers();
+        this.foodProduction = selectedTerrain.getFoodProduction();
+        this.industrialProduction = selectedTerrain.getIndustrialProduction();
+        this.goldProduction = selectedTerrain.getGoldProduction();
+        this.somethingOnTop = false;
     }
     
+    
+    
+    public Cell getCell(){return this;}
     
     public String getType(){return type;}
     public String getTypeShown(){return typeShown;}
-    public Cell getCell(){return this;}
+    public String getPreviousTypeShown(){return previousTypeShown;}
+    public int getProductivity(){return productivity;}
+    public int getEntryCost(){return entryCost;}
+    public int getCyclesToTraverse(){return cyclesToTraverse;}
+    public int getMaxNumWorkers(){return maxNumWorkers;}
+    public int getFoodProduction(){return foodProduction;}
+    public int getIndustrialProduction(){return industrialProduction;}
+    public double getGoldProduction(){return goldProduction;}
+    public boolean getSomethingOnTop(){return somethingOnTop;}
     
     
     

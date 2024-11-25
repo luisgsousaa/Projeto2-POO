@@ -9,15 +9,43 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class Plains implements ILand {
-    String symbol = " ";
-    String type = " ";
+    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
+    private int foodProduction, industrialProduction;
+    private static double goldProduction;
+    private String type, typeShown;
+    
+    public Plains(){
+        this.type = "- ";
+        this.typeShown = "- ";
+        this.productivity = 3;
+        this.entryCost = 1;
+        this.cyclesToTraverse = 1;
+        this.maxNumWorkers = 10;
+        this.foodProduction = 2;
+        this.industrialProduction = 3;
+        this.goldProduction = 0.5;
+    }
     
     
-    public String getSymbol(){
-        return symbol;
-    }
-    public String getType(){
-        return type;
-    }
+    
+    
+    @Override
+    public String getType(){return type;}
+    @Override
+    public String getTypeShown(){return typeShown;}
+    @Override
+    public int getProductivity(){return productivity;}
+    @Override
+    public int getEntryCost(){return entryCost;}
+    @Override
+    public int getCyclesToTraverse(){return cyclesToTraverse;}
+    @Override
+    public int getMaxNumWorkers(){return maxNumWorkers;}
+    @Override
+    public int getFoodProduction(){return foodProduction;}
+    @Override
+    public int getIndustrialProduction(){return industrialProduction;}
+    @Override
+    public double getGoldProduction(){return goldProduction;}
 }
 
