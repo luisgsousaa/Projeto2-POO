@@ -23,7 +23,7 @@ public class UtilTerrains {
         terrains.add(new CityTerrain());
     }
     
-    public ILand matchSymbol(String symbol){
+    public ILand matchSymbol(String symbol)throws NullPointerException{
         for(ILand terrain : terrains){
             if(terrain.getType().equals(symbol)){
                 return terrain;

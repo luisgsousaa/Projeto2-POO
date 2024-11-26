@@ -29,6 +29,7 @@ public class City extends Cell{
         coordY = y;
         this.map=map;
         this.cityNumber = cityNumber;
+        this.setBelongsToCity(true);
         createCity();
     } 
     
@@ -47,6 +48,7 @@ public class City extends Cell{
                     String symbol = map[x+coordX][y+coordY].getTypeShown();
                     if(!symbol.equals(layers[0]) && !symbol.equals(layers[1]) && !symbol.equals(layers[2])){
                         map[x+coordX][y+coordY].setTypeShown(layers[index]);
+                        map[x+coordX][y+coordY].setBelongsToCity(true);
                         if(index == 3){
                             
                             
