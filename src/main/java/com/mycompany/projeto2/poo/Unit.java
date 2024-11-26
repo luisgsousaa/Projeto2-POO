@@ -1,8 +1,8 @@
 package com.mycompany.projeto2.poo;
 
-//import com.mycompany.projeto2.poo.Direction;
+import com.mycompany.projeto2.poo.Direction;
 
-public class Unit {
+public abstract class Unit {
 
     private double maintenanceCost; // em ouro
     private int productionCost; // em recursos industriais
@@ -10,14 +10,16 @@ public class Unit {
     private String type;
     private int coordX, coordY;
 
+    Direction direction;
     
-    public Unit(String type, int x, int y, double maintenanceCost, int productionCost, int productionDelay){
+    public Unit(String type, int x, int y, double maintenanceCost, int productionCost, int productionDelay, Direction direction) {
         this.type = type;
         this.coordX = x;
         this.coordY = y;
         this.maintenanceCost = maintenanceCost;
         this.productionCost = productionCost;
         this.productionDelay = productionDelay;
+        this.direction = direction;
     }
 
     public double getMaintenanceCost(){return maintenanceCost;}
@@ -31,6 +33,37 @@ public class Unit {
 
     public String getType(){return type;}
     public void setType(String type){this.type = type;}
+
+
+    public void moveUnit() {
+
+        switch (direction) {
+            case UP:
+                Cell.getTypeShown()
+                coordY--;
+                break;
+
+            case DOWN:
+                coordY++;
+                break;
+
+            case LEFT:
+                coordX--;
+                break;
+
+            case RIGHT:
+                coordX++;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
+
+
+
 
     // metodo para mover unidade
     // usar direction (enum - ja criado em direction) com um case switch

@@ -12,4 +12,10 @@ public class Military extends Unit{
     //mainco = 0.5
     //prodco = 3
     // prode = 2
+
+
+
+
+
+
 }
