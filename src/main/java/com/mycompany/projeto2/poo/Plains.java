@@ -21,9 +21,9 @@ public class Plains implements ILand {
         this.entryCost = 1;
         this.cyclesToTraverse = 1;
         this.maxNumWorkers = 10;
-        this.foodProduction = 2;
-        this.industrialProduction = 3;
-        this.goldProduction = 0.5;
+        this.foodProduction = 0;
+        this.industrialProduction = 0;
+        this.goldProduction = 0;
     }
     
     

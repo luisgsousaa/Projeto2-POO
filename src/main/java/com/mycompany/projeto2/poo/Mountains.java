@@ -21,9 +21,9 @@ public class Mountains implements ILand {
         this.entryCost = 3;
         this.cyclesToTraverse = 2;
         this.maxNumWorkers = 6;
-        this.foodProduction = 4;
-        this.industrialProduction = 1;
-        this.goldProduction = 2;
+        this.foodProduction = 0;
+        this.industrialProduction = 0;
+        this.goldProduction = 0;
     }
     
     
