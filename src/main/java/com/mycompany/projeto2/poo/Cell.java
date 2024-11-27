@@ -16,9 +16,9 @@ public class Cell {
     boolean somethingOnTop;
     
     UtilTerrains terrains;
-    ILand selectedTerrain;
     
     public Cell(String type){
+    private ITerrain selectedTerrain;
         terrains = new UtilTerrains();
         selectedTerrain = terrains.matchSymbol(type);
         
@@ -61,3 +61,5 @@ public class Cell {
     
     
 }
+    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;} ////////////////////////////////////
+    public void setPreviousTypeShown (String input){this.previousTypeShown = input;};  ////////////////////////////////////

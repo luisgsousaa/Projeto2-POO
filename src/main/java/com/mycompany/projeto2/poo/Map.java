@@ -81,4 +81,11 @@ public class Map {
     public static Cell[][] getMap(){
         return map;
     }
+    public int getWidth() {
+        return map.length; // conta nr linhas
+    }
+
+    public int getHeight() {
+        return map[0].length; // nr elementos primeira linha (colunas)
+    }
 }

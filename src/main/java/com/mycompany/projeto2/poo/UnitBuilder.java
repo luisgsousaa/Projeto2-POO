@@ -1,4 +1,4 @@
 package com.mycompany.projeto2.poo;
 
-public class Builder {
+public class UnitBuilder {
 }

@@ -12,18 +12,19 @@ import java.util.ArrayList;
  */
 public class UtilTerrains {
     
-    ArrayList<ILand> terrains;
+    ArrayList<ITerrain> terrains;
     
     public UtilTerrains(){
-        terrains = new ArrayList<ILand>();
+        terrains = new ArrayList<ITerrain>();
         
-        terrains.add(new Water());
-        terrains.add(new Plains());
-        terrains.add(new Mountains());
+        terrains.add(new TerrainWater());
+        terrains.add(new TerrainPlains());
+        terrains.add(new TerrainMountain());
+        terrains.add(new TerrainCity());
     }
-    
-    public ILand matchSymbol(String symbol){
-        for(ILand terrain : terrains){
+
+    public ITerrain matchSymbol(String symbol) throws NullPointerException{
+        for(ITerrain terrain : terrains){
             if(terrain.getType().equals(symbol)){
                 return terrain;
             }

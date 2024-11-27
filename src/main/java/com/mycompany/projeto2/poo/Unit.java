@@ -4,22 +4,21 @@ import com.mycompany.projeto2.poo.Direction;
 
 public abstract class Unit {
 
+    private String type;
+    private Direction direction;
+    private int coordX, coordY;
+    private int steps; // nr passos por ciclo da unidade
     private double maintenanceCost; // em ouro
     private int productionCost; // em recursos industriais
     private int productionDelay; //nr ciclos a serem criados
-    private String type;
-    private int coordX, coordY;
 
-    Direction direction;
-    
-    public Unit(String type, int x, int y, double maintenanceCost, int productionCost, int productionDelay, Direction direction) {
+
+    public Unit(String type, int steps, double maintenanceCost, int productionCost, int productionDelay) {
         this.type = type;
-        this.coordX = x;
-        this.coordY = y;
-        this.maintenanceCost = maintenanceCost;
+        this.steps = steps;
         this.productionCost = productionCost;
         this.productionDelay = productionDelay;
-        this.direction = direction;
+        this.maintenanceCost = maintenanceCost;
     }
 
     public double getMaintenanceCost(){return maintenanceCost;}
@@ -34,55 +33,80 @@ public abstract class Unit {
     public String getType(){return type;}
     public void setType(String type){this.type = type;}
 
+    public Direction getDirection() {return direction;}
+    public void setDirection(Direction direction) {this.direction = direction;}
 
-    public void moveUnit() {
+    public int getCoordX() {return coordX;}
+    public void setCoordX(int coordX) {this.coordX = coordX;}
 
-        switch (direction) {
-            case UP:
-                Cell.getTypeShown()
-                coordY--;
-                break;
+    public int getCoordY() {return coordY;}
+    public void setCoordY(int coordY) {this.coordY = coordY;}
 
-            case DOWN:
-                coordY++;
-                break;
 
-            case LEFT:
-                coordX--;
-                break;
 
-            case RIGHT:
-                coordX++;
-                break;
 
-            default:
-                break;
+
+    public void moveUnit(Map map) {
+        for (int i = 0; i < steps; i++) {
+
+            int newX = coordX;
+            int newY = coordY;
+
+            switch (direction) {
+                case UP:
+                    newY--;
+                    if (newY < 0) {newY = map.getHeight() - 1;} // Circ vert cim
+                    break;
+
+                case DOWN:
+                    newY++;
+                    if (newY >= map.getHeight()) {newY = 0;} // circ vert baix
+                    break;
+
+                case LEFT:
+                    newX--;
+                    if (newX < 0) {coordX = map.getWidth() - 1;} // Circ horz esq
+                    break;
+
+                case RIGHT:
+                    newX++;
+                    if (newX >= map.getHeight()) {newX = 0;} //circ horz dir
+                    break;
+
+                case NONE:
+                    break;
+
+                default:
+                    System.out.println("direcao inexstente");
+                    return;
+            }
+
+            Cell currentCell = map.getCell(coordX, coordY); // celula em que se ta atualmente
+            Cell targetCell = map.getCell(newX, newY); // nova celula que queremos nos mover
+
+            if (targetCell == null) {
+                System.out.println("celula fora limites");
+                return;
+            }
+
+            if (targetCell.isSomethingOnTop()) {
+                System.out.println("celula ocupada");
+                return;
+            }
+
+            // como até agora nao pareceu existir problemas na posicao onde queremos nos mover:
+            currentCell.setTypeShown(currentCell.getPreviousTypeShown()); // celula atual passa a mostrar o que tava antes
+            currentCell.setSomethingOnTop(false);
+
+            targetCell.setPreviousTypeShown(targetCell.getTypeShown()); // celula alvo guarda o que tava la
+            targetCell.setTypeShown(this.getType()); // atualiza a celula alvo para a unidade em questao
+            targetCell.setSomethingOnTop(true);
+
+            // finalmente atualiza as coordenadas da unidade
+            coordX = newX;
+            coordY = newY;
         }
     }
-
-
-
-
-
-
-    // metodo para mover unidade
-    // usar direction (enum - ja criado em direction) com um case switch
-    // unidade vai poder andar para cima, baixo, esq e dir
-    // regras:
-    // se ja tiver alguma cidade, unidade na celula ou tiver no limite superior ou inferior nao consegue avançar
-    // se for para a esquerda/direita no inicio/fim dos eixo dos x's aparece no outro lado
-    // como a unidade será a unica coisa a se mover faz sentido a parte da circularidade ja ser feita aqui
-
-    // normalmente todas as unidades movem-se 1 celula de cada vez, mas militar pode andar até duas se quiser (sempre na mesma direção)
-    // provavelmente a solucao aqui vai ser ter este metodo override na classe militar
-
-    // typeshown e previousetype shown usar para quando unidade passar por cima
-    //exemplo:
-    // para mudar:
-    // previoustype = getTypeshown
-    // typeshown =
-    // para voltar:
-    // typeshown = previoustype
 }
 
 

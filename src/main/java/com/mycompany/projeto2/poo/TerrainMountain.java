@@ -8,13 +8,13 @@ package com.mycompany.projeto2.poo;
  *
  * @author Admin
  */
-public class Mountains implements ILand {
+public class TerrainMountain implements ITerrain {
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
     private int foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown;
     
-    public Mountains(){
+    public TerrainMountain(){
         this.type = "Z ";
         this.typeShown = "Z ";
         this.productivity = 5;
