@@ -29,8 +29,12 @@ public class Map {
        
    }
    
+<<<<<<< Updated upstream
    
    
+=======
+
+>>>>>>> Stashed changes
    public void showMap(){
         System.out.print("   "); //Espaço antes das coordenadas X para alinhar com as células do map
         
@@ -81,6 +85,8 @@ public class Map {
     public static Cell[][] getMap(){
         return map;
     }
+
+
     public int getWidth() {
         return map.length; // conta nr linhas
     }
@@ -88,4 +94,8 @@ public class Map {
     public int getHeight() {
         return map[0].length; // nr elementos primeira linha (colunas)
     }
+
+
+
+
 }

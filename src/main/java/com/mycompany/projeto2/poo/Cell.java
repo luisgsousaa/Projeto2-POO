@@ -14,6 +14,7 @@ public class Cell {
     private static double goldProduction;
     private String type, typeShown, previousTypeShown;//
     private boolean somethingOnTop, belongsToCity;
+<<<<<<< Updated upstream
     
     private UtilTerrains terrains;
     private ILand selectedTerrain;
@@ -32,6 +33,26 @@ public class Cell {
     
     
     
+=======
+
+    private UtilTerrains terrains;
+    private ITerrain selectedTerrain;
+
+    public Cell(String type)throws NullPointerException{
+        terrains = new UtilTerrains();
+        selectedTerrain = terrains.matchSymbol(type);
+
+        if(selectedTerrain == null){
+            throw new IllegalArgumentException("Invalid terrain type: " + type);
+        }
+
+        setCellVariables();
+    }
+
+
+
+
+>>>>>>> Stashed changes
     private void setCellVariables(){
         this.type = selectedTerrain.getType();
         this.typeShown = selectedTerrain.getType();
@@ -46,11 +67,11 @@ public class Cell {
         this.somethingOnTop = false;
         this.belongsToCity = false;
     }
-    
-    
-    
+
+
+
     public Cell getCell(){return this;}
-    
+
     public String getType(){return type;}
     public String getTypeShown(){return typeShown;}
     public String getPreviousTypeShown(){return previousTypeShown;}
@@ -63,8 +84,21 @@ public class Cell {
     public double getGoldProduction(){return goldProduction;}
     public boolean isSomethingOnTop(){return somethingOnTop;}
     public boolean getBelongsToCity(){return belongsToCity;}
+<<<<<<< Updated upstream
     
     public void setBelongsToCity(boolean input){belongsToCity = input;}
     public void setTypeShown(String s){this.typeShown = s;}
     
 }
+=======
+
+    public void setBelongsToCity(boolean input){belongsToCity = input;}
+    public void setTypeShown(String s){this.typeShown = s;}
+
+
+
+
+    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;} ////////////////////////////////////
+    public void setPreviousTypeShown (String input){this.previousTypeShown = input;};  ////////////////////////////////////
+}
+>>>>>>> Stashed changes

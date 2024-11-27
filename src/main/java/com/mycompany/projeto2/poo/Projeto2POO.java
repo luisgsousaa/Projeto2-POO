@@ -5,6 +5,7 @@
 package com.mycompany.projeto2.poo;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  *
@@ -14,6 +15,7 @@ public class Projeto2POO {
     private static Map map;
     public static void main(String[] args) throws IOException {
         map = new Map();
+<<<<<<< Updated upstream
         
         
         
@@ -23,6 +25,53 @@ public class Projeto2POO {
         int coordX = 8;
         int coordY = 8;
         
+=======
+
+        //teste unidades
+
+        UnitMilitary unit = new UnitMilitary(10, 7, map.getMap(), Direction.NONE);
+        UnitExplorer unit2 = new UnitExplorer(20,20, map.getMap(), Direction.NONE);
+
+        unit.moveUnit(map);
+        unit2.moveUnit(map);
+
+        map.showMap();
+
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        System.out.println("direcao indica: ");
+        input = scanner.nextLine().toUpperCase();
+
+        Direction direction = Direction.valueOf(input); // converter por causa do enum
+
+        unit.setDirection(direction);
+        unit.moveUnit(map);
+
+        unit2.setDirection(direction);
+        unit2.moveUnit(map);
+
+        map.showMap();
+
+
+        // caso do militar que se pode mover duas celulas:
+        // permitir ao utilizador escolher se quer se mover 1 ou 2 casas
+        // caso escolha mover-se duas casas, unica opção é ser na mesma direção? indicar tipo UP, LEFT?
+        // o metodo de movimento da unidade tem um loop com base nos steps por isso anda 2 de uma vez, depois ver se sera preciso adaptar dependendo do que decidir
+        // enum mudar para L, R, U, D ou E, D, C, B
+
+
+
+
+
+
+
+        //teste provisorio
+
+        /*
+        int coordX = 8;
+        int coordY = 8;
+
+>>>>>>> Stashed changes
         if(coordX<3 || coordX > (map.getMap().length-4) || coordY<3 || coordY>(map.getMap()[0].length-4)){
             System.out.println("O centro da cidade tem de estar a pelo menos 4 celulas de distancia das bordas do mapa");
         }
@@ -36,6 +85,7 @@ public class Projeto2POO {
         }
         else{
             City cidade1 = new City(coordX,coordY,map.getMap(),1);
+<<<<<<< Updated upstream
         
             
         
@@ -46,6 +96,24 @@ public class Projeto2POO {
     }
     
     
+=======
+
+
+
+            map.showMap();
+        }*/
+
+
+
+
+
+
+
+
+    }
+
+
+>>>>>>> Stashed changes
     private static boolean isTerrainAdequate(int coordX,int coordY){
         int index = 1;
         Cell[][] world = map.getMap();
@@ -56,16 +124,28 @@ public class Projeto2POO {
                     if(currentCell.getEntryCost() == -1 || currentCell.isSomethingOnTop()){
                         return false;
                     }
+<<<<<<< Updated upstream
                     
                                    
                 }         
             }
             index++;  
+=======
+
+
+                }
+            }
+            index++;
+>>>>>>> Stashed changes
 
         }
         return true;
     }
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
     private static boolean isFarFromCities(int coordX,int coordY){
         int index = 1;
         Cell[][] world = map.getMap();
@@ -80,6 +160,7 @@ public class Projeto2POO {
                     }
                     catch(IndexOutOfBoundsException e){
                         continue;
+<<<<<<< Updated upstream
                     }                 
                 }         
             }
@@ -88,3 +169,13 @@ public class Projeto2POO {
         return true;
     }
 }
+=======
+                    }
+                }
+            }
+            index++;
+        }
+        return true;
+    }
+}
+>>>>>>> Stashed changes
