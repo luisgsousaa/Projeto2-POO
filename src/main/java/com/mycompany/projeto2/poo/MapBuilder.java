@@ -33,7 +33,7 @@ public class MapBuilder {
         
     }
     
-    private void getMapSelection(){
+    private boolean getMapSelection(){
         File folder = new File("."); //pasta do projeto onde se econtram os ficheiros
         
         
@@ -49,8 +49,9 @@ public class MapBuilder {
         } else {
             System.out.println("Nao existem maps na pasta. Verifique se estes la estao.");
             setDefaultMap();
+            return false;
         }
-        
+        return true;
     }
     
     private int selectMap(){
@@ -83,7 +84,7 @@ public class MapBuilder {
         return input;
     }
     
-    private String[][] getDefaultMap(){
+    private Cell[][] getDefaultMap(){
         String[][] map ={
                 {"- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",},
                 {"- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",},
@@ -108,12 +109,14 @@ public class MapBuilder {
         int originalWidth = map.length;
         int originalHeight = map[0].length;
         
-        String[][] newMap = new String[originalHeight][originalWidth];
+        Cell[][] newMap = new Cell[originalHeight][originalWidth];
         
         
         for (int i = 0; i < originalWidth; i++) {
             for (int j = 0; j < originalHeight; j++) {
-                newMap[j][i] = map[i][j];  // Swap row and column indices
+                String c =map[i][j];
+           
+                newMap[j][i] = new Cell(c);  // Swap row and column indices
             }
         }
         
@@ -123,8 +126,9 @@ public class MapBuilder {
     private void setDefaultMap(){
         System.out.println("Se quiser carregar o map predefinido clique no enter");
             Scanner scan = new Scanner(System.in);
-            if(scan.nextLine() == ""){
-                getDefaultMap();
+            if(scan.nextLine() != null){
+                map = getDefaultMap();
+                
             }
     }
     
@@ -200,29 +204,42 @@ public class MapBuilder {
         int indexY = 0;
         
         String text = reader.readLine();
-        
-        while(text != null){ // percorrer o ficheiro linha a linha
-            
-            
-            int tamanho = text.length(); //tamanho da linha usado para definir quais caracteres guardar no array
-            
-            int index = 0; 
+            try{
+            while(text != null){ // percorrer o ficheiro linha a linha
 
-            while(index < tamanho){ //percorrer a linha do ficheiro para preencher cada linha do array
-                
-                String c ="" + text.charAt(index) + text.charAt(index+1); //copia a letra e o espaço(regra geral) se uma célula do map for duas letras também permite (ex. C1)
-                
-                map[indexX][indexY] = new Cell(c); //preenche o array
-                indexX++; //aumenta o indice para preencher a proxima "coluna"
-                index+=3; //valor usado como o map usa dois espaços por célula 
-                
+
+                int tamanho = text.length(); //tamanho da linha usado para definir quais caracteres guardar no array
+
+                int index = 0; 
+
+                while(index < tamanho){ //percorrer a linha do ficheiro para preencher cada linha do array
+
+                        String c ="" + text.charAt(index) + text.charAt(index+1); //copia a letra e o espaço(regra geral) se uma célula do map for duas letras também permite (ex. C1)
+                        
+                         
+                        try{
+                            map[indexX][indexY] = new Cell(c);//preenche o array
+                        } 
+                        catch(IllegalArgumentException e){
+                            map[indexX][indexY] = new Cell("- ");
+                        }
+                        
+                        indexX++; //aumenta o indice para preencher a proxima "coluna"
+                        index+=3; //valor usado como o map usa dois espaços por célula 
+                    }
+
+                text = reader.readLine(); // próxima linha do text
+                indexY++; // próxima linha do array
+                indexX=0; // reset para a primeira "coluna" do array
             }
-            text = reader.readLine(); // próxima linha do text
-            indexY++; // próxima linha do array
-            indexX=0; // reset para a primeira "coluna" do array
-        }
-        reader.close(); //o ficheiro não é mais necessário
-        }
+            
+            reader.close(); //o ficheiro não é mais necessário
+            }
+            catch(IndexOutOfBoundsException e){
+                System.out.println("Existe algum problema na formatacao do ficheiro do mapa que escolheu");
+                setDefaultMap();
+            }
+        }    
         catch(FileNotFoundException e){
             System.out.println("O ficheiro não foi encontrado, verifique se este está na pasta correta.");
             setDefaultMap();
@@ -230,18 +247,40 @@ public class MapBuilder {
         catch(IOException er){
              System.out.println("Houve um problema ao ler o ficheiro");
              setDefaultMap();
-            }    
+            }
+        
+        
+        int height = map[0].length;
+        int width = map.length;
+        
+        boolean error = false;
+        for(int i = 0; i<height;i++){
+            for(int j = 0; j<width;j++){ 
+                if(map[j][i] == null){
+                    error = true;
+                }
+            }           
+        }
+        if(error){
+            System.out.println("Existe algum problema na formatacao do ficheiro do mapa que escolheu");
+            setDefaultMap();
+        }
+        
+        
     }
     
     
  
     private void initializeGameMap() throws IOException{
-        getMapSelection();
-        int input = selectMap();
+        if(getMapSelection()){
+            int input = selectMap();
 
-        if(initializeMapArray("" + textFiles[input])){
-            readMapFile("" + textFiles[input]);      
+            if(initializeMapArray("" + textFiles[input])){
+                readMapFile("" + textFiles[input]);      
+            }
+        
         }
+        
     }
     
     public Cell[][] getMap(){

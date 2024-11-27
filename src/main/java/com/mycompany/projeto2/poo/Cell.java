@@ -13,17 +13,22 @@ public class Cell {
     private int foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown, previousTypeShown;//
-    boolean somethingOnTop;
+    private boolean somethingOnTop, belongsToCity;
     
-    UtilTerrains terrains;
+    private UtilTerrains terrains;
+    private ILand selectedTerrain;
     
-    public Cell(String type){
-    private ITerrain selectedTerrain;
+    public Cell(String type)throws NullPointerException{
         terrains = new UtilTerrains();
         selectedTerrain = terrains.matchSymbol(type);
         
+        if(selectedTerrain == null){
+            throw new IllegalArgumentException("Invalid terrain type: " + type);
+        }
+        
         setCellVariables();
     }
+    
     
     
     
@@ -39,6 +44,7 @@ public class Cell {
         this.industrialProduction = selectedTerrain.getIndustrialProduction();
         this.goldProduction = selectedTerrain.getGoldProduction();
         this.somethingOnTop = false;
+        this.belongsToCity = false;
     }
     
     
@@ -55,11 +61,10 @@ public class Cell {
     public int getFoodProduction(){return foodProduction;}
     public int getIndustrialProduction(){return industrialProduction;}
     public double getGoldProduction(){return goldProduction;}
-    public boolean getSomethingOnTop(){return somethingOnTop;}
+    public boolean isSomethingOnTop(){return somethingOnTop;}
+    public boolean getBelongsToCity(){return belongsToCity;}
     
-    
-    
+    public void setBelongsToCity(boolean input){belongsToCity = input;}
+    public void setTypeShown(String s){this.typeShown = s;}
     
 }
-    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;} ////////////////////////////////////
-    public void setPreviousTypeShown (String input){this.previousTypeShown = input;};  ////////////////////////////////////
