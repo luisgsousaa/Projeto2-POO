@@ -32,11 +32,7 @@ public class MapBuilder {
 
 
     }
-<<<<<<< Updated upstream
-    
-=======
 
->>>>>>> Stashed changes
     private boolean getMapSelection(){
         File folder = new File("."); //pasta do projeto onde se econtram os ficheiros
 
@@ -87,11 +83,7 @@ public class MapBuilder {
 
         return input;
     }
-<<<<<<< Updated upstream
-    
-=======
 
->>>>>>> Stashed changes
     private Cell[][] getDefaultMap(){
         String[][] map ={
                 {"- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",},
@@ -116,16 +108,6 @@ public class MapBuilder {
 
         int originalWidth = map.length;
         int originalHeight = map[0].length;
-<<<<<<< Updated upstream
-        
-        Cell[][] newMap = new Cell[originalHeight][originalWidth];
-        
-        
-        for (int i = 0; i < originalWidth; i++) {
-            for (int j = 0; j < originalHeight; j++) {
-                String c =map[i][j];
-           
-=======
 
         Cell[][] newMap = new Cell[originalHeight][originalWidth];
 
@@ -134,7 +116,6 @@ public class MapBuilder {
             for (int j = 0; j < originalHeight; j++) {
                 String c =map[i][j];
 
->>>>>>> Stashed changes
                 newMap[j][i] = new Cell(c);  // Swap row and column indices
             }
         }
@@ -144,19 +125,11 @@ public class MapBuilder {
 
     private void setDefaultMap(){
         System.out.println("Se quiser carregar o map predefinido clique no enter");
-<<<<<<< Updated upstream
-            Scanner scan = new Scanner(System.in);
-            if(scan.nextLine() != null){
-                map = getDefaultMap();
-                
-            }
-=======
         Scanner scan = new Scanner(System.in);
         if(scan.nextLine() != null){
             map = getDefaultMap();
 
         }
->>>>>>> Stashed changes
     }
 
 
@@ -221,95 +194,6 @@ public class MapBuilder {
 
     private void readMapFile(String file) throws FileNotFoundException, IOException{
         try{
-<<<<<<< Updated upstream
-        FileReader inStream = new FileReader(file);
-        BufferedReader reader = new BufferedReader(inStream);
-        
-        
-        
-        //Indices para preencher o array bidimensional.
-        int indexX = 0;
-        int indexY = 0;
-        
-        String text = reader.readLine();
-            try{
-            while(text != null){ // percorrer o ficheiro linha a linha
-
-
-                int tamanho = text.length(); //tamanho da linha usado para definir quais caracteres guardar no array
-
-                int index = 0; 
-
-                while(index < tamanho){ //percorrer a linha do ficheiro para preencher cada linha do array
-
-                        String c ="" + text.charAt(index) + text.charAt(index+1); //copia a letra e o espaço(regra geral) se uma célula do map for duas letras também permite (ex. C1)
-                        
-                         
-                        try{
-                            map[indexX][indexY] = new Cell(c);//preenche o array
-                        } 
-                        catch(IllegalArgumentException e){
-                            map[indexX][indexY] = new Cell("- ");
-                        }
-                        
-                        indexX++; //aumenta o indice para preencher a proxima "coluna"
-                        index+=3; //valor usado como o map usa dois espaços por célula 
-                    }
-
-                text = reader.readLine(); // próxima linha do text
-                indexY++; // próxima linha do array
-                indexX=0; // reset para a primeira "coluna" do array
-            }
-            
-            reader.close(); //o ficheiro não é mais necessário
-            }
-            catch(IndexOutOfBoundsException e){
-                System.out.println("Existe algum problema na formatacao do ficheiro do mapa que escolheu");
-                setDefaultMap();
-            }
-        }    
-        catch(FileNotFoundException e){
-            System.out.println("O ficheiro não foi encontrado, verifique se este está na pasta correta.");
-            setDefaultMap();
-        }   
-        catch(IOException er){
-             System.out.println("Houve um problema ao ler o ficheiro");
-             setDefaultMap();
-            }
-        
-        
-        int height = map[0].length;
-        int width = map.length;
-        
-        boolean error = false;
-        for(int i = 0; i<height;i++){
-            for(int j = 0; j<width;j++){ 
-                if(map[j][i] == null){
-                    error = true;
-                }
-            }           
-        }
-        if(error){
-            System.out.println("Existe algum problema na formatacao do ficheiro do mapa que escolheu");
-            setDefaultMap();
-        }
-        
-        
-    }
-    
-    
- 
-    private void initializeGameMap() throws IOException{
-        if(getMapSelection()){
-            int input = selectMap();
-
-            if(initializeMapArray("" + textFiles[input])){
-                readMapFile("" + textFiles[input]);      
-            }
-        
-        }
-        
-=======
             FileReader inStream = new FileReader(file);
             BufferedReader reader = new BufferedReader(inStream);
 
@@ -383,7 +267,6 @@ public class MapBuilder {
         }
 
 
->>>>>>> Stashed changes
     }
 
 

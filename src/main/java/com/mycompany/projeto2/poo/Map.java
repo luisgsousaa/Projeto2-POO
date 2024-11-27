@@ -28,13 +28,7 @@ public class Map {
        
        
    }
-   
-<<<<<<< Updated upstream
-   
-   
-=======
 
->>>>>>> Stashed changes
    public void showMap(){
         System.out.print("   "); //Espaço antes das coordenadas X para alinhar com as células do map
         

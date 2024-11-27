@@ -15,17 +15,6 @@ public class Projeto2POO {
     private static Map map;
     public static void main(String[] args) throws IOException {
         map = new Map();
-<<<<<<< Updated upstream
-        
-        
-        
-        
-        //teste provisorio
-        
-        int coordX = 8;
-        int coordY = 8;
-        
-=======
 
         //teste unidades
 
@@ -85,19 +74,12 @@ public class Projeto2POO {
         }
         else{
             City cidade1 = new City(coordX,coordY,map.getMap(),1);
-<<<<<<< Updated upstream
-        
-            
-        
+
             map.showMap();
         }
         
         
     }
-    
-    
-=======
-
 
 
             map.showMap();
@@ -112,8 +94,6 @@ public class Projeto2POO {
 
     }
 
-
->>>>>>> Stashed changes
     private static boolean isTerrainAdequate(int coordX,int coordY){
         int index = 1;
         Cell[][] world = map.getMap();
@@ -124,28 +104,17 @@ public class Projeto2POO {
                     if(currentCell.getEntryCost() == -1 || currentCell.isSomethingOnTop()){
                         return false;
                     }
-<<<<<<< Updated upstream
                     
                                    
                 }         
             }
             index++;  
-=======
-
-
-                }
-            }
-            index++;
->>>>>>> Stashed changes
 
         }
         return true;
     }
-<<<<<<< Updated upstream
-    
-=======
 
->>>>>>> Stashed changes
+
     private static boolean isFarFromCities(int coordX,int coordY){
         int index = 1;
         Cell[][] world = map.getMap();
@@ -160,7 +129,6 @@ public class Projeto2POO {
                     }
                     catch(IndexOutOfBoundsException e){
                         continue;
-<<<<<<< Updated upstream
                     }                 
                 }         
             }
@@ -169,13 +137,3 @@ public class Projeto2POO {
         return true;
     }
 }
-=======
-                    }
-                }
-            }
-            index++;
-        }
-        return true;
-    }
-}
->>>>>>> Stashed changes
