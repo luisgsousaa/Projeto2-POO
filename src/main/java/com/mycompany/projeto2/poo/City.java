@@ -20,14 +20,13 @@ public class City extends Cell{
     private int foodWorkers, industrialWorkers, goldWorkers;
     
     private String[] layers;
-    private Cell[][] map;
-    
+    private Map map;
     private final int coordX, coordY;
     
     
     
     
-    public City(int x, int y,Cell[][] map,int cityNumber){ // encapsulamento?
+    public City(int x, int y,Map map,int cityNumber){ // encapsulamento?
         super("C ");
         setCityVariables(map,cityNumber);
         coordX = x;
@@ -50,7 +49,7 @@ public class City extends Cell{
     
     private void createCity(){
                 
-        map[coordX][coordY] = this;
+        map.setCell(coordX,coordY,this);
         String newType = this.getType().trim() + cityNumber ;
         this.setTypeShown(newType);
         
@@ -60,11 +59,11 @@ public class City extends Cell{
         while(index <= 3){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
-                    String symbol = map[x+coordX][y+coordY].getTypeShown();
+                    String symbol = map.getCellTypeShown(x+coordX,y+coordY);
                     if(!symbol.equals(layers[0]) && !symbol.equals(layers[1]) && !symbol.equals(layers[2])){
-                        map[x+coordX][y+coordY].setTypeShown(layers[index]);
-                        map[x+coordX][y+coordY].setBelongsToCity(true);
-                        maxNumWorkers+=map[x+coordX][y+coordY].getMaxNumWorkers();
+                        map.setCellTypeShown(x+coordX,y+coordY,layers[index]);
+                        map.setCellBelongsToCity(x+coordX,y+coordY, true);
+                        maxNumWorkers+= map.getCellMaxNumWorkers(x+coordX,y+coordY);
                         setProductionType(x+coordX,y+coordY,index);
                     }                
                 }         
@@ -77,13 +76,13 @@ public class City extends Cell{
     private void setProductionType(int x,int y,int index){
         switch(index){
             case 1:
-                map[x][y].setToGoldProduction();
+                map.setCellToGoldProduction(x, y);
                 break;
             case 2:
-                map[x][y].setToIndustrialProduction();
+                map.setCellToIndustrialProduction(x, y);
                 break;
             case 3:
-                map[x][y].setToFoodProduction();
+                map.setCellToFoodProduction(x, y);
                 break;
             
         }
@@ -105,7 +104,7 @@ public class City extends Cell{
         while(index <= 3){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
-                    map[x+coordX][y+coordY].getType();
+                    map.getCellType(x+coordX,y+coordY);
                     
                                    
                 }         
@@ -118,7 +117,7 @@ public class City extends Cell{
     
     
 
-    private void setCityVariables(Cell[][] map,int cityNumber){
+    private void setCityVariables(Map map,int cityNumber){
         population = STARTING_POPULATION;
         foodResources = STARTING_FOOD_RESOURCES;
       
@@ -167,17 +166,17 @@ public class City extends Cell{
         int workersAdded = 0;
         for(int y = -1*layer ; y <= 1*layer; y++){
             for(int x = -1*layer ; x <= 1*layer; x++){
-                Cell currentCell = map[x+coordX][y+coordY];
-                if(currentCell.getTypeShown().equals(layers[layer])){
+                //Cell currentCell = map[x+coordX][y+coordY];
+                if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
                     
                     
-                    int maxWorkers = currentCell.getMaxNumWorkers();
+                    int maxWorkers = map.getCellMaxNumWorkers(x+coordX,y+coordY);
                     
-                    if(currentCell.getNumWorkers() == maxWorkers){continue;}
+                    if(map.getCellNumWorkers(x+coordX,y+coordY) == maxWorkers){continue;}
                     else{
-                        while(currentCell.getNumWorkers() < maxWorkers){
+                        while(map.getCellNumWorkers(x+coordX,y+coordY) < maxWorkers){
                             if(workersAdded<quantity){
-                                currentCell.changeNumWorkers(+1);
+                                map.changeCellNumWorkers(x+coordX,y+coordY,+1);
                                 workersAdded++;
                                 countNewWorker(layer);
                             }
