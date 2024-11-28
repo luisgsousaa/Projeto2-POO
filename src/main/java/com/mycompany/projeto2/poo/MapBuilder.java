@@ -29,8 +29,9 @@ public class MapBuilder {
 
     public MapBuilder() throws IOException{
         initializeGameMap();
-
-
+        
+        calculateCellProductivity();
+        
     }
 
     private boolean getMapSelection(){
@@ -286,22 +287,50 @@ public class MapBuilder {
     public Cell[][] getMap(){
         return map;
     }
+    
+    private void calculateCellProductivity(){
+        int coordX=0;
+        int coordY=0;
+        ILand water = new Water();
+        final double MULTIPLIER = 2;
+        
+        int mapHeight = map[0].length;
+        int mapWidth = map.length;
+        
+        
+        for(int y = 0; y<mapHeight;y++){             
+            for(int x = 0; x<mapWidth;x++){ 
+                if(map[x][y].getType().equals(water.getType())){
+                    continue;
+                }
+                else if(checkNearbyWaterCells(x,y)){
+                    map[x][y].multiplyProductivity(MULTIPLIER);
+                }
+            }
+        }
+        
+        
+                        
+    }
+    
+    
+    private boolean checkNearbyWaterCells(int coordX, int coordY){
+        ILand water = new Water();
+        for(int y = -1 ; y <= 1; y++){
+            for(int x = -1 ; x <= 1; x++){
+                try{
+                    String symbol = map[x+coordX][y+coordY].getType();
+                    if(symbol.equals(water.getType())){
+                        return true;
+                    }
+                }
+                catch(ArrayIndexOutOfBoundsException e){
+                        continue;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

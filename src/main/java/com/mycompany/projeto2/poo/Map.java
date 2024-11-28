@@ -47,6 +47,7 @@ public class Map {
             for(int j = 0; j<width;j++){ //Impressão das células do map deixando um espaço entre estas.
                 
                 System.out.print(map[j][i].getTypeShown());
+                //System.out.print(map[j][i].getNumWorkers()); teste ------------------------------------------------------------------------
                 System.out.print(" ");
             }
             System.out.println(); // linha a baixo
@@ -72,24 +73,28 @@ public class Map {
         }
     }
     
-    public void setCell(int x, int y, Cell cell){ // mudar para cell
-        map[x][y] = cell;
-    }
     
-    public static Cell[][] getMap(){
-        return map;
-    }
-
-
-    public int getWidth() {
-        return map.length; // conta nr linhas
-    }
-
-    public int getHeight() {
-        return map[0].length; // nr elementos primeira linha (colunas)
-    }
-
-
-
-
+    
+    
+    public int getWidth(){return map.length;}
+    public int getHeight(){return map[0].length;}
+    public int getCellEntryCost(int x, int y){return map[x][y].getEntryCost();}
+    public boolean getCellIsSomethingOnTop(int x, int y){return map[x][y].isSomethingOnTop();}   
+    public boolean getCellBelongsToCity(int x, int y){return map[x][y].getBelongsToCity();}
+    public String getCellTypeShown(int x, int y){return map[x][y].getTypeShown();}
+    public String getCellType(int x, int y){return map[x][y].getType();}
+    public int getCellMaxNumWorkers(int x, int y){return map[x][y].getMaxNumWorkers();}
+    public int getCellNumWorkers(int x, int y){return map[x][y].getNumWorkers();}
+    
+    
+    public void setCell(int x, int y, Cell cell){map[x][y] = cell;}
+    public void setCellTypeShown(int x, int y, String type){map[x][y].setTypeShown(type);}
+    public void setCellBelongsToCity(int x, int y, boolean bool){map[x][y].setBelongsToCity(bool);}
+    public void setCellToGoldProduction(int x,int y){map[x][y].setToGoldProduction();}
+    public void setCellToIndustrialProduction(int x,int y){map[x][y].setToIndustrialProduction();}
+    public void setCellToFoodProduction(int x,int y){map[x][y].setToFoodProduction();}
+    public void changeCellNumWorkers(int x,int y,int num){map[x][y].changeNumWorkers(num);}
+    
+    
+    
 }

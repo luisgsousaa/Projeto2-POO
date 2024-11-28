@@ -9,7 +9,7 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class Cell {
-    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
+    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers, numWorkers;
     private int foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown, previousTypeShown;//
@@ -37,15 +37,18 @@ public class Cell {
         this.entryCost = selectedTerrain.getEntryCost();
         this.cyclesToTraverse = selectedTerrain.getCyclesToTraverse();
         this.maxNumWorkers = selectedTerrain.getMaxNumWorkers();
+        this.numWorkers = 0;
         this.foodProduction = selectedTerrain.getFoodProduction();
         this.industrialProduction = selectedTerrain.getIndustrialProduction();
         this.goldProduction = selectedTerrain.getGoldProduction();
         this.somethingOnTop = false;
         this.belongsToCity = false;
     }
-
-
-
+    
+    
+    
+    
+    
     public Cell getCell(){return this;}
 
     public String getType(){return type;}
@@ -55,15 +58,21 @@ public class Cell {
     public int getEntryCost(){return entryCost;}
     public int getCyclesToTraverse(){return cyclesToTraverse;}
     public int getMaxNumWorkers(){return maxNumWorkers;}
+    public int getNumWorkers(){return numWorkers;}
     public int getFoodProduction(){return foodProduction;}
     public int getIndustrialProduction(){return industrialProduction;}
     public double getGoldProduction(){return goldProduction;}
     public boolean isSomethingOnTop(){return somethingOnTop;}
     public boolean getBelongsToCity(){return belongsToCity;}
     
-    public void setBelongsToCity(boolean input){belongsToCity = input;}
+    
+    
+    public void multiplyProductivity(double multiplier){this.productivity *=multiplier;}
+    public void setBelongsToCity(boolean input){this.belongsToCity = input;}
     public void setTypeShown(String s){this.typeShown = s;}
-
-    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;}
-    public void setPreviousTypeShown (String input){this.previousTypeShown = input;};
+    public void changeNumWorkers(int num){this.numWorkers += num;}
+    public void setToFoodProduction(){this.foodProduction=1;}
+    public void setToIndustrialProduction(){this.industrialProduction=1;}
+    public void setToGoldProduction(){this.goldProduction=1;}
+    
 }
