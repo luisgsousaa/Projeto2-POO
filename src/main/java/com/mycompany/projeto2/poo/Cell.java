@@ -71,7 +71,7 @@ public class Cell {
     
     
     public void multiplyProductivity(double multiplier){this.productivity *=multiplier;}
-    public void setBelongsToCity(boolean input){belongsToCity = input;}
+    public void setBelongsToCity(boolean input){this.belongsToCity = input;}
     public void setTypeShown(String s){this.typeShown = s;}
     public void changeNumWorkers(int num){this.numWorkers += num;}
     public void setToFoodProduction(){this.foodProduction=1;}
