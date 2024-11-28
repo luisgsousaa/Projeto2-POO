@@ -3,7 +3,7 @@ package com.mycompany.projeto2.poo;
 import com.mycompany.projeto2.poo.Direction;
 
 public abstract class Unit {
-
+    
     private String type;
     private Direction direction;
     private int coordX, coordY;

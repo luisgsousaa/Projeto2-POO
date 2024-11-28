@@ -1,7 +1,7 @@
 package com.mycompany.projeto2.poo;
 
 public class UnitExplorer extends Unit{
-
+    
     private Cell[][] map;
 
     public UnitExplorer (int x, int y, Cell[][] map, Direction direction){

@@ -291,7 +291,7 @@ public class MapBuilder {
     private void calculateCellProductivity(){
         int coordX=0;
         int coordY=0;
-        ILand water = new Water();
+        ITerrain water = new TerrainWater();
         final double MULTIPLIER = 2;
         
         int mapHeight = map[0].length;
@@ -315,7 +315,7 @@ public class MapBuilder {
     
     
     private boolean checkNearbyWaterCells(int coordX, int coordY){
-        ILand water = new Water();
+        ITerrain water = new TerrainWater();
         for(int y = -1 ; y <= 1; y++){
             for(int x = -1 ; x <= 1; x++){
                 try{
