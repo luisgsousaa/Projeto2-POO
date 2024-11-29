@@ -9,16 +9,19 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class Cell {
+
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
     private int foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown, previousTypeShown;//
     private boolean somethingOnTop, belongsToCity;
-
+    private Unit unit;
     private UtilTerrains terrains;
     private ITerrain selectedTerrain;
 
+
     public Cell(String type)throws NullPointerException{
+
         terrains = new UtilTerrains();
         selectedTerrain = terrains.matchSymbol(type);
 
@@ -42,12 +45,12 @@ public class Cell {
         this.goldProduction = selectedTerrain.getGoldProduction();
         this.somethingOnTop = false;
         this.belongsToCity = false;
+        this.unit = null;
     }
 
 
-
     public Cell getCell(){return this;}
-
+    public Unit getUnit(){return unit;}
     public String getType(){return type;}
     public String getTypeShown(){return typeShown;}
     public String getPreviousTypeShown(){return previousTypeShown;}
@@ -60,10 +63,10 @@ public class Cell {
     public double getGoldProduction(){return goldProduction;}
     public boolean isSomethingOnTop(){return somethingOnTop;}
     public boolean getBelongsToCity(){return belongsToCity;}
-    
+
+    public void setUnit(Unit unit) {this.unit = unit;}
     public void setBelongsToCity(boolean input){belongsToCity = input;}
     public void setTypeShown(String s){this.typeShown = s;}
-
-    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;}
+    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;} // usado para indicar que ta alguma unidade por "cima" de uma celula
     public void setPreviousTypeShown (String input){this.previousTypeShown = input;};
 }

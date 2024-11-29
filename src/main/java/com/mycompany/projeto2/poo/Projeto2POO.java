@@ -12,15 +12,24 @@ import java.util.Scanner;
  * @author Admin
  */
 public class Projeto2POO {
+
     private static Map map;
+
     public static void main(String[] args) throws IOException {
+
         map = new Map();
 
-        //teste unidades
+        Unit.createUnit("M", 23, 2, map, Direction.NONE);
+        Unit.createUnit("E", 20, 1, map, Direction.NONE);
 
-        UnitMilitary unit = new UnitMilitary(10, 7, map.getMap(), Direction.NONE);
-        UnitExplorer unit2 = new UnitExplorer(20,20, map.getMap(), Direction.NONE);
+        map.showMap();
 
+        MenuManager menuManager = new MenuManager(map);
+        menuManager.showMenuManager();
+
+        map.showMap();
+
+        /*
         unit.moveUnit(map);
         unit2.moveUnit(map);
 
@@ -49,7 +58,7 @@ public class Projeto2POO {
         // enum mudar para L, R, U, D ou E, D, C, B
 
 
-
+        /*
 
 
 
