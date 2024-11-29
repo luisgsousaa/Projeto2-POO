@@ -19,6 +19,7 @@ public class Projeto2POO {
 
         map = new Map();
 
+
         Unit.createUnit("M", 23, 2, map, Direction.NONE);
         Unit.createUnit("E", 20, 1, map, Direction.NONE);
 
@@ -26,6 +27,10 @@ public class Projeto2POO {
 
         MenuManager menuManager = new MenuManager(map);
         menuManager.showMenuManager();
+
+        /*
+        //teste unidades
+
 
         map.showMap();
 
@@ -61,16 +66,15 @@ public class Projeto2POO {
         /*
 
 
-
+        */
 
         //teste provisorio
 
-        /*
+        
         int coordX = 8;
         int coordY = 8;
-
->>>>>>> Stashed changes
-        if(coordX<3 || coordX > (map.getMap().length-4) || coordY<3 || coordY>(map.getMap()[0].length-4)){
+        
+        if(coordX<3 || coordX > (map.getWidth()-4) || coordY<3 || coordY>(map.getHeight()-4)){
             System.out.println("O centro da cidade tem de estar a pelo menos 4 celulas de distancia das bordas do mapa");
         }
         else if(!isTerrainAdequate(coordX,coordY)){
@@ -82,35 +86,35 @@ public class Projeto2POO {
             System.out.println("A cidade ocupa uma area de 7X7 com centro nas coordenadas que escolher");
         }
         else{
-            City cidade1 = new City(coordX,coordY,map.getMap(),1);
-
+            City cidade1 = new City(coordX,coordY,map,1);
+        
+            
+        
             map.showMap();
         }
         
         
-    }
+    
 
 
             map.showMap();
-        }*/
-
-
-
-
-
-
-
-
     }
+
+    
+
+
+
+
+
+
+    
 
     private static boolean isTerrainAdequate(int coordX,int coordY){
         int index = 1;
-        Cell[][] world = map.getMap();
         while(index <= 3){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
-                    Cell currentCell = world[x+coordX][y+coordY];
-                    if(currentCell.getEntryCost() == -1 || currentCell.isSomethingOnTop()){
+                    if(map.getCellEntryCost(x+coordX, y+coordY) == -1 || map.getCellIsSomethingOnTop(x+coordX, y+coordY)){
                         return false;
                     }
                     
@@ -126,13 +130,11 @@ public class Projeto2POO {
 
     private static boolean isFarFromCities(int coordX,int coordY){
         int index = 1;
-        Cell[][] world = map.getMap();
         while(index <= 6){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
                     try{
-                        Cell currentCell = world[x+coordX][y+coordY];
-                        if(currentCell.getBelongsToCity()){
+                        if(map.getCellBelongsToCity(x+coordX,y+coordY)){
                             return false;
                         }
                     }

@@ -1,7 +1,7 @@
 package com.mycompany.projeto2.poo;
 
 public class UnitMilitary extends Unit{
-
+  
     private Map map;
 
     public UnitMilitary (int x, int y, Map map, Direction direction){

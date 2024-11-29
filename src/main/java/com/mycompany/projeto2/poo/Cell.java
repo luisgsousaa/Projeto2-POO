@@ -10,7 +10,7 @@ package com.mycompany.projeto2.poo;
  */
 public class Cell {
 
-    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
+    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers, numWorkers;
     private int foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown, previousTypeShown;//
@@ -40,6 +40,7 @@ public class Cell {
         this.entryCost = selectedTerrain.getEntryCost();
         this.cyclesToTraverse = selectedTerrain.getCyclesToTraverse();
         this.maxNumWorkers = selectedTerrain.getMaxNumWorkers();
+        this.numWorkers = 0;
         this.foodProduction = selectedTerrain.getFoodProduction();
         this.industrialProduction = selectedTerrain.getIndustrialProduction();
         this.goldProduction = selectedTerrain.getGoldProduction();
@@ -47,7 +48,6 @@ public class Cell {
         this.belongsToCity = false;
         this.unit = null;
     }
-
 
     public Cell getCell(){return this;}
     public Unit getUnit(){return unit;}
@@ -58,6 +58,7 @@ public class Cell {
     public int getEntryCost(){return entryCost;}
     public int getCyclesToTraverse(){return cyclesToTraverse;}
     public int getMaxNumWorkers(){return maxNumWorkers;}
+    public int getNumWorkers(){return numWorkers;}
     public int getFoodProduction(){return foodProduction;}
     public int getIndustrialProduction(){return industrialProduction;}
     public double getGoldProduction(){return goldProduction;}
@@ -65,8 +66,15 @@ public class Cell {
     public boolean getBelongsToCity(){return belongsToCity;}
 
     public void setUnit(Unit unit) {this.unit = unit;}
-    public void setBelongsToCity(boolean input){belongsToCity = input;}
-    public void setTypeShown(String s){this.typeShown = s;}
-    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;} // usado para indicar que ta alguma unidade por "cima" de uma celula
+    public void setSomethingOnTop(boolean input){this.somethingOnTop = input;} // usado para indicar que ta alguma coisa por "cima" de uma celula
     public void setPreviousTypeShown (String input){this.previousTypeShown = input;};
+
+    public void multiplyProductivity(double multiplier){this.productivity *=multiplier;}
+    public void setBelongsToCity(boolean input){this.belongsToCity = input;}
+    public void setTypeShown(String s){this.typeShown = s;}
+    public void changeNumWorkers(int num){this.numWorkers += num;}
+    public void setToFoodProduction(){this.foodProduction=1;}
+    public void setToIndustrialProduction(){this.industrialProduction=1;}
+    public void setToGoldProduction(){this.goldProduction=1;}
+    
 }

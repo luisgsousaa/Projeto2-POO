@@ -1,7 +1,7 @@
 package com.mycompany.projeto2.poo;
 
 public abstract class Unit {
-
+    
     private String type;
     private Direction direction;
     private int coordX, coordY;
