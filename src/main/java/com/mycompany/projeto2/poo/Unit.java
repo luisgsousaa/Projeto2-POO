@@ -1,7 +1,5 @@
 package com.mycompany.projeto2.poo;
 
-import com.mycompany.projeto2.poo.Direction;
-
 public abstract class Unit {
     
     private String type;
@@ -21,33 +19,69 @@ public abstract class Unit {
         this.maintenanceCost = maintenanceCost;
     }
 
+
     public double getMaintenanceCost(){return maintenanceCost;}
-    public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
-
     public int getProductionCost(){return productionCost;}
-    public void setProductionCost(int productionCost){this.productionCost=productionCost;}
-
     public int getProductionDelay(){return productionDelay;}
-    public void setProductionDelay(int productionDelay){this.productionDelay=productionDelay;}
-
     public String getType(){return type;}
-    public void setType(String type){this.type = type;}
-
     public Direction getDirection() {return direction;}
-    public void setDirection(Direction direction) {this.direction = direction;}
-
     public int getCoordX() {return coordX;}
-    public void setCoordX(int coordX) {this.coordX = coordX;}
-
     public int getCoordY() {return coordY;}
+    public int getSteps(){return steps;}
+
+
+    public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
+    public void setProductionCost(int productionCost){this.productionCost=productionCost;}
+    public void setProductionDelay(int productionDelay){this.productionDelay=productionDelay;}
+    public void setType(String type){this.type = type;}
+    public void setDirection(Direction direction) {this.direction = direction;}
+    public void setCoordX(int coordX) {this.coordX = coordX;}
     public void setCoordY(int coordY) {this.coordY = coordY;}
 
 
+    public static Unit createUnit(String unitType, int x, int y, Map map, Direction direction) {
 
+        if (x < 0 || x >= map.getWidth() || y < 0 || y >= map.getHeight()) { // futuramente criar um metodo para isto pq é usado varias vezes????
+            System.out.println("Coordenadas inválidas.");
+            return null;
+        }
+
+        Cell targetCell = map.getCell(x,y);
+
+        if (targetCell.isSomethingOnTop()) {
+            System.out.println("A célula (" + x + "," + y + ") já está ocupada.");
+            return null;
+        }
+
+        if (targetCell.getEntryCost() == -1) {
+            System.out.println("A célula (" + x + "," + y + ") é inacessível.");
+            return null;
+        }
+
+        Unit newUnit;
+
+        switch (unitType.trim()) {
+            case "M":
+                newUnit = new UnitMilitary(x, y, map, direction);
+                break;
+            case "E":
+                newUnit = new UnitExplorer(x, y, map, direction);
+                break;
+            default:
+                System.out.println("Unidade desconhecida.");
+                return null;
+        }
+
+        targetCell.setPreviousTypeShown(targetCell.getTypeShown());
+        targetCell.setUnit(newUnit);
+        targetCell.setTypeShown(newUnit.getType());
+        targetCell.setSomethingOnTop(true);
+
+        return newUnit;
+    }
 
 
     public void moveUnit(Map map) {
-        for (int i = 0; i < steps; i++) {
 
             int newX = coordX;
             int newY = coordY;
@@ -85,27 +119,31 @@ public abstract class Unit {
             Cell targetCell = map.getCell(newX, newY); // nova celula que queremos nos mover
 
             if (targetCell == null) {
-                System.out.println("celula fora limites");
+                System.out.println("A célula de destino (" + newX + ", " + newY + ") não existe.");
                 return;
             }
-
             if (targetCell.isSomethingOnTop()) {
-                System.out.println("celula ocupada");
+                System.out.println("A célula (" + newX + "," + newY + ") já está ocupada.");
                 return;
             }
 
-            // como até agora nao pareceu existir problemas na posicao onde queremos nos mover:
+            if (targetCell.getEntryCost() == -1) {
+                System.out.println("A célula (" + newX + "," + newY + ") é inacessível.");
+                return;
+            }
+
             currentCell.setTypeShown(currentCell.getPreviousTypeShown()); // celula atual passa a mostrar o que tava antes
             currentCell.setSomethingOnTop(false);
+            currentCell.setUnit(null); // retira referencia da celula atual
 
             targetCell.setPreviousTypeShown(targetCell.getTypeShown()); // celula alvo guarda o que tava la
             targetCell.setTypeShown(this.getType()); // atualiza a celula alvo para a unidade em questao
             targetCell.setSomethingOnTop(true);
+            targetCell.setUnit(this); // coloca referencia na celula alvo
 
             // finalmente atualiza as coordenadas da unidade
             coordX = newX;
             coordY = newY;
-        }
     }
 }
 

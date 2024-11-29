@@ -15,12 +15,14 @@ public class UtilTerrains {
     ArrayList<ITerrain> terrains;
     
     public UtilTerrains(){
+
         terrains = new ArrayList<ITerrain>();
         
         terrains.add(new TerrainWater());
         terrains.add(new TerrainPlains());
         terrains.add(new TerrainMountain());
         terrains.add(new TerrainCity());
+
     }
     
     public ITerrain matchSymbol(String symbol)throws NullPointerException{
@@ -30,6 +32,6 @@ public class UtilTerrains {
             }
         }
         return null;
-        
     }
+
 }
