@@ -86,20 +86,20 @@ public class MenuManager {
             if (unit.getSteps() == 1) {
 
                 System.out.println("\nIndique a direção do passo.");
-                String input_dir = scanner.nextLine().toLowerCase().trim();
+                String letter = scanner.nextLine().toLowerCase().trim();
 
-                if (input_dir.length() != 1) {
+                if (letter.length() != 1) {
                     System.out.println("\nInsira apenas uma direção. Tente novamente.");
                     return;
                 }
 
-                Direction step_dir = inputToEnumDirection(input_dir);
+                Direction step_dir = inputToEnumDirection(letter);
 
                 if (step_dir != null) {
                     unit.setDirection(step_dir);
                     unit.moveUnit(map);
                 } else {
-                    System.out.println("\nDireção inválida: " + step_dir + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
+                    System.out.println("\nDireção inválida: " + letter + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
                     return;
                 }
             }
@@ -122,7 +122,7 @@ public class MenuManager {
                         unit.setDirection(step_dir);
                         unit.moveUnit(map);
                     } else {
-                        System.out.println("\nDireção inválida: " + step_dir + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
+                        System.out.println("\nDireção inválida: " + letter + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
                         return;
                     }
                 }

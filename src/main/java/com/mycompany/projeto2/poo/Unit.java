@@ -41,7 +41,7 @@ public abstract class Unit {
 
     public static Unit createUnit(String unitType, int x, int y, Map map, Direction direction) {
 
-        if (x < 0 || x >= map.getWidth() || y < 0 || y >= map.getHeight()) { // futuramente criar um metodo para isto pq é usado varias vezes????
+        if (x < 0 || x >= map.getWidth() || y < 0 || y >= map.getHeight()) {
             System.out.println("Coordenadas inválidas.");
             return null;
         }
@@ -104,14 +104,13 @@ public abstract class Unit {
 
                 case RIGHT:
                     newX++;
-                    if (newX >= map.getHeight()) {newX = 0;} //circ horz dir
+                    if (newX >= map.getWidth()) {newX = 0;} //circ horz dir
                     break;
 
                 case NONE:
                     break;
 
                 default:
-                    System.out.println("direcao inexstente");
                     return;
             }
 
