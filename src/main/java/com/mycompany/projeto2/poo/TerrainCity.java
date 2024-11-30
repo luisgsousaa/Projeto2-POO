@@ -13,6 +13,7 @@ public class TerrainCity implements ITerrain {
     private int foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown;
+    //private Civilization civilization;
 
     public TerrainCity(){
         this.type = "C ";

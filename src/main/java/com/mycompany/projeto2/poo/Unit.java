@@ -2,17 +2,20 @@ package com.mycompany.projeto2.poo;
 
 public abstract class Unit {
     
-    private String type;
+    private String type;//, typeShown;
     private Direction direction;
     private int coordX, coordY;
     private int steps; // nr passos por ciclo da unidade
     private double maintenanceCost; // em ouro
     private int productionCost; // em recursos industriais
     private int productionDelay; //nr ciclos a serem criados
+    private Civilization civilization;
 
-
-    public Unit(String type, int steps, double maintenanceCost, int productionCost, int productionDelay) {
+    /*String typeShown*/
+    public Unit(String type, Civilization civilization, int steps, double maintenanceCost, int productionCost, int productionDelay) {
         this.type = type;
+        this.civilization = civilization;
+        //this.typeShown = typeShown;
         this.steps = steps;
         this.productionCost = productionCost;
         this.productionDelay = productionDelay;
@@ -24,11 +27,14 @@ public abstract class Unit {
     public int getProductionCost(){return productionCost;}
     public int getProductionDelay(){return productionDelay;}
     public String getType(){return type;}
+    //public String getTypeShown(){return typeShown;}
     public Direction getDirection() {return direction;}
     public int getCoordX() {return coordX;}
     public int getCoordY() {return coordY;}
     public int getSteps(){return steps;}
-
+    public int getUnitCivId() {return civilization.getId();}
+    public Civilization getUnitCiv() {return civilization;}
+    public String getUnitName() {return civilization.getName();}
 
     public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
     public void setProductionCost(int productionCost){this.productionCost=productionCost;}
@@ -39,22 +45,22 @@ public abstract class Unit {
     public void setCoordY(int coordY) {this.coordY = coordY;}
 
 
-    public static Unit createUnit(String unitType, int x, int y, Map map, Direction direction) {
+    public static Unit createUnit(String unitType, int x, int y, Map map, Direction direction, Civilization civilization) {
 
         if (x < 0 || x >= map.getWidth() || y < 0 || y >= map.getHeight()) {
-            System.out.println("Coordenadas inválidas.");
+            System.out.println("Coordenadas invalidas.");
             return null;
         }
 
         Cell targetCell = map.getCell(x,y);
 
         if (targetCell.isSomethingOnTop()) {
-            System.out.println("A célula (" + x + "," + y + ") já está ocupada.");
+            System.out.println("A celula (" + x + "," + y + ") ja esta ocupada.");
             return null;
         }
 
         if (targetCell.getEntryCost() == -1) {
-            System.out.println("A célula (" + x + "," + y + ") é inacessível.");
+            System.out.println("A celula (" + x + "," + y + ") e inacessivel.");
             return null;
         }
 
@@ -62,10 +68,10 @@ public abstract class Unit {
 
         switch (unitType.trim()) {
             case "M":
-                newUnit = new UnitMilitary(x, y, map, direction);
+                newUnit = new UnitMilitary(x, y, map, direction, civilization);
                 break;
             case "E":
-                newUnit = new UnitExplorer(x, y, map, direction);
+                newUnit = new UnitExplorer(x, y, map, direction, civilization);
                 break;
             default:
                 System.out.println("Unidade desconhecida.");
@@ -74,7 +80,7 @@ public abstract class Unit {
 
         targetCell.setPreviousTypeShown(targetCell.getTypeShown());
         targetCell.setUnit(newUnit);
-        targetCell.setTypeShown(newUnit.getType());
+        targetCell.setTypeShown(newUnit.getType() + newUnit.getUnitCivId()); //+get get civId
         targetCell.setSomethingOnTop(true);
 
         return newUnit;
@@ -118,16 +124,16 @@ public abstract class Unit {
             Cell targetCell = map.getCell(newX, newY); // nova celula que queremos nos mover
 
             if (targetCell == null) {
-                System.out.println("A célula de destino (" + newX + ", " + newY + ") não existe.");
+                System.out.println("A celula de destino (" + newX + ", " + newY + ") nao existe.");
                 return;
             }
             if (targetCell.isSomethingOnTop()) {
-                System.out.println("A célula (" + newX + "," + newY + ") já está ocupada.");
+                System.out.println("A celula (" + newX + "," + newY + ") ja esta ocupada.");
                 return;
             }
 
             if (targetCell.getEntryCost() == -1) {
-                System.out.println("A célula (" + newX + "," + newY + ") é inacessível.");
+                System.out.println("A celula (" + newX + "," + newY + ") e inacessivel.");
                 return;
             }
 
@@ -136,7 +142,7 @@ public abstract class Unit {
             currentCell.setUnit(null); // retira referencia da celula atual
 
             targetCell.setPreviousTypeShown(targetCell.getTypeShown()); // celula alvo guarda o que tava la
-            targetCell.setTypeShown(this.getType()); // atualiza a celula alvo para a unidade em questao
+            targetCell.setTypeShown(this.getType() + this.getUnitCivId()); // atualiza a celula alvo para a unidade em questao
             targetCell.setSomethingOnTop(true);
             targetCell.setUnit(this); // coloca referencia na celula alvo
 
