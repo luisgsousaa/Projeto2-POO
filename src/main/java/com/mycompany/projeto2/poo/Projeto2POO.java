@@ -18,12 +18,31 @@ public class Projeto2POO {
     public static void main(String[] args) throws IOException {
 
         map = new Map();
+        MenuMain menuMain = new MenuMain();
 
+        Civilization civilization = menuMain.chooseCivilization();
 
-        Unit.createUnit("M", 23, 2, map, Direction.NONE);
-        Unit.createUnit("E", 20, 1, map, Direction.NONE);
+        Unit.createUnit("M", 23, 2, map, Direction.NONE, civilization);
+        Unit.createUnit("E", 20, 1, map, Direction.NONE, civilization);
 
-        map.showMap();
+        int coordX = 8;
+        int coordY = 8;
+
+        if(coordX<3 || coordX > (map.getWidth()-4) || coordY<3 || coordY>(map.getHeight()-4)){
+            System.out.println("O centro da cidade tem de estar a pelo menos 4 celulas de distancia das bordas do mapa");
+        }
+        else if(!isTerrainAdequate(coordX,coordY)){
+            System.out.println("O terreno nao e adequado para a construcao da cidade escolha outras coordenadas");
+            System.out.println("A cidade ocupa uma area de 7X7 com centro nas coordenadas que escolher");
+        }
+        else if(!isFarFromCities(coordX,coordY)){
+            System.out.println("A cidade necessita de estar a uma distancia de pelo menos 3 celulas de outra cidade, escolha outras coordenadas");
+            System.out.println("A cidade ocupa uma area de 7X7 com centro nas coordenadas que escolher");
+        }
+        else{
+            City cidade1 = new City(coordX,coordY,map,1);
+            map.showMap();
+        }
 
         MenuManager menuManager = new MenuManager(map);
         menuManager.showMenuManager();
@@ -70,34 +89,10 @@ public class Projeto2POO {
 
         //teste provisorio
 
-        
-        int coordX = 8;
-        int coordY = 8;
-        
-        if(coordX<3 || coordX > (map.getWidth()-4) || coordY<3 || coordY>(map.getHeight()-4)){
-            System.out.println("O centro da cidade tem de estar a pelo menos 4 celulas de distancia das bordas do mapa");
-        }
-        else if(!isTerrainAdequate(coordX,coordY)){
-            System.out.println("O terreno nao e adequado para a construcao da cidade escolha outras coordenadas");
-            System.out.println("A cidade ocupa uma area de 7X7 com centro nas coordenadas que escolher");
-        }
-        else if(!isFarFromCities(coordX,coordY)){
-            System.out.println("A cidade necessita de estar a uma distancia de pelo menos 3 celulas de outra cidade, escolha outras coordenadas");
-            System.out.println("A cidade ocupa uma area de 7X7 com centro nas coordenadas que escolher");
-        }
-        else{
-            City cidade1 = new City(coordX,coordY,map,1);
-        
-            
-        
-            map.showMap();
-        }
-        
-        
-    
 
 
-            map.showMap();
+
+           // map.showMap();
     }
 
     
@@ -146,5 +141,9 @@ public class Projeto2POO {
             index++;  
         }
         return true;
+
     }
+
+
+
 }

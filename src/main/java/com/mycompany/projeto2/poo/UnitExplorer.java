@@ -4,8 +4,9 @@ public class UnitExplorer extends Unit{
 
     private Map map;
 
-    public UnitExplorer (int x, int y, Map map, Direction direction){
-        super("E ", 1, 0, 2, 1);
+    public UnitExplorer (int x, int y, Map map, Direction direction, Civilization civilization){
+        super("E", civilization,  1, 0, 2, 1);
+        //"E" + civilization.getId(),
         this.setCoordX(x);
         this.setCoordY(y);
         this.map = map;

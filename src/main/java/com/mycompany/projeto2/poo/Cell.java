@@ -20,7 +20,7 @@ public class Cell {
     private ITerrain selectedTerrain;
 
 
-    public Cell(String type)throws NullPointerException{
+    public Cell(String type) throws NullPointerException{
 
         terrains = new UtilTerrains();
         selectedTerrain = terrains.matchSymbol(type);
