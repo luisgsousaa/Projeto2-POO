@@ -1,6 +1,7 @@
 package com.mycompany.projeto2.poo;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class StartMenu {
@@ -20,14 +21,19 @@ public class StartMenu {
         boolean success = false;
         int input = 2;
         while(!success){
-            Scanner scanner = new Scanner(System.in);
-            
-            input = scanner.nextInt();
-            if(input < MIN_PLAYERS || input > MAX_PLAYERS){
-                System.out.println("Escolha um numero entre " + MIN_PLAYERS + " e " + MAX_PLAYERS);
+            try{
+                Scanner scanner = new Scanner(System.in);
+
+                input = scanner.nextInt();
+                if(input < MIN_PLAYERS || input > MAX_PLAYERS){
+                    System.out.println("Escolha um numero entre " + MIN_PLAYERS + " e " + MAX_PLAYERS);
+                }
+                else{
+                    success = true;
+                }  
             }
-            else{
-                success = true;
+            catch(InputMismatchException e){
+                System.out.println("Introduza um numero valido.");
             }
         }
         
@@ -90,10 +96,12 @@ public class StartMenu {
         System.out.println("Escolha as coordenadas da cidade inicial do jogador " + civ.getNumber() + "\n Escolha a coordenada no eixo dos X, clique enter e depois escolha a do eixo dos Y");
         while(!success){
             try{
-            
+                
                 int coordX,coordY;
                 Scanner scanner = new Scanner(System.in);
+                System.out.println("Coordenada X: ");
                 coordX = scanner.nextInt();
+                System.out.println("Coordenada Y: ");
                 coordY = scanner.nextInt();
                 
             
@@ -104,6 +112,9 @@ public class StartMenu {
             }
             catch(CoordinatesNotSuitableException e){
                 System.out.println("Tente novamente");
+            }
+            catch(InputMismatchException e){
+                System.out.println("Introduza numeros inteiros para as coordenadas");
             }
         }
         
