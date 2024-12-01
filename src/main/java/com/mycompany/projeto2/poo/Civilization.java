@@ -5,10 +5,11 @@ import java.util.ArrayList;
 public class Civilization {
 
     private String name;
-    private int id;
+    //private int id;
     private int number;
     private ArrayList<Cell> controlledCells; // por enquanto apenas será apenas cidade
     private ArrayList<Unit> controlledUnits; // militares, explorrs, producer, spies etc
+    private static ArrayList<String> chosenCivs;
 
     private static ArrayList<String> civNames = new ArrayList<>();
 
@@ -19,18 +20,19 @@ public class Civilization {
         civNames.add("Bragados");
         civNames.add("Tarugos");
         civNames.add("Cangalhos");
+        chosenCivs = new ArrayList<>();
     }
 
-    //construtor com index
-    public Civilization(int index,int number) {
+    //construtor com indice
+    public Civilization(int indexCivNames,int number) {
 
-        if (index < 0 || index >= civNames.size()) {
+        // verifica se o indice passado no construtor está dentro do array com os nomes das civilizacoes
+        if (indexCivNames < 0 || indexCivNames >= civNames.size()) {
             throw new IllegalArgumentException("Numero de civilizacao invalido. Tente novamente.");
         }
 
-        this.name = civNames.get(index);
-        this.id = index;
-        this.number=number;
+        this.name = civNames.get(indexCivNames); // nome da civilizacao
+        this.number = number; // id/numero da civilizacao (nr do jogador)
         this.controlledCells = new ArrayList<>();
         this.controlledUnits = new ArrayList<>();
     }
@@ -38,21 +40,30 @@ public class Civilization {
     // construtor com nome
     public Civilization(String name, int number) {
         this.name = name;
-        this.id = civNames.indexOf(name);
-        this.number = number;
+        //this.id = civNames.indexOf(name);
+        this.number = number; // id/numero da civilizacao (nr do jogador)
         this.controlledCells = new ArrayList<>();
         this.controlledUnits = new ArrayList<>();
     }
 
 
-    public int getId() {return id;}
+    //public int getId() {return id;}
     public int getNumber(){return number;}
     public String getName() {return name;}
     public static ArrayList<String> getCivNames() {return civNames;}
-
+    public ArrayList<Unit> getControlledUnits() {return controlledUnits;}
 
     public void addCellToCiv(Cell cell) {controlledCells.add(cell);}
     public void addUnitToCiv(Unit unit) {controlledUnits.add(unit);}
+
+    public static void addChosenCiv(String civName) {
+        if (!chosenCivs.contains(civName)) {
+            chosenCivs.add(civName);
+        } else {
+            throw new IllegalArgumentException("Essa civilizacao ja foi escolhida.");
+        }
+    }
+    public static boolean isCivChosen(String civName) {return chosenCivs.contains(civName);}
 
 
     public static void addCivName(String name) {
@@ -64,6 +75,22 @@ public class Civilization {
         }
         civNames.add(name);
     }
+
+
+    // verificar se ta a funcionar
+
+    public void printControlledUnits() {
+        System.out.println("civ " + this.name);
+        System.out.println("num unidades controladas " + getControlledUnits().size());
+        for (Unit u : controlledUnits) {
+            System.out.println(u.getType() + u.getUnitCivNum());
+        }
+    }
+
+
+
+
+
 
 
     // notas

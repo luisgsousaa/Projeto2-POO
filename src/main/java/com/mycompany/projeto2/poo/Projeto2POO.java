@@ -30,13 +30,11 @@ public class Projeto2POO {
         for(int i = 0; i < numberOfPlayers; i++){
             civs.add(startMenu.chooseCivilization());
         }
-        
-        
-        
-        
-        
-        
-        
+
+        System.out.println("Civilização:");
+        Unit.createUnit("M", 23, 2, map, Direction.NONE, civs.get(0));
+        Unit.createUnit("E", 20, 1, map, Direction.NONE, civs.get(1));
+
         for(Civilization c : civs){
             cities.add(startMenu.chooseFirstCity(c));
         }
@@ -44,6 +42,10 @@ public class Projeto2POO {
         
         
         map.showMap();
+
+        for(Civilization c : civs){
+            c.printControlledUnits();
+        }
         /*
         
 

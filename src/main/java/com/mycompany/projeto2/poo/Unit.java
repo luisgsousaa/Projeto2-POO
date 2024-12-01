@@ -20,6 +20,9 @@ public abstract class Unit {
         this.productionCost = productionCost;
         this.productionDelay = productionDelay;
         this.maintenanceCost = maintenanceCost;
+
+
+        civilization.addUnitToCiv(this);
     }
 
 
@@ -32,7 +35,7 @@ public abstract class Unit {
     public int getCoordX() {return coordX;}
     public int getCoordY() {return coordY;}
     public int getSteps(){return steps;}
-    public int getUnitCivId() {return civilization.getId();}
+    public int getUnitCivNum() {return civilization.getNumber();}
     public Civilization getUnitCiv() {return civilization;}
     public String getUnitName() {return civilization.getName();}
 
@@ -80,7 +83,7 @@ public abstract class Unit {
 
         targetCell.setPreviousTypeShown(targetCell.getTypeShown());
         targetCell.setUnit(newUnit);
-        targetCell.setTypeShown(newUnit.getType() + newUnit.getUnitCivId()); //+get get civId
+        targetCell.setTypeShown(newUnit.getType() + newUnit.getUnitCivNum()); //+get get civId
         targetCell.setSomethingOnTop(true);
 
         return newUnit;
@@ -142,7 +145,7 @@ public abstract class Unit {
             currentCell.setUnit(null); // retira referencia da celula atual
 
             targetCell.setPreviousTypeShown(targetCell.getTypeShown()); // celula alvo guarda o que tava la
-            targetCell.setTypeShown(this.getType() + this.getUnitCivId()); // atualiza a celula alvo para a unidade em questao
+            targetCell.setTypeShown(this.getType() + this.getUnitCivNum()); // atualiza a celula alvo para a unidade em questao
             targetCell.setSomethingOnTop(true);
             targetCell.setUnit(this); // coloca referencia na celula alvo
 

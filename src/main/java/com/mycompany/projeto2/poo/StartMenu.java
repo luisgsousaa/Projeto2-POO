@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class StartMenu {
     private Map map;
     private static int playerNumbers;
-    private final int MIN_PLAYERS = 2;
-    private final int MAX_PLAYERS = 4;
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 4;
     
     public StartMenu() {
         playerNumbers = 1;
@@ -69,9 +69,22 @@ public class StartMenu {
                 if (civ_num == -1) {
                     System.out.println("\nQual sera o nome da tua civilizacao?");
                     String civ_name = scanner.nextLine();
+
+                    if (Civilization.isCivChosen(civ_name)) {
+                        System.out.println("\nEssa civilização ja foi escolhida.");
+                        continue;
+                    }
+
                     Civilization.addCivName(civ_name);
+                    Civilization.addChosenCiv(civ_name);
                     myCiv = new Civilization(civ_name,playerNumbers);
                 } else {
+                    if (Civilization.isCivChosen(Civilization.getCivNames().get(civ_num))) {
+                        System.out.println("\nEssa civilização ja foi escolhida.");
+                        continue;
+                    }
+
+                    Civilization.addChosenCiv(Civilization.getCivNames().get(civ_num));
                     myCiv = new Civilization(civ_num,playerNumbers);
                 }
 
