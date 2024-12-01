@@ -6,6 +6,7 @@ public class Civilization {
 
     private String name;
     private int id;
+    private int number;
     private ArrayList<Cell> controlledCells; // por enquanto apenas será apenas cidade
     private ArrayList<Unit> controlledUnits; // militares, explorrs, producer, spies etc
 
@@ -21,7 +22,7 @@ public class Civilization {
     }
 
     //construtor com index
-    public Civilization(int index) {
+    public Civilization(int index,int number) {
 
         if (index < 0 || index >= civNames.size()) {
             throw new IllegalArgumentException("Numero de civilizacao invalido. Tente novamente.");
@@ -29,20 +30,23 @@ public class Civilization {
 
         this.name = civNames.get(index);
         this.id = index;
+        this.number=number;
         this.controlledCells = new ArrayList<>();
         this.controlledUnits = new ArrayList<>();
     }
 
     // construtor com nome
-    public Civilization(String name) {
+    public Civilization(String name, int number) {
         this.name = name;
         this.id = civNames.indexOf(name);
+        this.number = number;
         this.controlledCells = new ArrayList<>();
         this.controlledUnits = new ArrayList<>();
     }
 
 
     public int getId() {return id;}
+    public int getNumber(){return number;}
     public String getName() {return name;}
     public static ArrayList<String> getCivNames() {return civNames;}
 

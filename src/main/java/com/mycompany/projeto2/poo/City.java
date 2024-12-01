@@ -38,6 +38,7 @@ public class City extends Cell{
         setFirstWorkers();
         
         
+        
     } 
     
     private void setLayers(){
@@ -89,9 +90,9 @@ public class City extends Cell{
     }
     
     private void setFirstWorkers(){
-        manageWorkers(1,1);
-        manageWorkers(2,1);
-        manageWorkers(3,1);
+        addWorkers(1,1);
+        addWorkers(2,1);
+        addWorkers(3,1);
 
     }
     
@@ -161,12 +162,16 @@ public class City extends Cell{
     
     
     
-    // falta tratar da diminuição de trabalhadores, para não ficar a menos de 0 e para não passar da população da cidade
-    public boolean manageWorkers(int layer, int quantity){ // 1 gold, 2 industry 3 food
+    
+    public boolean addWorkers(int layer, int quantity){ // 1 gold, 2 industry 3 food
+        if(quantity < 0){
+            return false;
+        }
+        
         int workersAdded = 0;
         for(int y = -1*layer ; y <= 1*layer; y++){
             for(int x = -1*layer ; x <= 1*layer; x++){
-                //Cell currentCell = map[x+coordX][y+coordY];
+                
                 if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
                     
                     
@@ -178,7 +183,7 @@ public class City extends Cell{
                             if(workersAdded<quantity){
                                 map.changeCellNumWorkers(x+coordX,y+coordY,+1);
                                 workersAdded++;
-                                countNewWorker(layer);
+                                countWorkers(layer,1);
                             }
                             else {break;}
                         }
@@ -191,18 +196,58 @@ public class City extends Cell{
         return workersAdded > 0;
     }
     
-    private void countNewWorker(int layer){
-        switch(layer){
+    public boolean removeWorkers(int layer, int quantity){ // 1 gold, 2 industry 3 food
+        if(quantity < 0){
+            return false;
+        }
+        int workersRemoved = 0;
+        
+        for(int y = -1*layer ; y <= 1*layer; y++){
+            for(int x = -1*layer ; x <= 1*layer; x++){
+               
+                if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
+                    
+                    
+                    
+                    
+                    if(map.getCellNumWorkers(x+coordX,y+coordY) == 0){continue;}
+                    else{
+                        while(map.getCellNumWorkers(x+coordX,y+coordY) > 0){
+                            if(workersRemoved<quantity){
+                                map.changeCellNumWorkers(x+coordX,y+coordY,-1);
+                                workersRemoved++;
+                                countWorkers(layer,-1);
+                            }
+                            else {break;}
+                        }
+                    }  
+                } 
+            }            
+        }         
+        
+
+        return workersRemoved > 0;
+    }
+    
+    
+    private void countWorkers(int layer,int action){
+        if(action != 1 && action != -1){
+            return;
+        }
+        else{
+           switch(layer){
             case 1:
-                goldWorkers++;
+                goldWorkers+=1*action;
                 break;
             case 2:
-                industrialWorkers++;
+                industrialWorkers+=1*action;
                 break;
             case 3:
-                foodWorkers++;
+                foodWorkers+=1*action;
                 break;
+            } 
         }
+        
     }
     
 
