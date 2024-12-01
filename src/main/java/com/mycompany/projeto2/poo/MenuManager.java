@@ -85,6 +85,12 @@ public class MenuManager {
                 System.out.println("\nEssas coordenadas nao sao de uma unidade. Tente novamente.");
                 return;
             }
+            
+            /*
+            if (unit.getUnitCiv() != ){
+                System.out.println("\nEssa unidade nao é da sua civilizacao. Tente novamente.");
+                return;
+            }*/
 
             if (unit.getSteps() == 0) {
                 System.out.println("\nEssa unidade e fixa. Tente novamente.");
