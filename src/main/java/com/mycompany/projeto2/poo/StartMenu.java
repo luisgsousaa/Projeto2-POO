@@ -6,10 +6,34 @@ import java.util.Scanner;
 public class StartMenu {
     private Map map;
     private static int playerNumbers;
+    private final int MIN_PLAYERS = 2;
+    private final int MAX_PLAYERS = 4;
+    
     public StartMenu() {
         playerNumbers = 1;
     }
     
+    
+    
+    public int chooseHowManyPlayers(){
+        System.out.println("Escolha com quantos jogadores quer jogar(Entre " + MIN_PLAYERS + " e " + MAX_PLAYERS + "):");
+        boolean success = false;
+        int input = 2;
+        while(!success){
+            Scanner scanner = new Scanner(System.in);
+            
+            input = scanner.nextInt();
+            if(input < MIN_PLAYERS || input > MAX_PLAYERS){
+                System.out.println("Escolha um numero entre " + MIN_PLAYERS + " e " + MAX_PLAYERS);
+            }
+            else{
+                success = true;
+            }
+        }
+        
+        return input;
+        
+    }
     
     public Map chooseMap()throws IOException{
         map = new Map();

@@ -5,6 +5,7 @@
 package com.mycompany.projeto2.poo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -14,18 +15,33 @@ import java.util.Scanner;
 public class Projeto2POO {
 
     private static Map map;
-
+    private static ArrayList<Civilization> civs;
+    private static ArrayList<City> cities;
+    private static int numberOfPlayers;
     public static void main(String[] args) throws IOException {
-
+        civs = new ArrayList<>();
+        cities = new ArrayList<>();
+        
         StartMenu startMenu = new StartMenu();
-        
-        
+        numberOfPlayers = startMenu.chooseHowManyPlayers();
         Map map = startMenu.chooseMap();
-        Civilization civP1 = startMenu.chooseCivilization();
-        Civilization civP2 = startMenu.chooseCivilization();
         
-        City c1 = startMenu.chooseFirstCity(civP1);
-        City c2 = startMenu.chooseFirstCity(civP2);
+        
+        for(int i = 0; i < numberOfPlayers; i++){
+            civs.add(startMenu.chooseCivilization());
+        }
+        
+        
+        
+        
+        
+        
+        
+        for(Civilization c : civs){
+            cities.add(startMenu.chooseFirstCity(c));
+        }
+        
+        
         
         map.showMap();
         /*
