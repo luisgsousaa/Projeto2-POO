@@ -1,8 +1,8 @@
 package com.mycompany.projeto2.poo;
 
-public abstract class Unit {
+public abstract class Unit implements Life {
     
-    private String type;//, typeShown;
+    private String type;
     private Direction direction;
     private int coordX, coordY;
     private int steps; // nr passos por ciclo da unidade
@@ -10,35 +10,40 @@ public abstract class Unit {
     private int productionCost; // em recursos industriais
     private int productionDelay; //nr ciclos a serem criados
     private Civilization civilization;
+    private int life;
 
-    /*String typeShown*/
-    public Unit(String type, Civilization civilization, int steps, double maintenanceCost, int productionCost, int productionDelay) {
+    public Unit(String type, Civilization civilization, int steps, double maintenanceCost, int productionCost, int productionDelay, int life) {
         this.type = type;
         this.civilization = civilization;
-        //this.typeShown = typeShown;
         this.steps = steps;
         this.productionCost = productionCost;
         this.productionDelay = productionDelay;
         this.maintenanceCost = maintenanceCost;
-
-
+        this.life = 100;
         civilization.addUnitToCiv(this);
     }
-
 
     public double getMaintenanceCost(){return maintenanceCost;}
     public int getProductionCost(){return productionCost;}
     public int getProductionDelay(){return productionDelay;}
     public String getType(){return type;}
-    //public String getTypeShown(){return typeShown;}
     public Direction getDirection() {return direction;}
     public int getCoordX() {return coordX;}
     public int getCoordY() {return coordY;}
     public int getSteps(){return steps;}
     public int getUnitCivNum() {return civilization.getNumber();}
     public Civilization getUnitCiv() {return civilization;}
-    public String getUnitName() {return civilization.getName();}
+    public String getUnitCivName() {return civilization.getName();}
+    public int getLife() {return this.life;}
+    public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
+    public void heal(int amount) {this.life += amount;}
+    public boolean isAlive() {return this.life > 0;}
 
+    public void die() {
+        System.out.println("A unidade " + this.type + " (" + this.coordX + ", " + this.coordY + ") do jogador " + getUnitCivNum() + " (" + getUnitCivName() + ") moreu.");
+    }
+
+    public void setLife(int life) {this.life = life;}
     public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
     public void setProductionCost(int productionCost){this.productionCost=productionCost;}
     public void setProductionDelay(int productionDelay){this.productionDelay=productionDelay;}
@@ -149,10 +154,13 @@ public abstract class Unit {
             targetCell.setSomethingOnTop(true);
             targetCell.setUnit(this); // coloca referencia na celula alvo
 
-            // finalmente atualiza as coordenadas da unidade
             coordX = newX;
             coordY = newY;
     }
+
+
+
+
 }
 
 

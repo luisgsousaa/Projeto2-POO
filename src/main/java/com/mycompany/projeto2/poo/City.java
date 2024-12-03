@@ -22,25 +22,28 @@ public class City extends Cell{
     private String[] layers;
     private Map map;
     private final int coordX, coordY;
+
+    private Civilization civilization;
     
     
-    
-    
-    public City(int x, int y,Map map,int cityNumber){ // encapsulamento?
+    public City(int x, int y,Map map,int cityNumber, Civilization civilization){ // encapsulamento?
         super("C ");
         setCityVariables(map,cityNumber);
         coordX = x;
         coordY = y;
-        
+        this.civilization = civilization;
         
         
         createCity();
         setFirstWorkers();
+
+        civilization.addCityToCiv(this);
         
-        
-        
-    } 
-    
+    }
+
+    public int getCityCivNum() {return civilization.getNumber();}
+
+
     private void setLayers(){
          layers = new String[4];
          layers[1]="g ";

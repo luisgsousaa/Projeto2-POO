@@ -13,8 +13,11 @@ public class StartMenu {
     public StartMenu() {
         playerNumbers = 1;
     }
-    
-    
+
+    /*
+    public void startingText(){
+        System.out.println("fdsdjfsdsf");
+    }*/
     
     public int chooseHowManyPlayers(){
         System.out.println("Escolha com quantos jogadores quer jogar(Entre " + MIN_PLAYERS + " e " + MAX_PLAYERS + "):");
@@ -70,21 +73,10 @@ public class StartMenu {
                     System.out.println("\nQual sera o nome da tua civilizacao?");
                     String civ_name = scanner.nextLine();
 
-                    if (Civilization.isCivChosen(civ_name)) {
-                        System.out.println("\nEssa civilização ja foi escolhida.");
-                        continue;
-                    }
-
                     Civilization.addCivName(civ_name);
-                    Civilization.addChosenCiv(civ_name);
+
                     myCiv = new Civilization(civ_name,playerNumbers);
                 } else {
-                    if (Civilization.isCivChosen(Civilization.getCivNames().get(civ_num))) {
-                        System.out.println("\nEssa civilização ja foi escolhida.");
-                        continue;
-                    }
-
-                    Civilization.addChosenCiv(Civilization.getCivNames().get(civ_num));
                     myCiv = new Civilization(civ_num,playerNumbers);
                 }
 
@@ -121,7 +113,7 @@ public class StartMenu {
                 
                 builder = new CityBuilder(coordX, coordY,map,civ.getNumber());
                 
-                return builder.createCity();
+                return builder.createCity(civ);
             }
             catch(CoordinatesNotSuitableException e){
                 System.out.println("Tente novamente");

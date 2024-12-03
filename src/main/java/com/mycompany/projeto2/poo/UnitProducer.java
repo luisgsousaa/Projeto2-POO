@@ -5,7 +5,7 @@ public class UnitProducer extends Unit {
     private Map map;
 
     public UnitProducer(int x, int y, Map map, Direction direction, Civilization civilization) {
-        super("P ", civilization, 1, 0, 3, 2);
+        super("P ", civilization, 1, 0, 3, 2,100);
         //"P" + civilization.getId(),
         this.setCoordX(x);
         this.setCoordY(y);

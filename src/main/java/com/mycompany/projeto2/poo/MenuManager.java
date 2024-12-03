@@ -12,7 +12,7 @@ public class MenuManager {
         this.map = map;
     }
 
-    public void showMenuManager() {
+    public void showMenuManager(Civilization civilization) {
 
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -21,7 +21,7 @@ public class MenuManager {
 
             System.out.println("\nEscolha uma opcao:");
             System.out.println("1 - Mover Unidade");
-            System.out.println("2 - nada");
+            System.out.println("2 - Atacar");
             System.out.println("3 - nada");
             System.out.println("4 - nada");
             System.out.println("0 - Sair");
@@ -31,7 +31,7 @@ public class MenuManager {
 
             switch (choice) {
                 case 1:
-                    optionMoveUnit(scanner);
+                    optionMoveUnit(scanner,civilization);
                     break;
                 case 2:
                     break;
@@ -40,7 +40,7 @@ public class MenuManager {
                 case 4:
                     break;
                 case 0:
-                    break;
+                    return;
                 default:
                     System.out.println("Opcao invalida. Tente novamente.");
             }
@@ -48,17 +48,47 @@ public class MenuManager {
         scanner.close();
     }
 
+    private void showControlledUnits(Civilization civ) {
+        System.out.println("\nUnidades controladas:");
+        int index = 1;
+        for (Unit u : civ.getControlledUnits()) {
+            System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
+            index++;
+        }
+    }
 
-    private void optionMoveUnit(Scanner scanner) {
+    // faz a mesma coisa da de cima mas para qualquer subclasse de unidade especifica
+    private void showControlledUnits(Civilization civ, Class<?> unitClass) {
+        if (!Unit.class.isAssignableFrom(unitClass)) {
+            System.out.println("\nEsssa classe nao e subclasse de unit");
+            return;
+        }
 
-        //aqui vou imprimir unidades da civilizacao da vez do jogador que esta a jogar
+        System.out.println("\nUnidades controladas:");
+        int index = 1;
+        for (Unit u : civ.getControlledUnits()) {
+            if (unitClass.isInstance(u)) {
+                System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
+                index++;
+            }
+        }
+    }
 
-        // Unidades da civilizacao jigijge (9):
-        // 1- M (3,10) : 100%
-        // 2- M (54,3) : 100%
-        // 3- E (9,0) : 20%
-        // 4- P (2,1) : 90%
 
+
+    private void showControlledCities(Civilization civ) {
+        System.out.println("\nCidades controladas:");
+        int index = 1;
+        for (City c : civ.getControlledCities()) {
+            System.out.println(index + " - " + c.getType() + c.getCityCivNum());
+            index++;
+        }
+    }
+
+
+    private void optionMoveUnit(Scanner scanner, Civilization civilization) {
+
+        showControlledUnits(civilization);
 
         System.out.println("\nInsira as coordenadas da unidade que deseja mover separado por virgulas:");
         String[] coords_array = scanner.nextLine().split(","); // slipt serve para dividir string que tem separadores (no caso virgulas) em arrays, por isso vamos ter um array de 2 elementos para cada coordenada
@@ -69,7 +99,6 @@ public class MenuManager {
         }
 
         try {
-            // cobre o caso do utilizador fazer '  4   ,   20   ', retira espaços em branco e converte para int
             int x = Integer.parseInt(coords_array[0].trim());
             int y = Integer.parseInt(coords_array[1].trim());
 
@@ -86,11 +115,11 @@ public class MenuManager {
                 return;
             }
             
-            /*
-            if (unit.getUnitCiv() != ){
+
+            if (unit.getUnitCiv() != civilization){
                 System.out.println("\nEssa unidade nao é da sua civilizacao. Tente novamente.");
                 return;
-            }*/
+            }
 
             if (unit.getSteps() == 0) {
                 System.out.println("\nEssa unidade e fixa. Tente novamente.");
@@ -169,4 +198,17 @@ public class MenuManager {
     }
 
 
-}
+
+
+
+
+
+
+
+    private void optionAttack(Scanner scanner, Civilization civilization) {
+        showControlledUnits(civilization,UnitMilitary.class);
+
+
+
+
+}}

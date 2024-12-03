@@ -19,9 +19,9 @@ public class CityBuilder {
        this.map=map;
     }
     
-    public City createCity()throws CoordinatesNotSuitableException{
+    public City createCity(Civilization civilization)throws CoordinatesNotSuitableException{
         if(checkCoordinates()){
-            City cidade = new City(coordX,coordY,map,cityNumber);
+            City cidade = new City(coordX,coordY,map,cityNumber,civilization);
             return cidade;
         }
         return null;    
