@@ -42,7 +42,7 @@ public abstract class Unit implements Life {
     public void die() {
         System.out.println("A unidade " + this.type + " (" + this.coordX + ", " + this.coordY + ") do jogador " + getUnitCivNum() + " (" + getUnitCivName() + ") moreu.");
     }
-
+    public abstract String getUnitName();
     public void setLife(int life) {this.life = life;}
     public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
     public void setProductionCost(int productionCost){this.productionCost=productionCost;}
@@ -51,6 +51,12 @@ public abstract class Unit implements Life {
     public void setDirection(Direction direction) {this.direction = direction;}
     public void setCoordX(int coordX) {this.coordX = coordX;}
     public void setCoordY(int coordY) {this.coordY = coordY;}
+
+
+
+
+
+
 
 
     public static Unit createUnit(String unitType, int x, int y, Map map, Direction direction, Civilization civilization) {
@@ -80,6 +86,15 @@ public abstract class Unit implements Life {
                 break;
             case "E":
                 newUnit = new UnitExplorer(x, y, map, direction, civilization);
+                break;
+            case "B":
+                newUnit = new UnitBuilder(x, y, map, direction, civilization);
+                break;
+            case "S":
+                newUnit = new UnitSpier(x, y, map, direction, civilization);
+                break;
+            case "P":
+                newUnit = new UnitProducer(x, y, map, direction, civilization);
                 break;
             default:
                 System.out.println("Unidade desconhecida.");

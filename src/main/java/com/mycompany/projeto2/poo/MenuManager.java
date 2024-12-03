@@ -48,47 +48,20 @@ public class MenuManager {
         scanner.close();
     }
 
-    private void showControlledUnits(Civilization civ) {
-        System.out.println("\nUnidades controladas:");
-        int index = 1;
-        for (Unit u : civ.getControlledUnits()) {
-            System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
-            index++;
-        }
-    }
-
-    // faz a mesma coisa da de cima mas para qualquer subclasse de unidade especifica
-    private void showControlledUnits(Civilization civ, Class<?> unitClass) {
-        if (!Unit.class.isAssignableFrom(unitClass)) {
-            System.out.println("\nEsssa classe nao e subclasse de unit");
-            return;
-        }
-
-        System.out.println("\nUnidades controladas:");
-        int index = 1;
-        for (Unit u : civ.getControlledUnits()) {
-            if (unitClass.isInstance(u)) {
-                System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
-                index++;
-            }
-        }
-    }
 
 
 
-    private void showControlledCities(Civilization civ) {
-        System.out.println("\nCidades controladas:");
-        int index = 1;
-        for (City c : civ.getControlledCities()) {
-            System.out.println(index + " - " + c.getType() + c.getCityCivNum());
-            index++;
-        }
-    }
+
+
+
+
+
 
 
     private void optionMoveUnit(Scanner scanner, Civilization civilization) {
 
-        showControlledUnits(civilization);
+        Civilization.showControlledUnits(civilization);
+        Civilization.showControlledUnits(civilization, UnitMilitary.class); //teste
 
         System.out.println("\nInsira as coordenadas da unidade que deseja mover separado por virgulas:");
         String[] coords_array = scanner.nextLine().split(","); // slipt serve para dividir string que tem separadores (no caso virgulas) em arrays, por isso vamos ter um array de 2 elementos para cada coordenada
@@ -187,6 +160,13 @@ public class MenuManager {
         }
     }
 
+
+
+
+
+
+
+
     private Direction inputToEnumDirection(String input) {
         switch (input) {
             case "c": return Direction.UP;
@@ -206,9 +186,16 @@ public class MenuManager {
 
 
     private void optionAttack(Scanner scanner, Civilization civilization) {
-        showControlledUnits(civilization,UnitMilitary.class);
+        Civilization.showControlledUnits(civilization,UnitMilitary.class);
+    }
 
 
 
 
-}}
+
+
+
+
+
+
+}

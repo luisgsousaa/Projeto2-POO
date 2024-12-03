@@ -43,6 +43,8 @@ public class Projeto2POO {
         }
 
         Unit.createUnit("M", 23, 2, map, Direction.NONE, civs.get(0));
+        Unit.createUnit("M", 27, 3, map, Direction.NONE, civs.get(0));
+        Unit.createUnit("B", 15, 7, map, Direction.NONE, civs.get(0));
         Unit.createUnit("E", 20, 1, map, Direction.NONE, civs.get(1));
 
         map.showMap();

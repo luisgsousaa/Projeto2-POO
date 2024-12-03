@@ -57,7 +57,60 @@ public class Civilization {
     }
 
 
+    public static void showControlledUnits(Civilization civ) {
+        System.out.println("\nUnidades controladas:");
+        int index = 1;
+        for (Unit u : civ.getControlledUnits()) {
+            System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
+            index++;
+        }
 
+        if (index == 1) {
+            System.out.println("Nao tem unidades na sua civilizacao.");
+        }
+    }
+
+    public static void showControlledUnits(Civilization civ, Class<? extends Unit> unitClass) {
+        if (unitClass == null) {
+            System.out.println("\nClasse fornecida é nula");
+            return;
+        }
+
+        String unitName = "unidade";
+        for (Unit u : civ.getControlledUnits()) {
+            if (unitClass.isInstance(u)) {
+                unitName = u.getUnitName();
+                break;
+            }
+        }
+        System.out.println("\nUnidades " + unitName + " controladas:");
+
+        int index = 1;
+        for (Unit u : civ.getControlledUnits()) {
+            if (unitClass.isInstance(u)) {
+                System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
+                index++;
+            }
+        }
+
+        if (index == 1) {
+            System.out.println("Nao tem unidades " + unitName + " na sua civilizacao.");
+        }
+    }
+
+    // por usar, ver isto depois
+    public static void showControlledCities(Civilization civ) {
+        System.out.println("\nCidades controladas:");
+        int index = 1;
+        for (City c : civ.getControlledCities()) {
+            System.out.println(index + " - " + c.getType() + c.getCityCivNum());
+            index++;
+        }
+
+        if (index == 1) {
+            System.out.println("Nao tem cidades na sua civilizacao.");
+        }
+    }
 
 
 
