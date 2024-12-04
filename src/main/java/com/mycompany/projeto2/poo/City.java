@@ -25,8 +25,14 @@ public class City extends Cell{
     
     
     
-    
-    public City(int x, int y,Map map,int cityNumber){ // encapsulamento?
+    /**
+     * É criada uma nova célula do tipo cidade usando o construtor da super classe, é criada a cidade e os primeiros trabalhadores são atribuidos aos terrenos
+     * @param x coordenada x da cidade, escolhida pelo jogador
+     * @param y coordenada y da cidade, escolhida pelo jogador
+     * @param map referencia do objeto mapa
+     * @param cityNumber número do jogador que é dado à cidade no mapa
+     */
+    public City(int x, int y,Map map,int cityNumber){
         super("C ");
         setCityVariables(map,cityNumber);
         coordX = x;
@@ -49,14 +55,22 @@ public class City extends Cell{
         
         
     } 
-    
+    /**
+     * Array que guarda as camadas de terrenos da cidade, o primeiro é (g)old, o segundo é (i)dustry e o terceiro é (f)ood
+     */
     private void setLayers(){
          layers = new String[4];
          layers[1]="g ";
          layers[2]="i ";
          layers[3]="f ";
     }
-    
+    /**
+     * Função que cria a cidade nas coordenadas passadas ao construtor.
+     * É dado o número da cidade, e esse é apresentado no mapa.
+     * Um ciclo percorre todas as células pertencentes à cidade e muda estas para o tipo de produção correspondente à camada, a função
+     * também calcula o número máximo de trabalhadores da cidade, tendo em conta quantos terrenos possui e as suas caracteristicas.
+     * É dado o valor true a belongs to city para distinguir as células que pertencem a cidades.
+     */
     private void createCity(){
                 
         map.setCell(coordX,coordY,this);
@@ -82,7 +96,13 @@ public class City extends Cell{
 
         }
     }
-
+    
+    /**
+     * Atribui o tipo de produção ás células.
+     * @param x coordenada da célula correspondente
+     * @param y coordenada da célula correspondente
+     * @param index nível em que a célula se encontra que irá afetar qual tipo de produção terá
+     */
     private void setProductionType(int x,int y,int index){
         switch(index){
             case 1:
@@ -98,6 +118,9 @@ public class City extends Cell{
         }
     }
     
+    /**
+     * Adiciona os primeiros trabalhadores aos terrenos, 1 por cada tipo de produção
+     */
     private void setFirstWorkers(){
         addWorkers(1,1);
         addWorkers(2,1);
@@ -108,7 +131,9 @@ public class City extends Cell{
     
     
     
-       // meh
+    /**
+     * Apenas para ajudar
+     */
     private void loopThroughEntireCity(){
         int index = 1;
         while(index <= 3){
@@ -126,7 +151,11 @@ public class City extends Cell{
     
     
     
-
+    /**
+     * É chamada no construtor, dá os valores às variáveis da cidade
+     * @param map referencia do objeto mapa
+     * @param cityNumber número do jogador a quem pertence a cidade
+     */
     private void setCityVariables(Map map,int cityNumber){
         population = STARTING_POPULATION;
         foodResources = STARTING_FOOD_RESOURCES;
@@ -140,12 +169,16 @@ public class City extends Cell{
         updateFoodNecessity();
         setLayers();
     }
-    
+    /**
+     * Atualiza a necessidade de comida tendo em conta a população
+     */
     private void updateFoodNecessity(){
         foodNecessity = population * FOOD_PER_PERSON;
     }
     
-    
+    /**
+     * Determina se a população irá crescer ou não tendo em conta o excesso de comida na reserva
+     */
     private void populationGrowth(){ // ao fim do turno
         double abundance = foodNecessity * (POPULATION_GROWTH_FOOD_MARGIN + 1);
         if(foodReserve > abundance ){
@@ -153,6 +186,9 @@ public class City extends Cell{
         }
     }
     
+    /**
+     * Determina se a população irá diminuir ou não tendo em conta a falta de comida na reserva
+     */
     private void populationDecrease(){ // ao fim do turno
         if(foodReserve < 0){
             population-=1;
@@ -160,10 +196,15 @@ public class City extends Cell{
         foodReserve = 0; // de modo a que nunca fique 0 aos olhos do user
     }
     
+    /*
+    Métodos que retornam as coordenadas da cidade
+    */
     public int getX(){return coordX;}
     public int getY(){return coordY;}
     
-    
+    /**
+     * @return Número total de trabalhadores na cidade, é overwrite da classe cell que diz apenas o número de trabalhadores nessa célula
+     */
     @Override
     public int getNumWorkers(){
         return foodWorkers + industrialWorkers + goldWorkers;
@@ -171,7 +212,13 @@ public class City extends Cell{
     
     
     
-    
+    /**
+     * A função percorre as células correspondentes ao tipo de produção escolhido e verifica se já tem o número máximo de trabalhadores, caso isto aconteça continua, caso contrário
+     * adiciona trabalhadores a essa célula até ela estar cheia, se a quantidade de trabalhadores já adicionada for igual à pretendida o ciclo é quebrado não adicionando mais nenhum.
+     * @param layer camada da cidade escolhida para adicionar trabalhadores
+     * @param quantity quantidade de trabalhadores a serem adicionados
+     * @return booleano que diz se adicionou algum trabalhador ou não
+     */
     public boolean addWorkers(int layer, int quantity){ // 1 gold, 2 industry 3 food
         if(quantity < 0){
             return false;
@@ -204,7 +251,13 @@ public class City extends Cell{
 
         return workersAdded > 0;
     }
-    
+    /**
+     * A função percorre as células correspondentes ao tipo de produção escolhido e verifica se tem 0 trabalhadores, caso isto aconteça continua, caso contrário
+     * remove trabalhadores nessa célula até ela estar vázia, se a quantidade de trabalhadores já removida for igual à pretendida o ciclo é quebrado não removendo mais nenhum.
+     * @param layer camada da cidade escolhida para remover trabalhadores
+     * @param quantity quantidade de trabalhadores a serem adicionados
+     * @return booleano que diz se removeu algum trabalhador ou não
+     */
     public boolean removeWorkers(int layer, int quantity){ // 1 gold, 2 industry 3 food
         if(quantity < 0){
             return false;
@@ -215,10 +268,6 @@ public class City extends Cell{
             for(int x = -1*layer ; x <= 1*layer; x++){
                
                 if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
-                    
-                    
-                    
-                    
                     if(map.getCellNumWorkers(x+coordX,y+coordY) == 0){continue;}
                     else{
                         while(map.getCellNumWorkers(x+coordX,y+coordY) > 0){
@@ -238,7 +287,11 @@ public class City extends Cell{
         return workersRemoved > 0;
     }
     
-    
+    /**
+     * Esta função conta os trabalhadores em cada tipo de produção, é chamada quando são removidos ou adicionados trabalhadores
+     * @param layer camada correspondente ao tipo de produção pretendido
+     * @param action se remove ou adiciona um trabalhador
+     */
     private void countWorkers(int layer,int action){
         if(action != 1 && action != -1){
             return;
@@ -259,6 +312,11 @@ public class City extends Cell{
         
     }
     
+    
+    /**
+     * Percorre todas as células da cidade, se uma célula tiver 0 trabalhadores continua, caso contrário chama a função da classe utilitaria ProduceResources,
+     * que irá calcular a produção dessa célula e adicionar à cidade.
+     */
     private void produceResourcesForCycle(){
         final int CITY_SIZE = 3;
         for(int y = -1*CITY_SIZE ; y <= 1*CITY_SIZE; y++){
@@ -272,6 +330,9 @@ public class City extends Cell{
         }
     }
     
+    /**
+     * Funções usadas para adicionar os recursos que foram produzidos à cidade
+     */
     public void addFoodResources(double a){foodResources+=a;}
     public void addIndustrialResources(double a){industrialResources+=a;}
     public void addGoldResources(double a){goldResources+=a;}

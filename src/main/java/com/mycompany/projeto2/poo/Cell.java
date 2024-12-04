@@ -19,7 +19,11 @@ public class Cell {
     private UtilTerrains terrains;
     private ITerrain selectedTerrain;
 
-
+    /**
+     * O construtor usa uma classe utilitaria para obter os tipos de terreno que existem e comparar o tipo passado como parâmetro com o tipo que define o terreno
+     * @param type os caracteres tirados do ficheiro do mapa que irão dizer qual o tipo de terreno
+     * @throws NullPointerException 
+     */
     public Cell(String type) throws NullPointerException{
 
         terrains = new UtilTerrains();
@@ -31,7 +35,9 @@ public class Cell {
 
         setCellVariables();
     }
-
+    /**
+     * Dá os valores à célula consoante os valores definidos no tipo de terreno
+     */
     private void setCellVariables(){
         this.type = selectedTerrain.getType();
         this.typeShown = selectedTerrain.getType();
@@ -48,7 +54,9 @@ public class Cell {
         this.belongsToCity = false;
         this.unit = null;
     }
-
+    /**
+     * Setters e Getters para gerir as células
+     */
     public Cell getCell(){return this;}
     public Unit getUnit(){return unit;}
     public String getType(){return type;}

@@ -14,6 +14,9 @@ public class TerrainWater implements ITerrain {
     private static double goldProduction;
     private String type, typeShown;
     
+    /**
+     * Definição das váriaveis do tipo de terreno agua usado na interface ITerrain
+     */
     public TerrainWater(){
         this.type = "# ";
         this.typeShown = "# ";
@@ -28,7 +31,9 @@ public class TerrainWater implements ITerrain {
     
     
     
-    
+    /**
+     * Getters para as váriaveis deste tipo de terreno
+     */
     @Override
     public String getType(){return type;}
     @Override

@@ -14,6 +14,10 @@ public class TerrainMountain implements ITerrain {
     private double goldProduction;
     private String type, typeShown;
     
+    
+    /**
+     * Definição das váriaveis do tipo de terreno mountain usado na interface ITerrain
+     */
     public TerrainMountain(){
         this.type = "Z ";
         this.typeShown = "Z ";
@@ -28,7 +32,9 @@ public class TerrainMountain implements ITerrain {
     
     
     
-    
+    /**
+     * Getters para as váriaveis deste tipo de terreno
+     */
     @Override
     public String getType(){return type;}
     @Override

@@ -14,6 +14,9 @@ public class TerrainPlains implements ITerrain {
     private double goldProduction;
     private String type, typeShown;
     
+    /**
+     * Definição das váriaveis do tipo de terreno planicie usado na interface ITerrain
+     */
     public TerrainPlains(){
         this.type = "- ";
         this.typeShown = "- ";
@@ -28,7 +31,9 @@ public class TerrainPlains implements ITerrain {
     
     
     
-    
+    /**
+     * Getters para as váriaveis deste tipo de terreno
+     */
     @Override
     public String getType(){return type;}
     @Override

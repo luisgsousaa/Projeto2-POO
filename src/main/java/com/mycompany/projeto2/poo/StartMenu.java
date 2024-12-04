@@ -7,15 +7,24 @@ import java.util.Scanner;
 public class StartMenu {
     private Map map;
     private static int playerNumbers;
+    
+    //constantes para o máximo e minimo de jogadores
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 4;
     
+    /**
+     * Inicialização do primeiro número atribuido aos jogadores.
+     */
     public StartMenu() {
         playerNumbers = 1;
     }
     
     
-    
+    /**
+     * Apresenta um menu a pedir ao utilizador para escolher quantos jogadores irão jogar
+     * Caso introduza algo errado é pedido para tentar novamente
+     * @return número de jogadores
+     */
     public int chooseHowManyPlayers(){
         System.out.println("Escolha com quantos jogadores quer jogar(Entre " + MIN_PLAYERS + " e " + MAX_PLAYERS + "):");
         boolean success = false;
@@ -41,6 +50,10 @@ public class StartMenu {
         
     }
     
+    /**
+     * Chama a função de escolher e criar o mapa
+     * @return mapa criado
+     */
     public Map chooseMap()throws IOException{
         map = new Map();
         return map;
@@ -101,7 +114,14 @@ public class StartMenu {
         return myCiv;
     }
     
-    
+    /**
+     * Pede ao jogador para escolher as coordenadas da sua primeira cidade e cria-a
+     * Caso receba o erro propagado CoordinatesNotSuitableException pede para tentar novamente, 
+     * caso receba InputMismatchException pede para introduzir numeros inteiros para as coordenadas
+     * 
+     * @param civ referencia da civilização do jogador respetivo
+     * @return retorna a referencia da cidade criada
+     */
     public City chooseFirstCity(Civilization civ){
         boolean success = false;
         CityBuilder builder = null;
