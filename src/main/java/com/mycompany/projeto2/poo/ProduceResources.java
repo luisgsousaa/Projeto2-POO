@@ -1,0 +1,16 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.projeto2.poo;
+
+/**
+ *
+ * @author Admin
+ */
+public class ProduceResources {
+    public static double produce(double production,int productivity, int numWorkers){
+        double produced = production*productivity*numWorkers;
+        return produced;
+    }
+}

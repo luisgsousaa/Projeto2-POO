@@ -15,7 +15,7 @@ public interface ITerrain {
     public int getEntryCost();
     public int getCyclesToTraverse();
     public int getMaxNumWorkers();
-    public int getFoodProduction();
-    public int getIndustrialProduction();
+    public double getFoodProduction();
+    public double getIndustrialProduction();
     public double getGoldProduction();
 }

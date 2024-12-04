@@ -10,8 +10,8 @@ package com.mycompany.projeto2.poo;
  */
 public class TerrainMountain implements ITerrain {
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
-    private int foodProduction, industrialProduction;
-    private static double goldProduction;
+    private double foodProduction, industrialProduction;
+    private double goldProduction;
     private String type, typeShown;
     
     public TerrainMountain(){
@@ -21,9 +21,9 @@ public class TerrainMountain implements ITerrain {
         this.entryCost = 3;
         this.cyclesToTraverse = 2;
         this.maxNumWorkers = 6;
-        this.foodProduction = 4;
+        this.foodProduction = 1.5;
         this.industrialProduction = 1;
-        this.goldProduction = 2;
+        this.goldProduction = 1;
     }
     
     
@@ -42,9 +42,9 @@ public class TerrainMountain implements ITerrain {
     @Override
     public int getMaxNumWorkers(){return maxNumWorkers;}
     @Override
-    public int getFoodProduction(){return foodProduction;}
+    public double getFoodProduction(){return foodProduction;}
     @Override
-    public int getIndustrialProduction(){return industrialProduction;}
+    public double getIndustrialProduction(){return industrialProduction;}
     @Override
     public double getGoldProduction(){return goldProduction;}
 }

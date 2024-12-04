@@ -10,7 +10,7 @@ package com.mycompany.projeto2.poo;
  */
 public class TerrainCity implements ITerrain {
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
-    private int foodProduction, industrialProduction;
+    private double foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown;
     //private Civilization civilization;
@@ -43,9 +43,9 @@ public class TerrainCity implements ITerrain {
     @Override
     public int getMaxNumWorkers(){return maxNumWorkers;}
     @Override
-    public int getFoodProduction(){return foodProduction;}
+    public double getFoodProduction(){return foodProduction;}
     @Override
-    public int getIndustrialProduction(){return industrialProduction;}
+    public double getIndustrialProduction(){return industrialProduction;}
     @Override
     public double getGoldProduction(){return goldProduction;}
 }

@@ -13,7 +13,7 @@ public class City extends Cell{
     private final int STARTING_POPULATION = 3;
     private final int STARTING_FOOD_RESOURCES = 6;
     private final int FOOD_PER_PERSON = 2;
-    private double foodReserve, industrialResources, foodResources, foodNecessity;
+    private double foodReserve,goldResources, industrialResources, foodResources, foodNecessity;
     private final double  POPULATION_GROWTH_FOOD_MARGIN = 0.1; // Margem para crescer a população
     private int cityNumber;
     
@@ -37,6 +37,15 @@ public class City extends Cell{
         createCity();
         setFirstWorkers();
         
+        // teste
+        addWorkers(1,200);
+        addWorkers(3,200);
+        produceResourcesForCycle();
+        
+        System.out.println("Food " + foodResources);
+        System.out.println("Gold " + goldResources);
+        System.out.println("Industrial " + industrialResources);
+        //teste
         
         
     } 
@@ -250,5 +259,28 @@ public class City extends Cell{
         
     }
     
-
+    private void produceResourcesForCycle(){
+        final int CITY_SIZE = 3;
+        for(int y = -1*CITY_SIZE ; y <= 1*CITY_SIZE; y++){
+            for(int x = -1*CITY_SIZE ; x <= 1*CITY_SIZE; x++){
+                Cell currentCell = map.getCell(x+coordX, y+coordY);
+                if(currentCell.getNumWorkers() == 0){continue;}            
+                else{
+                    chooseProduceType(currentCell);
+                }
+            }         
+        }
+    }
+    
+    private void chooseProduceType(Cell currentCell){
+        if(currentCell.getFoodProduction() != 0){
+            foodResources += ProduceResources.produce(currentCell.getFoodProduction(), currentCell.getProductivity(), currentCell.getNumWorkers());
+        }
+        else if(currentCell.getIndustrialProduction()!= 0){
+            industrialResources += ProduceResources.produce(currentCell.getIndustrialProduction(), currentCell.getProductivity(), currentCell.getNumWorkers());
+        }
+        else if(currentCell.getGoldProduction() != 0){
+            goldResources += ProduceResources.produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers());
+        }
+    }
 }

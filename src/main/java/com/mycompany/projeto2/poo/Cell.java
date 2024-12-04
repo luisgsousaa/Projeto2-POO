@@ -11,8 +11,8 @@ package com.mycompany.projeto2.poo;
 public class Cell {
 
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers, numWorkers;
-    private int foodProduction, industrialProduction;
-    private static double goldProduction;
+    private double foodProduction, industrialProduction;
+    private double goldProduction;
     private String type, typeShown, previousTypeShown;//
     private boolean somethingOnTop, belongsToCity;
     private Unit unit;
@@ -59,8 +59,8 @@ public class Cell {
     public int getCyclesToTraverse(){return cyclesToTraverse;}
     public int getMaxNumWorkers(){return maxNumWorkers;}
     public int getNumWorkers(){return numWorkers;}
-    public int getFoodProduction(){return foodProduction;}
-    public int getIndustrialProduction(){return industrialProduction;}
+    public double getFoodProduction(){return foodProduction;}
+    public double getIndustrialProduction(){return industrialProduction;}
     public double getGoldProduction(){return goldProduction;}
     public boolean isSomethingOnTop(){return somethingOnTop;}
     public boolean getBelongsToCity(){return belongsToCity;}
@@ -73,8 +73,20 @@ public class Cell {
     public void setBelongsToCity(boolean input){this.belongsToCity = input;}
     public void setTypeShown(String s){this.typeShown = s;}
     public void changeNumWorkers(int num){this.numWorkers += num;}
-    public void setToFoodProduction(){this.foodProduction=1;}
-    public void setToIndustrialProduction(){this.industrialProduction=1;}
-    public void setToGoldProduction(){this.goldProduction=1;}
+    
+    
+    
+    public void setToFoodProduction(){
+        this.goldProduction=0;
+        this.industrialProduction = 0;
+    }
+    public void setToIndustrialProduction(){
+        this.goldProduction=0;
+        this.foodProduction=0;
+    }
+    public void setToGoldProduction(){
+        this.foodProduction=0;
+        this.industrialProduction=0;
+    }
     
 }
