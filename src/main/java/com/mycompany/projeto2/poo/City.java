@@ -266,21 +266,13 @@ public class City extends Cell{
                 Cell currentCell = map.getCell(x+coordX, y+coordY);
                 if(currentCell.getNumWorkers() == 0){continue;}            
                 else{
-                    chooseProduceType(currentCell);
+                    ProduceResources.chooseProduceType(currentCell,this);
                 }
             }         
         }
     }
     
-    private void chooseProduceType(Cell currentCell){
-        if(currentCell.getFoodProduction() != 0){
-            foodResources += ProduceResources.produce(currentCell.getFoodProduction(), currentCell.getProductivity(), currentCell.getNumWorkers());
-        }
-        else if(currentCell.getIndustrialProduction()!= 0){
-            industrialResources += ProduceResources.produce(currentCell.getIndustrialProduction(), currentCell.getProductivity(), currentCell.getNumWorkers());
-        }
-        else if(currentCell.getGoldProduction() != 0){
-            goldResources += ProduceResources.produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers());
-        }
-    }
+    public void addFoodResources(double a){foodResources+=a;}
+    public void addIndustrialResources(double a){industrialResources+=a;}
+    public void addGoldResources(double a){goldResources+=a;}
 }
