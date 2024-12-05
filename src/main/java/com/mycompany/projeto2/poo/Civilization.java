@@ -5,12 +5,9 @@ import java.util.ArrayList;
 public class Civilization {
 
     private String name;
-    //private int id;
     private int number;
-    private ArrayList<Cell> controlledCells; // por enquanto apenas será apenas cidade
-    private ArrayList<Unit> controlledUnits; // militares, explorrs, producer, spies etc
-    private static ArrayList<String> chosenCivs;
-
+    private ArrayList<City> controlledCities;
+    private ArrayList<Unit> controlledUnits;
     private static ArrayList<String> civNames = new ArrayList<>();
 
     static {
@@ -20,7 +17,6 @@ public class Civilization {
         civNames.add("Bragados");
         civNames.add("Tarugos");
         civNames.add("Cangalhos");
-        chosenCivs = new ArrayList<>();
     }
 
     //construtor com indice
@@ -31,66 +27,113 @@ public class Civilization {
             throw new IllegalArgumentException("Numero de civilizacao invalido. Tente novamente.");
         }
 
-        this.name = civNames.get(indexCivNames); // nome da civilizacao
-        this.number = number; // id/numero da civilizacao (nr do jogador)
-        this.controlledCells = new ArrayList<>();
+        this.name = civNames.get(indexCivNames);
+        this.number = number; // id / nr civ / nr jogador
         this.controlledUnits = new ArrayList<>();
+        this.controlledCities = new ArrayList<>();
     }
 
     // construtor com nome
     public Civilization(String name, int number) {
         this.name = name;
-        //this.id = civNames.indexOf(name);
-        this.number = number; // id/numero da civilizacao (nr do jogador)
-        this.controlledCells = new ArrayList<>();
+        this.number = number; // id / nr civ / nr jogador
+        this.controlledCities = new ArrayList<>();
         this.controlledUnits = new ArrayList<>();
     }
 
-
-    //public int getId() {return id;}
     public int getNumber(){return number;}
     public String getName() {return name;}
     public static ArrayList<String> getCivNames() {return civNames;}
     public ArrayList<Unit> getControlledUnits() {return controlledUnits;}
+    public ArrayList<City> getControlledCities() {return controlledCities;}
 
-    public void addCellToCiv(Cell cell) {controlledCells.add(cell);}
     public void addUnitToCiv(Unit unit) {controlledUnits.add(unit);}
+    public void addCityToCiv(City city) {controlledCities.add(city);}
 
-    public static void addChosenCiv(String civName) {
-        if (!chosenCivs.contains(civName)) {
-            chosenCivs.add(civName);
-        } else {
-            throw new IllegalArgumentException("Essa civilizacao ja foi escolhida.");
-        }
-    }
-    public static boolean isCivChosen(String civName) {return chosenCivs.contains(civName);}
+
 
 
     public static void addCivName(String name) {
-        if (name.isBlank()) { //o is blank é um isempty mais completo pq diz que  '      ' ta vazio
-            throw new IllegalArgumentException("Nome de civilizacao invalido. Tente novamente.");
-        }
-        if (civNames.contains(name)) {
-            throw new IllegalArgumentException("Ja existe uma civilizacao com esse nome.");
-        }
+        if (name.isBlank()) {throw new IllegalArgumentException("Nome de civilizacao invalido. Tente novamente.");}
+        if (civNames.contains(name)) {throw new IllegalArgumentException("Ja existe uma civilizacao com esse nome.");}
         civNames.add(name);
     }
 
 
-    // verificar se ta a funcionar
+    public static void showControlledUnits(Civilization civ) {
+        System.out.println("\nUnidades controladas:");
+        int index = 1;
+        for (Unit u : civ.getControlledUnits()) {
+            System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
+            index++;
+        }
 
-    public void printControlledUnits() {
+        if (index == 1) {
+            System.out.println("A sua civilizacao nao tem unidades.");
+        }
+    }
+
+
+    public static void showControlledUnits(Civilization civ, Class<? extends Unit> unitClass) {
+        if (unitClass == null) {
+            System.out.println("\nClasse fornecida é nula");
+            return;
+        }
+
+        String unitName = "unidade";
+        for (Unit u : civ.getControlledUnits()) {
+            if (unitClass.isInstance(u)) {
+                unitName = u.getUnitName();
+                break;
+            }
+        }
+        System.out.println("\nUnidades " + unitName + " controladas:");
+
+        int index = 1;
+        for (Unit u : civ.getControlledUnits()) {
+            if (unitClass.isInstance(u)) {
+                System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
+                index++;
+            }
+        }
+
+        if (index == 1) {
+            System.out.println("Nao tem unidades " + unitName + " na sua civilizacao.");
+        }
+    }
+
+    // por usar, ver isto depois
+    public static void showControlledCities(Civilization civ) {
+        System.out.println("\nCidades controladas:");
+        int index = 1;
+        for (City c : civ.getControlledCities()) {
+            System.out.println(index + " - " + c.getType() + c.getCityCivNum());
+            index++;
+        }
+
+        if (index == 1) {
+            System.out.println("Nao tem cidades na sua civilizacao.");
+        }
+    }
+
+
+
+
+
+
+
+/// ///////////a parte /////////////////////////////////////////////////////////////
+    public void printControlled() {
         System.out.println("civ " + this.name);
         System.out.println("num unidades controladas " + getControlledUnits().size());
         for (Unit u : controlledUnits) {
             System.out.println(u.getType() + u.getUnitCivNum());
         }
+        System.out.println("num cid controladas " + getControlledCities().size());
+        for (City c : controlledCities) {
+            System.out.println(c.getType() + c.getCityCivNum());
+        }
     }
-
-
-
-
-
 
 
     // notas

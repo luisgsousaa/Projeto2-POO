@@ -1,5 +1,6 @@
 package com.mycompany.projeto2.poo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuManager {
@@ -12,7 +13,7 @@ public class MenuManager {
         this.map = map;
     }
 
-    public void showMenuManager() {
+    public void showMenuManager(Civilization civilization) {
 
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -21,26 +22,27 @@ public class MenuManager {
 
             System.out.println("\nEscolha uma opcao:");
             System.out.println("1 - Mover Unidade");
-            System.out.println("2 - nada");
+            System.out.println("2 - Atacar");
             System.out.println("3 - nada");
             System.out.println("4 - nada");
-            System.out.println("0 - Sair");
+            System.out.println("0 - Terminar jogada.");
 
             choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
                 case 1:
-                    optionMoveUnit(scanner);
+                    optionMoveUnit(scanner,civilization);
                     break;
                 case 2:
+                    optionAttack(scanner,civilization);
                     break;
                 case 3:
                     break;
                 case 4:
                     break;
                 case 0:
-                    break;
+                    return;
                 default:
                     System.out.println("Opcao invalida. Tente novamente.");
             }
@@ -49,60 +51,36 @@ public class MenuManager {
     }
 
 
-    private void optionMoveUnit(Scanner scanner) {
-
-        //aqui vou imprimir unidades da civilizacao da vez do jogador que esta a jogar
-
-        // Unidades da civilizacao jigijge (9):
-        // 1- M (3,10) : 100%
-        // 2- M (54,3) : 100%
-        // 3- E (9,0) : 20%
-        // 4- P (2,1) : 90%
 
 
-        System.out.println("\nInsira as coordenadas da unidade que deseja mover separado por virgulas:");
-        String[] coords_array = scanner.nextLine().split(","); // slipt serve para dividir string que tem separadores (no caso virgulas) em arrays, por isso vamos ter um array de 2 elementos para cada coordenada
 
-        if (coords_array.length != 2) { // se o array nao tiver 2 elementos é pq algo ta mal
-            System.out.println("\nCoordenadas invalidas. Tente novamente.");
-            return;
-        }
+    private void optionMoveUnit(Scanner scanner, Civilization civilization) {
+
+        Civilization.showControlledUnits(civilization);
+
+        System.out.println("\nIndique a unidade que pretende mover:");
 
         try {
-            // cobre o caso do utilizador fazer '  4   ,   20   ', retira espaços em branco e converte para int
-            int x = Integer.parseInt(coords_array[0].trim());
-            int y = Integer.parseInt(coords_array[1].trim());
+            int unitIndex = Integer.parseInt(scanner.nextLine().trim());
 
-            if (x < 0 || x >= map.getWidth() || y < 0 || y >= map.getHeight()) {
-                System.out.println("\nCoordenadas fora dos limites do mapa. Tente novamente.");
+            if (unitIndex < 1 || unitIndex > civilization.getControlledUnits().size()) {
+                System.out.println("\nNúmero inválido. Tente novamente.");
                 return;
             }
 
-            Cell cell = map.getCell(x, y);
-            unit = cell.getUnit();
-
-            if (cell.getUnit() == null) {
-                System.out.println("\nEssas coordenadas nao sao de uma unidade. Tente novamente.");
-                return;
-            }
-            
-            /*
-            if (unit.getUnitCiv() != ){
-                System.out.println("\nEssa unidade nao é da sua civilizacao. Tente novamente.");
-                return;
-            }*/
+            Unit unit = civilization.getControlledUnits().get(unitIndex - 1);
 
             if (unit.getSteps() == 0) {
-                System.out.println("\nEssa unidade e fixa. Tente novamente.");
+                System.out.println("\nEssa unidade é fixa. Tente novamente.");
                 return;
             }
 
-            int initialX = x;
-            int initialY = y;
+            int initialX = unit.getCoordX();
+            int initialY = unit.getCoordY();
 
             if (unit.getSteps() == 1) {
 
-                System.out.println("\nIndique a direcao do passo.");
+                System.out.println("\nIndique a direcao do passo:");
                 String letter = scanner.nextLine().toLowerCase().trim();
 
                 if (letter.length() != 1) {
@@ -121,8 +99,7 @@ public class MenuManager {
                 }
             }
 
-            if (unit.getSteps() > 1) {
-
+            else {
                 System.out.printf("\nPode dar ate %d passos. Indique a direcao do(s) passo(s) que pretende fazer sem espacos:%n", unit.getSteps()); //%n é para ir pa outra linha, no println e nao é preciso pq ja faz automaticamente
                 String input_dirs = scanner.nextLine().toLowerCase().trim();
 
@@ -158,6 +135,9 @@ public class MenuManager {
         }
     }
 
+
+
+
     private Direction inputToEnumDirection(String input) {
         switch (input) {
             case "c": return Direction.UP;
@@ -167,6 +147,99 @@ public class MenuManager {
             default: return null;
         }
     }
+
+
+
+    private void optionAttack(Scanner scanner, Civilization civilization) {
+
+        ArrayList<Unit> attackingUnits = new ArrayList<>();
+
+        for (Unit unit : civilization.getControlledUnits()) {
+            if (unit.getAttackDamage() > 0) {
+                attackingUnits.add(unit);
+            }
+        }
+
+        if (attackingUnits.isEmpty()) {
+            System.out.println("\nNao tem unidades atacantes na sua civilizacao.");
+            return;
+        }
+
+
+        boolean foundEnemy = false;
+
+        for (Unit attacker : attackingUnits) {
+            int x = attacker.getCoordX();
+            int y = attacker.getCoordY();
+
+            Unit enemyToAttack = null;
+            ArrayList<Unit> adjacentEnemies = new ArrayList<>();
+
+            int[][] directions = {
+                    {0, -1}, // c
+                    {0, 1},  // b
+                    {-1, 0}, // e
+                    {1, 0}   // d
+            };
+
+            for (int[] dir : directions) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+
+                Cell adjacentCell = map.getCell(newX, newY);
+                if (adjacentCell.isSomethingOnTop()) {
+                    Unit potentialEnemy = adjacentCell.getUnit();
+                    if (!potentialEnemy.getUnitCiv().equals(attacker.getUnitCiv())) {
+                        adjacentEnemies.add(potentialEnemy);
+                    }
+                }
+            }
+
+            if (adjacentEnemies.isEmpty()) {
+                continue;
+            }
+
+            foundEnemy = true;
+
+            if (adjacentEnemies.size() == 1) {
+                enemyToAttack = adjacentEnemies.get(0);
+            } else {
+                System.out.println("\nIndique o inimigo que pretende atacar:");
+                for (int i = 0; i < adjacentEnemies.size(); i++) {
+                    Unit enemy = adjacentEnemies.get(i);
+                    System.out.printf("%d - %s (%d, %d) : %dHP%n",
+                            i + 1, enemy.getType() + enemy.getUnitCivNum(), enemy.getCoordX(), enemy.getCoordY(), enemy.getLife());
+                }
+
+                int choice = -1;
+                while (choice < 1 || choice > adjacentEnemies.size()) {
+                    choice = scanner.nextInt();
+                }
+                enemyToAttack = adjacentEnemies.get(choice - 1);
+            }
+
+            if (enemyToAttack != null) {
+                enemyToAttack.takeDamage(attacker.getAttackDamage());
+
+                if (!enemyToAttack.isAlive()) {
+                    System.out.printf("\n%s (%d,%d) morreu.%n", enemyToAttack.getType()+ enemyToAttack.getUnitCivNum(), enemyToAttack.getCoordX(), enemyToAttack.getCoordY());
+                    enemyToAttack.die(map);
+                    map.showMap();
+                } else {
+                    System.out.printf("\n%s (%d,%d) agora tem %dHP.%n", enemyToAttack.getType()+ enemyToAttack.getUnitCivNum(), enemyToAttack.getCoordX(), enemyToAttack.getCoordY(), enemyToAttack.getLife());
+                    map.showMap();
+                }
+            }
+        }
+
+        if (!foundEnemy) {
+            System.out.println("Nao tem unidades atacantes adjacentes a um inimigo. Aproxime-se da entidade que pretende atacar e tente novamente.");
+        }
+    }
+
+
+
+
 
 
 }

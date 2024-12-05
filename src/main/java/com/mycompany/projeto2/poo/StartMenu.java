@@ -18,6 +18,14 @@ public class StartMenu {
     public StartMenu() {
         playerNumbers = 1;
     }
+
+
+    /*
+    public void startingText(){
+        System.out.println("fdsdjfsdsf");
+    }*/
+    
+
     
     
     /**
@@ -25,6 +33,7 @@ public class StartMenu {
      * Caso introduza algo errado é pedido para tentar novamente
      * @return número de jogadores
      */
+
     public int chooseHowManyPlayers(){
         System.out.println("Escolha com quantos jogadores quer jogar(Entre " + MIN_PLAYERS + " e " + MAX_PLAYERS + "):");
         boolean success = false;
@@ -70,7 +79,7 @@ public class StartMenu {
             System.out.println("\nEscolha uma civilizacao para o jogador " + playerNumbers + " desta lista ou escreva -1 para criar a sua.");
 
             for (int i = 0; i < Civilization.getCivNames().size(); i++) {
-                System.out.println(i + ": " + Civilization.getCivNames().get(i));
+                System.out.println((i+1) + "- " + Civilization.getCivNames().get(i));
             }
 
             int civ_num;
@@ -83,22 +92,11 @@ public class StartMenu {
                     System.out.println("\nQual sera o nome da tua civilizacao?");
                     String civ_name = scanner.nextLine();
 
-                    if (Civilization.isCivChosen(civ_name)) {
-                        System.out.println("\nEssa civilização ja foi escolhida.");
-                        continue;
-                    }
-
                     Civilization.addCivName(civ_name);
-                    Civilization.addChosenCiv(civ_name);
+
                     myCiv = new Civilization(civ_name,playerNumbers);
                 } else {
-                    if (Civilization.isCivChosen(Civilization.getCivNames().get(civ_num))) {
-                        System.out.println("\nEssa civilização ja foi escolhida.");
-                        continue;
-                    }
-
-                    Civilization.addChosenCiv(Civilization.getCivNames().get(civ_num));
-                    myCiv = new Civilization(civ_num,playerNumbers);
+                    myCiv = new Civilization(civ_num-1,playerNumbers);
                 }
 
                 System.out.println("\nO jogador "+  playerNumbers  +" vai jogar com a civilizacao " + myCiv.getName() + ".");
@@ -141,7 +139,7 @@ public class StartMenu {
                 
                 builder = new CityBuilder(coordX, coordY,map,civ.getNumber());
                 
-                return builder.createCity();
+                return builder.createCity(civ);
             }
             catch(CoordinatesNotSuitableException e){
                 System.out.println("Tente novamente");

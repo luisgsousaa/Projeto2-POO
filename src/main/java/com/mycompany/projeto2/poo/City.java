@@ -22,8 +22,11 @@ public class City extends Cell{
     private String[] layers;
     private Map map;
     private final int coordX, coordY;
+
+    private Civilization civilization;
     
     
+
     
     /**
      * É criada uma nova célula do tipo cidade usando o construtor da super classe, é criada a cidade e os primeiros trabalhadores são atribuidos aos terrenos
@@ -32,17 +35,20 @@ public class City extends Cell{
      * @param map referencia do objeto mapa
      * @param cityNumber número do jogador que é dado à cidade no mapa
      */
-    public City(int x, int y,Map map,int cityNumber){
+    public City(int x, int y,Map map,int cityNumber, Civilization civilization){
         super("C ");
         setCityVariables(map,cityNumber);
         coordX = x;
         coordY = y;
-        
+        this.civilization = civilization;
         
         
         createCity();
         setFirstWorkers();
+
+        civilization.addCityToCiv(this);
         
+
         // teste
         addWorkers(1,200);
         addWorkers(3,200);
@@ -55,9 +61,12 @@ public class City extends Cell{
         
         
     } 
+  
+  public int getCityCivNum() {return civilization.getNumber();}
     /**
      * Array que guarda as camadas de terrenos da cidade, o primeiro é (g)old, o segundo é (i)dustry e o terceiro é (f)ood
      */
+
     private void setLayers(){
          layers = new String[4];
          layers[1]="g ";

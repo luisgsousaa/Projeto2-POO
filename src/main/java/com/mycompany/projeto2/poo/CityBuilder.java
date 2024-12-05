@@ -24,14 +24,16 @@ public class CityBuilder {
        this.cityNumber=cityNumber;
        this.map=map;
     }
+
     /**
      * Cria a cidade com os parametros desejados e retorna a sua referencia
      * @return referencia da cidade criada
      * @throws CoordinatesNotSuitableException informa que as coordenadas escolhidas não são adequadas
      */
-    public City createCity()throws CoordinatesNotSuitableException{
+    public City createCity(Civilization civilization)throws CoordinatesNotSuitableException{
+
         if(checkCoordinates()){
-            City cidade = new City(coordX,coordY,map,cityNumber);
+            City cidade = new City(coordX,coordY,map,cityNumber,civilization);
             return cidade;
         }
         return null;    
