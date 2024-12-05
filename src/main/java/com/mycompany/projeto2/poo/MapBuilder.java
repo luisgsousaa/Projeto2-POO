@@ -18,7 +18,9 @@ import java.util.Scanner;
  * @author Admin
  */
 public class MapBuilder {
-
+    /**
+     * Constantes para os tamanhos minimos e maximos do mapa de altura e largura, caso estes não sejam cumpridos é apresentada a opção de jogar com o mapa default
+     */
     private final int  MIN_MAP_WIDTH = 20;
     private final int MAX_MAP_WIDTH = 70;
     private final int MIN_MAP_HEIGHT = 7;
@@ -33,7 +35,10 @@ public class MapBuilder {
         calculateCellProductivity();
         
     }
-
+    /**
+     * Apresenta um menu com os mapas presentes na pasta do projeto, se tiver vazia o mapa default é escolhido
+     * @return se foram apresentados os mapas é retornado true caso contrario false
+     */
     private boolean getMapSelection(){
         File folder = new File("."); //pasta do projeto onde se econtram os ficheiros
 
@@ -54,7 +59,13 @@ public class MapBuilder {
         }
         return true;
     }
-
+    
+    
+    /**
+     * Pede ao utilizador para escolher um dos mapas anteriormente apresentados.
+     * Caso escolha um valor não permitido volta a pedir para escolher um dos mapas.
+     * @return retorna o indice do mapa escolhido
+     */
     private int selectMap(){
 
         System.out.println("Escolha um dos maps");
@@ -84,7 +95,12 @@ public class MapBuilder {
 
         return input;
     }
-
+    
+    /**
+     * Mapa default para ser usado no caso de problemas na leitura dos ficheiros.
+     * Função usada para criar este mapa para ser usado no jogo
+     * @return referencia do mapa criado
+     */
     private Cell[][] getDefaultMap(){
         String[][] map ={
                 {"- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",  "- ",},
@@ -123,7 +139,9 @@ public class MapBuilder {
 
         return newMap;
     }
-
+    /**
+     * Perguna ao jogador se quer jogar com o mapa predefinido, caso queira clica enter e é chamada a função getDefaultMap()
+     */
     private void setDefaultMap(){
         System.out.println("Se quiser carregar o map predefinido clique no enter");
         Scanner scan = new Scanner(System.in);
@@ -133,7 +151,14 @@ public class MapBuilder {
         }
     }
 
-
+    /**
+     * Função que lê o ficheiro do mapa escolhido pelo utilizador,tendo em conta a sua formatação, e cria um array bidimensional com as dimensões necessarias para esse mapa.
+     * É verificado se o tamanho do mapa está dentro dos limites definidos nas constantes
+     * @param file nome do ficheiro a ser lido
+     * @return Retorna true caso ocorra sem problemas
+     * @throws FileNotFoundException caso o ficheiro não seja encontrado
+     * @throws IOException caso aconteça algum problema ao ler o ficheiro
+     */
     private boolean initializeMapArray(String file) throws FileNotFoundException, IOException{
         try{
             FileReader inStream = new FileReader(file); // falta meter os try catch
@@ -192,7 +217,16 @@ public class MapBuilder {
 
 
 
-
+    /**
+     * Função que lê o ficheiro do mapa escolhido e cria as células para preencher o array bidimensional tendo em conta o simbolo que está no ficheiro que corresponde a um certo tipo de terreno.
+     * Caso o tipo não seja conhecido é criada ma célula do tipo planicie.
+     * É usado uma simbolo e um espaço para poder apresentar simbolos com duas letras sem estragar a formatação do mapa.
+     * Caso haja algum erro na formatação do ficheiro o mapa default vai ser sugerido para continuar, é também verificado se existe alguma célula null no array que pode aparecer devido a má
+     * formatação do ficheiro, neste caso o mapa default é sugerido para continuar.
+     * @param file nome do ficheiro a ser lido
+     * @throws FileNotFoundException caso o ficheiro não seja encontrado
+     * @throws IOException caso aconteça algum problema ao ler o ficheiro
+     */
     private void readMapFile(String file) throws FileNotFoundException, IOException{
         try{
             FileReader inStream = new FileReader(file);
@@ -271,7 +305,9 @@ public class MapBuilder {
     }
 
 
-
+    /**
+     * Se a getMapSelection apresentar opções o input irá guardar a que foi escolhida e é lido o respetivo ficheiro nas funções seguintes.
+     */
     private void initializeGameMap() throws IOException{
         if(getMapSelection()){
             int input = selectMap();
@@ -283,14 +319,19 @@ public class MapBuilder {
         }
 
     }
-
+    
+    /**
+     * @return referencia do array bidimensional que representa o mapa criado
+     */
     public Cell[][] getMap(){
         return map;
     }
     
+    /**
+     * Percorre o mapa e verifica se a célula a ser lida é agua, se for passa para a proxima, caso contrario verifica se existem células de agua por perto, 
+     * caso isto se verifique a produtividade dessa célula é multiplicada por um valor constante.
+     */
     private void calculateCellProductivity(){
-        int coordX=0;
-        int coordY=0;
         ITerrain water = new TerrainWater();
         final double MULTIPLIER = 2;
         
@@ -313,7 +354,13 @@ public class MapBuilder {
                         
     }
     
-    
+    /**
+     * Verifica num raio de 1 célula se há alguma célula de agua, caso tente aceder a células fora do array, por exemplo nas bordas do mapa, 
+     * irá ser tratado o erro de modo a não crashar
+     * @param coordX coordenada x do centro da busca
+     * @param coordY coordenada y do centro da busca
+     * @return caso tenha agua no raio pretendido retorna true, caso contrario false
+     */
     private boolean checkNearbyWaterCells(int coordX, int coordY){
         ITerrain water = new TerrainWater();
         for(int y = -1 ; y <= 1; y++){

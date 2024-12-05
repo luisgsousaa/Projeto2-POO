@@ -9,6 +9,9 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class CoordinatesNotSuitableException extends Exception {
+    /**
+     * É usado quando as coordenadas escolhidas não são adequadas
+     */
     public CoordinatesNotSuitableException(){
         super();
     }

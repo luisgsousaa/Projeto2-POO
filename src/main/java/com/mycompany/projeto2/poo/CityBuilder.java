@@ -11,15 +11,27 @@ package com.mycompany.projeto2.poo;
 public class CityBuilder {
     private Map map;
     private int coordX,coordY,cityNumber;
-    
+    /**
+     * 
+     * @param coordX coordenada x escolhida para o centro da cidade pelo jogador
+     * @param coordY coordenada y escolhida para o centro da cidade pelo jogador
+     * @param map referencia do objeto mapa
+     * @param cityNumber número do jogador a quem irá pertencer a cidade
+     */
     public CityBuilder(int coordX, int coordY, Map map,int cityNumber){
        this.coordX=coordX;
        this.coordY=coordY;
        this.cityNumber=cityNumber;
        this.map=map;
     }
-    
+
+    /**
+     * Cria a cidade com os parametros desejados e retorna a sua referencia
+     * @return referencia da cidade criada
+     * @throws CoordinatesNotSuitableException informa que as coordenadas escolhidas não são adequadas
+     */
     public City createCity(Civilization civilization)throws CoordinatesNotSuitableException{
+
         if(checkCoordinates()){
             City cidade = new City(coordX,coordY,map,cityNumber,civilization);
             return cidade;
@@ -27,7 +39,13 @@ public class CityBuilder {
         return null;    
     }
     
-    
+    /**
+     * Verifica se a cidade está a uma distancia adequada das bordas do mapa, para não ficar fora deste,
+     * se o tereno é adequado, neste caso se o custo de entrada é -1 ou se tem algo em baixo, por exemplo uma unidade,
+     * se esta à distancia permitida de outra cidade
+     * @return booleano que informa se pode ser construida a cidade, apenas é retornado um valor se todas as condições anteriores são falsas
+     * @throws CoordinatesNotSuitableException informa que as coordenadas escolhidas não são adequadas
+     */
     private boolean checkCoordinates()throws CoordinatesNotSuitableException{
         if(coordX<3 || coordX > (map.getWidth()-4) || coordY<3 || coordY>(map.getHeight()-4)){
             System.out.println("O centro da cidade tem de estar a pelo menos 4 celulas de distancia das bordas do mapa");
@@ -50,7 +68,12 @@ public class CityBuilder {
     
         
     
-        
+    /**
+     * Verifica se há algo onde a cidade irá ser construida, com valor de entryCost = -1 ou com a variavel isSomethinOnTop verdadeira
+     * @param coordX coordenada x escolhida para o centro da cidade pelo jogador
+     * @param coordY coordenada y escolhida para o centro da cidade pelo jogador
+     * @return booleano que informa se a cidade pode ser construida ou não
+     */
     private boolean isTerrainAdequate(int coordX,int coordY){
         int index = 1;
         while(index <= 3){
@@ -69,7 +92,12 @@ public class CityBuilder {
         return true;
     }
 
-
+    /**
+     * Verifica se as coordenadas escolhidas estão à distancia necessária de outras cidades
+     * @param coordX coordenada x escolhida para o centro da cidade pelo jogador
+     * @param coordY coordenada y escolhida para o centro da cidade pelo jogador
+     * @return booleano que informa se a cidade pode ser construida ou não
+     */
     private boolean isFarFromCities(int coordX,int coordY){
         int index = 1;
         while(index <= 6){

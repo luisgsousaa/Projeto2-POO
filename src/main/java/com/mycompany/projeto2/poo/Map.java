@@ -14,7 +14,9 @@ public class Map {
    private static Cell[][] map; // mudar para celulas
    private int width;
    private int height;
-   
+   /**
+    * Cria o mapa e apresenta-o na consola
+    */
    public Map() throws IOException{
        MapBuilder mapBuilder = new MapBuilder();
        map = mapBuilder.getMap();
@@ -28,7 +30,10 @@ public class Map {
        
        
    }
-
+   /**
+    * Função que imprime o mapa na consola, mostrando os simbolos de cada célula, percorre o array bidimensional para apresentar o mapa e escreve as coordenadas
+    * x e y para facilitar a visualização
+    */
    public void showMap(){
 
        System.out.println(); // pa separar do input
@@ -57,6 +62,10 @@ public class Map {
         }
     }
    
+   /**
+    * Dá um espaço maior ou mais pequeno consoante o número das coordenadas, é usado para as dezenas para manter o alinhamento dos números e das células
+    * @param i número apresentado, usado para determinar se é necessario 2 espaços ou apenas 1.
+    */
    private void coordinatesOffset(int i){
         if(i<10){
                 System.out.print("  ");
@@ -65,8 +74,13 @@ public class Map {
                 System.out.print(" ");
             }
     }
-   
-    public Cell getCell(int x, int y){ // mudar para cell
+   /**
+    * Retorna a célula das coordenadas passadas como parametro
+    * @param x coordenada x da célula pretendida
+    * @param y coordenada y da célula pretendida
+    * @return célula pretendida
+    */
+    public Cell getCell(int x, int y){
         
         try{
             return map[x][y];
@@ -78,7 +92,9 @@ public class Map {
     
     
     
-    
+    /**
+     * Getters e Setters para gerir o mapa
+     */
     public int getWidth(){return map.length;}
     public int getHeight(){return map[0].length;}
     public int getCellEntryCost(int x, int y){return map[x][y].getEntryCost();}
