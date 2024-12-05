@@ -42,7 +42,7 @@ public class Map {
         
         for(int i = 0; i<width;i++){ // Coordenadas X
             System.out.print(i);
-            //coordinatesOffset(i); // offset para alinhar com as células devido aos números das dezenas
+            coordinatesOffset(i); // offset para alinhar com as células devido aos números das dezenas
             
         }
         System.out.println(); // Linha a baixo
