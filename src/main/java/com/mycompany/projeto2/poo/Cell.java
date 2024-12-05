@@ -64,6 +64,10 @@ public class Cell {
     public double getGoldProduction(){return goldProduction;}
     public boolean isSomethingOnTop(){return somethingOnTop;}
     public boolean getBelongsToCity(){return belongsToCity;}
+    public void removeUnit() {
+        this.unit = null;
+        this.somethingOnTop = false;
+    }
 
     public void setUnit(Unit unit) {this.unit = unit;}
     public void setSomethingOnTop(boolean input){this.somethingOnTop = input;} // usado para indicar que ta alguma coisa por "cima" de uma celula

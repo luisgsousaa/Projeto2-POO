@@ -10,16 +10,17 @@ public abstract class Unit implements Life {
     private int productionCost; // em recursos industriais
     private int productionDelay; //nr ciclos a serem criados
     private Civilization civilization;
-    private int life;
+    private int life, attackDamage;
 
-    public Unit(String type, Civilization civilization, int steps, double maintenanceCost, int productionCost, int productionDelay, int life) {
+    public Unit(String type, Civilization civilization, int steps, double maintenanceCost, int productionCost, int productionDelay, int life, int attackDamage) {
         this.type = type;
         this.civilization = civilization;
         this.steps = steps;
         this.productionCost = productionCost;
         this.productionDelay = productionDelay;
         this.maintenanceCost = maintenanceCost;
-        this.life = 100;
+        this.life = life;
+        this.attackDamage = attackDamage;
         civilization.addUnitToCiv(this);
     }
 
@@ -35,13 +36,25 @@ public abstract class Unit implements Life {
     public Civilization getUnitCiv() {return civilization;}
     public String getUnitCivName() {return civilization.getName();}
     public int getLife() {return this.life;}
+    public int getAttackDamage(){return this.attackDamage;}
     public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
     public void heal(int amount) {this.life += amount;}
     public boolean isAlive() {return this.life > 0;}
 
-    public void die() {
-        System.out.println("A unidade " + this.type + " (" + this.coordX + ", " + this.coordY + ") do jogador " + getUnitCivNum() + " (" + getUnitCivName() + ") moreu.");
+
+    public void removeUnitFromCiv() {civilization.getControlledUnits().remove(this);}
+    public void die(Map map) {
+
+        Cell c = map.getCell(coordX, coordY);
+
+        if (c != null) {
+            c.removeUnit();
+            c.setTypeShown(c.getPreviousTypeShown());
+        }
+
+        removeUnitFromCiv();
     }
+
     public abstract String getUnitName();
     public void setLife(int life) {this.life = life;}
     public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}

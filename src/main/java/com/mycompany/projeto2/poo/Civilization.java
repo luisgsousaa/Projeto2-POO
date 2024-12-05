@@ -50,6 +50,9 @@ public class Civilization {
     public void addUnitToCiv(Unit unit) {controlledUnits.add(unit);}
     public void addCityToCiv(City city) {controlledCities.add(city);}
 
+
+
+
     public static void addCivName(String name) {
         if (name.isBlank()) {throw new IllegalArgumentException("Nome de civilizacao invalido. Tente novamente.");}
         if (civNames.contains(name)) {throw new IllegalArgumentException("Ja existe uma civilizacao com esse nome.");}
@@ -69,6 +72,7 @@ public class Civilization {
             System.out.println("Nao tem unidades na sua civilizacao.");
         }
     }
+
 
     public static void showControlledUnits(Civilization civ, Class<? extends Unit> unitClass) {
         if (unitClass == null) {

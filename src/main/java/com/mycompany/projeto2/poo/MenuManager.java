@@ -1,5 +1,6 @@
 package com.mycompany.projeto2.poo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuManager {
@@ -34,6 +35,7 @@ public class MenuManager {
                     optionMoveUnit(scanner,civilization);
                     break;
                 case 2:
+                    optionAttack(scanner,civilization);
                     break;
                 case 3:
                     break;
@@ -181,21 +183,91 @@ public class MenuManager {
 
 
 
-
-
-
-
     private void optionAttack(Scanner scanner, Civilization civilization) {
-        Civilization.showControlledUnits(civilization,UnitMilitary.class);
+
+        ArrayList<Unit> attackingUnits = new ArrayList<>();
+
+        for (Unit unit : civilization.getControlledUnits()) {
+            if (unit.getAttackDamage() > 0) {
+                attackingUnits.add(unit);
+            }
+        }
+
+        if (attackingUnits.isEmpty()) {
+            System.out.println("Nao tem unidades atacantes na sua civilizacao.");
+            return;
+        }
+
+
+        boolean foundEnemy = false;
+
+        for (Unit attacker : attackingUnits) {
+            int x = attacker.getCoordX();
+            int y = attacker.getCoordY();
+
+            Unit enemyToAttack = null;
+            ArrayList<Unit> adjacentEnemies = new ArrayList<>();
+
+            int[][] directions = {
+                    {0, -1}, // c
+                    {0, 1},  // b
+                    {-1, 0}, // e
+                    {1, 0}   // d
+            };
+
+            for (int[] dir : directions) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+
+                Cell adjacentCell = map.getCell(newX, newY);
+                if (adjacentCell.isSomethingOnTop()) {
+                    Unit potentialEnemy = adjacentCell.getUnit();
+                    if (!potentialEnemy.getUnitCiv().equals(attacker.getUnitCiv())) {
+                        adjacentEnemies.add(potentialEnemy);
+                    }
+                }
+            }
+
+            if (adjacentEnemies.isEmpty()) {
+                continue;
+            }
+
+            foundEnemy = true;
+
+            if (adjacentEnemies.size() == 1) {
+                enemyToAttack = adjacentEnemies.get(0);
+            } else {
+                System.out.println("Escolha qual inimigo atacar:");
+                for (int i = 0; i < adjacentEnemies.size(); i++) {
+                    Unit enemy = adjacentEnemies.get(i);
+                    System.out.printf("%d - %s (%d, %d) | %d%n",
+                            i + 1, enemy.getType() + enemy.getUnitCivNum(), enemy.getCoordX(), enemy.getCoordY(), enemy.getLife());
+                }
+
+                int choice = -1;
+                while (choice < 1 || choice > adjacentEnemies.size()) {
+                    choice = scanner.nextInt();
+                }
+                enemyToAttack = adjacentEnemies.get(choice - 1);
+            }
+
+            if (enemyToAttack != null) {
+                enemyToAttack.takeDamage(attacker.getAttackDamage());
+
+                if (!enemyToAttack.isAlive()) {
+                    System.out.printf("%s (%d, %d) foi morto.%n", enemyToAttack.getType()+ enemyToAttack.getUnitCivNum(), enemyToAttack.getCoordX(), enemyToAttack.getCoordY());
+                    enemyToAttack.die(map);
+                } else {
+                    System.out.printf("%s (%d, %d) agora tem %d de vida.%n", enemyToAttack.getType()+ enemyToAttack.getUnitCivNum(), enemyToAttack.getCoordX(), enemyToAttack.getCoordY(), enemyToAttack.getLife());
+                }
+            }
+        }
+
+
+        if (!foundEnemy) {
+            System.out.println("Nao tem unidades atacantes adjacentes a um inimigo. Aproxime-se da entidade que pretende atacar e tente novamente.");
+        }
     }
-
-
-
-
-
-
-
-
 
 
 }

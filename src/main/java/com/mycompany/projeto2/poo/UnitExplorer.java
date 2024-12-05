@@ -6,7 +6,7 @@ public class UnitExplorer extends Unit{
     private static final String NAME = "Explorer";
 
     public UnitExplorer (int x, int y, Map map, Direction direction, Civilization civilization){
-        super("E", civilization,  1, 0, 2, 1,100);
+        super("E", civilization,  1, 0, 2, 1,100,0);
         //"E" + civilization.getId(),
         this.setCoordX(x);
         this.setCoordY(y);
