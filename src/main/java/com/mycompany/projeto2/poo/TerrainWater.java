@@ -14,6 +14,9 @@ public class TerrainWater implements ITerrain {
     private static double goldProduction;
     private String type, typeShown;
     
+    /**
+     * Definição das váriaveis do tipo de terreno agua usado na interface ITerrain
+     */
     public TerrainWater(){
         this.type = "# ";
         this.typeShown = "# ";
@@ -28,7 +31,9 @@ public class TerrainWater implements ITerrain {
     
     
     
-    
+    /**
+     * Getters para as váriaveis deste tipo de terreno
+     */
     @Override
     public String getType(){return type;}
     @Override
@@ -42,9 +47,9 @@ public class TerrainWater implements ITerrain {
     @Override
     public int getMaxNumWorkers(){return maxNumWorkers;}
     @Override
-    public int getFoodProduction(){return foodProduction;}
+    public double getFoodProduction(){return foodProduction;}
     @Override
-    public int getIndustrialProduction(){return industrialProduction;}
+    public double getIndustrialProduction(){return industrialProduction;}
     @Override
     public double getGoldProduction(){return goldProduction;}
 }

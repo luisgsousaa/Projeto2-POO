@@ -10,10 +10,13 @@ package com.mycompany.projeto2.poo;
  */
 public class TerrainPlains implements ITerrain {
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
-    private int foodProduction, industrialProduction;
-    private static double goldProduction;
+    private double foodProduction, industrialProduction;
+    private double goldProduction;
     private String type, typeShown;
     
+    /**
+     * Definição das váriaveis do tipo de terreno planicie usado na interface ITerrain
+     */
     public TerrainPlains(){
         this.type = "- ";
         this.typeShown = "- ";
@@ -21,14 +24,16 @@ public class TerrainPlains implements ITerrain {
         this.entryCost = 1;
         this.cyclesToTraverse = 1;
         this.maxNumWorkers = 10;
-        this.foodProduction = 2;
-        this.industrialProduction = 3;
+        this.foodProduction = 4;
+        this.industrialProduction = 2;
         this.goldProduction = 0.5;
     }
     
     
     
-    
+    /**
+     * Getters para as váriaveis deste tipo de terreno
+     */
     @Override
     public String getType(){return type;}
     @Override
@@ -42,9 +47,9 @@ public class TerrainPlains implements ITerrain {
     @Override
     public int getMaxNumWorkers(){return maxNumWorkers;}
     @Override
-    public int getFoodProduction(){return foodProduction;}
+    public double getFoodProduction(){return foodProduction;}
     @Override
-    public int getIndustrialProduction(){return industrialProduction;}
+    public double getIndustrialProduction(){return industrialProduction;}
     @Override
     public double getGoldProduction(){return goldProduction;}
 }

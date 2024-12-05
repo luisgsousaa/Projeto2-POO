@@ -10,11 +10,14 @@ package com.mycompany.projeto2.poo;
  */
 public class TerrainCity implements ITerrain {
     private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
-    private int foodProduction, industrialProduction;
+    private double foodProduction, industrialProduction;
     private static double goldProduction;
     private String type, typeShown;
     //private Civilization civilization;
-
+    
+    /**
+     * Definição das váriaveis do tipo de terreno cidade usado na interface ITerrain
+     */
     public TerrainCity(){
         this.type = "C ";
         this.typeShown = "C ";
@@ -29,7 +32,9 @@ public class TerrainCity implements ITerrain {
 
 
 
-
+    /**
+     * Getters para as váriaveis deste tipo de terreno
+     */
     @Override
     public String getType(){return type;}
     @Override
@@ -43,9 +48,9 @@ public class TerrainCity implements ITerrain {
     @Override
     public int getMaxNumWorkers(){return maxNumWorkers;}
     @Override
-    public int getFoodProduction(){return foodProduction;}
+    public double getFoodProduction(){return foodProduction;}
     @Override
-    public int getIndustrialProduction(){return industrialProduction;}
+    public double getIndustrialProduction(){return industrialProduction;}
     @Override
     public double getGoldProduction(){return goldProduction;}
 }
