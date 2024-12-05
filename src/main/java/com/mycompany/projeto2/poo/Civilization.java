@@ -69,7 +69,7 @@ public class Civilization {
         }
 
         if (index == 1) {
-            System.out.println("Nao tem unidades na sua civilizacao.");
+            System.out.println("A sua civilizacao nao tem unidades.");
         }
     }
 

@@ -54,7 +54,7 @@ public class Projeto2POO {
 
         // para terminar jogada clicar no 0 de sair e passa para o outro jogador
         while (!endGame) {
-            System.out.println("Vez: Jogador " + civs.get(currentPlayer).getNumber() + " (" + civs.get(currentPlayer).getName() + ")");
+            System.out.println("\nVez: Jogador " + civs.get(currentPlayer).getNumber() + " (" + civs.get(currentPlayer).getName() + ")");
             menuManager.showMenuManager(civs.get(currentPlayer));
             currentPlayer = (currentPlayer + 1) % numberOfPlayers; // para ir passando 0,1,2 e depois voltar para  0,1,2 e assim sucessivamente graças ao resto da divisao
         }
@@ -123,18 +123,4 @@ public class Projeto2POO {
         */
 
     }
-
-    
-
-
-
-
-
-
-    
-
-   
-
-
-
 }

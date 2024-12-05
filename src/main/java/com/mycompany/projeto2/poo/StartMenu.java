@@ -60,7 +60,7 @@ public class StartMenu {
             System.out.println("\nEscolha uma civilizacao para o jogador " + playerNumbers + " desta lista ou escreva -1 para criar a sua.");
 
             for (int i = 0; i < Civilization.getCivNames().size(); i++) {
-                System.out.println(i + ": " + Civilization.getCivNames().get(i));
+                System.out.println((i+1) + "- " + Civilization.getCivNames().get(i));
             }
 
             int civ_num;
@@ -77,7 +77,7 @@ public class StartMenu {
 
                     myCiv = new Civilization(civ_name,playerNumbers);
                 } else {
-                    myCiv = new Civilization(civ_num,playerNumbers);
+                    myCiv = new Civilization(civ_num-1,playerNumbers);
                 }
 
                 System.out.println("\nO jogador "+  playerNumbers  +" vai jogar com a civilizacao " + myCiv.getName() + ".");
