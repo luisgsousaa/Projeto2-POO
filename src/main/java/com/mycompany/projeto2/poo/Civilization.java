@@ -8,7 +8,7 @@ public class Civilization {
     //private int id;
     private int number;
     private ArrayList<Cell> controlledCells; // por enquanto apenas será apenas cidade
-    private ArrayList<Building> controlledBuildings; // por enquanto apenas será apenas cidade
+    private ArrayList<Building> controlledBuildings; 
     private ArrayList<Unit> controlledUnits; // militares, explorrs, producer, spies etc
     private static ArrayList<String> chosenCivs;
 
