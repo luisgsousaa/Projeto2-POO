@@ -24,6 +24,7 @@ private String name;
         this.upkeepCost = upkeepCost;
         this.location = location;
         city.addIndustrialResources((-1)*this.buildCost);
+        city.getCiv().addBuilding(this);
     }
 
     public Map getMap() {
