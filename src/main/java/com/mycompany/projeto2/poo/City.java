@@ -57,7 +57,8 @@ public class City extends Cell{
         
         
     } 
-  
+
+  public Civilization getCiv() {return civilization;};
   public int getCityCivNum() {return civilization.getNumber();}
     /**
      * Array que guarda as camadas de terrenos da cidade, o primeiro é (g)old, o segundo é (i)dustry e o terceiro é (f)ood
