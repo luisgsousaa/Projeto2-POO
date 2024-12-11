@@ -12,6 +12,8 @@ public class Civilization {
     private ArrayList<Unit> controlledUnits; // militares, explorrs, producer, spies etc
     private static ArrayList<String> chosenCivs;
 
+    public addBuilding(Building b) {this.controlledBuildings.add(b);};
+
     private static ArrayList<String> civNames = new ArrayList<>();
 
     static {
