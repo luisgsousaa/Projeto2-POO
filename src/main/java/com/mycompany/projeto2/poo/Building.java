@@ -7,6 +7,7 @@ private float buildCost;
 private int buildTime;
 private float upkeepCost;
 private Cell location;
+private String name;
 
     public Building(Map map, float buildCost, int buildTime, float upkeepCost, Cell location) {
         this.map = map;
