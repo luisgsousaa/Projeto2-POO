@@ -17,10 +17,14 @@ private String name;
         this.location = location;
     }
 
-    public void build() {
-
+     public Building(Map map, float buildCost, int buildTime, float upkeepCost, Cell location, City city) {
+        this.map = map;
+        this.buildCost = buildCost;
+        this.buildTime = buildTime;
+        this.upkeepCost = upkeepCost;
+        this.location = location;
+        city.addIndustrialResources((-1)*this.buildCost);
     }
-  
 
     public Map getMap() {
         return map;
