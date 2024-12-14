@@ -143,3 +143,9 @@ public class Civilization {
     // a ideia depois sera atraves desse array list se a civilizacao perde (ou ganha?) e tbm para imprimir unidades e cidades que pertencem a civilizacao nos menus
 
 }
+
+public ArrayList<Building> getBuildings() {
+    return this.controlledBuildings;
+    
+    
+}
