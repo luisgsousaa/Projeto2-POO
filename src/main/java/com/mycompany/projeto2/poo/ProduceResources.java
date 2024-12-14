@@ -19,8 +19,8 @@ public class ProduceResources {
             city.addIndustrialResources(produce(currentCell.getIndustrialProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
         }
         else if(currentCell.getGoldProduction() != 0){
-            city.addGoldResources(produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
-        }
+            city.addGoldResources(produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers(), city.getCiv().getBuildings()));
+        } // Não é funcional, mudanças temporárias
     }
     
     /**
@@ -30,8 +30,8 @@ public class ProduceResources {
      * @param numWorkers quantidade de trabalhadores da célula em questão
      * @return cálculo da quantidade de recursos produzida
      */
-    private static double produce(double production,int productivity, int numWorkers){
-        double produced = production*productivity*numWorkers;
+    private static double produce(double production,int productivity, int numWorkers, double buildingBoost){
+        double produced = production*productivity*numWorkers*buildingBoost;
         return produced;
     }
     
