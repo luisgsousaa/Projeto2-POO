@@ -8,7 +8,7 @@ package com.mycompany.projeto2.poo;
  *
  * @author Admin
  */
-public class City extends Cell{
+public class City extends Cell implements Life{
     private int population, maxNumWorkers;
     private final int STARTING_POPULATION = 3;
     private final int STARTING_FOOD_RESOURCES = 6;
@@ -24,7 +24,7 @@ public class City extends Cell{
     private final int coordX, coordY;
 
     private Civilization civilization;
-    
+    private int life;
     
 
     
@@ -35,19 +35,20 @@ public class City extends Cell{
      * @param map referencia do objeto mapa
      * @param cityNumber número do jogador que é dado à cidade no mapa
      */
-    public City(int x, int y,Map map,int cityNumber, Civilization civilization){
+    public City(int x, int y,Map map,int cityNumber, Civilization civilization,int life){
         super("C ");
         setCityVariables(map,cityNumber);
         coordX = x;
         coordY = y;
         this.civilization = civilization;
+
         
         
         createCity();
         setFirstWorkers();
 
         civilization.addCityToCiv(this);
-        
+        this.life = life;
 
         // teste
         addWorkers(1,200);
@@ -60,8 +61,41 @@ public class City extends Cell{
         //teste
         
         
-    } 
-  
+    }
+
+
+    public int getCoordX() {return coordX;}
+    public int getCoordY() {return coordY;}
+
+
+
+
+    // vida
+    public int getLife() {return life;}
+    public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
+    public void heal(int amount) {this.life += amount;}
+    public boolean isAlive() {return this.life > 0;}
+    public void setLife(int life) {this.life = life;}
+
+    public void die(Map map) {
+
+        Cell c = map.getCell(coordX, coordY);
+
+        if (c != null) {
+            c.setSomethingOnTop(false);
+            c.setTypeShown(c.getPreviousTypeShown());
+        }
+
+        removeCityFromCiv();
+    }
+
+
+    //civ
+    public void removeCityFromCiv() {civilization.getControlledCities().remove(this);}
+    public Civilization getCityCiv() {return civilization;}
+
+
+
   public int getCityCivNum() {return civilization.getNumber();}
     /**
      * Array que guarda as camadas de terrenos da cidade, o primeiro é (g)old, o segundo é (i)dustry e o terceiro é (f)ood
@@ -85,17 +119,26 @@ public class City extends Cell{
         map.setCell(coordX,coordY,this);
         String newType = this.getType().trim() + cityNumber ;
         this.setTypeShown(newType);
-        
-        
+
+        Cell cell = map.getCell(coordX, coordY);
+        cell.setSomethingOnTop(true);
+
+
         layers[0] = newType;
         int index = 1;
         while(index <= 3){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
                     String symbol = map.getCellTypeShown(x+coordX,y+coordY);
+
+
+
                     if(!symbol.equals(layers[0]) && !symbol.equals(layers[1]) && !symbol.equals(layers[2])){
                         map.setCellTypeShown(x+coordX,y+coordY,layers[index]);
                         map.setCellBelongsToCity(x+coordX,y+coordY, true);
+
+
+
                         maxNumWorkers+= map.getCellMaxNumWorkers(x+coordX,y+coordY);
                         setProductionType(x+coordX,y+coordY,index);
                     }                

@@ -172,8 +172,8 @@ public class MenuManager {
             int x = attacker.getCoordX();
             int y = attacker.getCoordY();
 
-            Unit enemyToAttack = null;
-            ArrayList<Unit> adjacentEnemies = new ArrayList<>();
+            Object targetToAttack = null;
+            ArrayList<Object> adjacentEnemies = new ArrayList<>();
 
             int[][] directions = {
                     {0, -1}, // c
@@ -188,10 +188,31 @@ public class MenuManager {
 
                 Cell adjacentCell = map.getCell(newX, newY);
                 if (adjacentCell.isSomethingOnTop()) {
+                    if (adjacentCell.getUnit() != null) {
+                        Unit potentialEnemy = adjacentCell.getUnit();
+                        if (!potentialEnemy.getUnitCiv().equals(attacker.getUnitCiv())) {
+                            adjacentEnemies.add(potentialEnemy);
+                        }
+                    }
+
+                    if (adjacentCell.getBelongsToCity() && adjacentCell.getCity() != null) {
+                        City potentialEnemyCity = adjacentCell.getCity();
+                        if (!potentialEnemyCity.getCityCiv().equals(attacker.getUnitCiv())) {
+                            adjacentEnemies.add(potentialEnemyCity);
+                        }
+                    }
+
+
+
+
+
+
+                    /*
+
                     Unit potentialEnemy = adjacentCell.getUnit();
                     if (!potentialEnemy.getUnitCiv().equals(attacker.getUnitCiv())) {
                         adjacentEnemies.add(potentialEnemy);
-                    }
+                    }*/
                 }
             }
 
@@ -202,33 +223,64 @@ public class MenuManager {
             foundEnemy = true;
 
             if (adjacentEnemies.size() == 1) {
-                enemyToAttack = adjacentEnemies.get(0);
+                targetToAttack = adjacentEnemies.get(0);
             } else {
                 System.out.println("\nIndique o inimigo que pretende atacar:");
                 for (int i = 0; i < adjacentEnemies.size(); i++) {
-                    Unit enemy = adjacentEnemies.get(i);
-                    System.out.printf("%d - %s (%d, %d) : %dHP%n",
-                            i + 1, enemy.getType() + enemy.getUnitCivNum(), enemy.getCoordX(), enemy.getCoordY(), enemy.getLife());
+                    Object enemy = adjacentEnemies.get(i);
+                    if (enemy instanceof Unit) {
+                        Unit enemyUnit = (Unit) enemy;
+                        System.out.printf("%d - %s (%d, %d) : %dHP%n",
+                                i + 1, enemyUnit.getType() + enemyUnit.getUnitCivNum(),
+                                enemyUnit.getCoordX(), enemyUnit.getCoordY(), enemyUnit.getLife());
+                    } else if (enemy instanceof City) {
+                        City enemyCity = (City) enemy;
+                        System.out.printf("%d - %s (%d, %d) : %dHP%n",
+                                i + 1, enemyCity.getType() + enemyCity.getCityCivNum(),
+                                enemyCity.getCoordX(), enemyCity.getCoordY(), enemyCity.getLife());
+                    }
                 }
 
                 int choice = -1;
                 while (choice < 1 || choice > adjacentEnemies.size()) {
                     choice = scanner.nextInt();
                 }
-                enemyToAttack = adjacentEnemies.get(choice - 1);
+                targetToAttack = adjacentEnemies.get(choice - 1);
             }
 
-            if (enemyToAttack != null) {
-                enemyToAttack.takeDamage(attacker.getAttackDamage());
+            if (targetToAttack != null) {
+                if (targetToAttack instanceof Unit) {
+                    Unit enemyUnit = (Unit) targetToAttack;
+                    enemyUnit.takeDamage(attacker.getAttackDamage());
 
-                if (!enemyToAttack.isAlive()) {
-                    System.out.printf("\n%s (%d,%d) morreu.%n", enemyToAttack.getType()+ enemyToAttack.getUnitCivNum(), enemyToAttack.getCoordX(), enemyToAttack.getCoordY());
-                    enemyToAttack.die(map);
-                    map.showMap();
-                } else {
-                    System.out.printf("\n%s (%d,%d) agora tem %dHP.%n", enemyToAttack.getType()+ enemyToAttack.getUnitCivNum(), enemyToAttack.getCoordX(), enemyToAttack.getCoordY(), enemyToAttack.getLife());
-                    map.showMap();
+                    if (!enemyUnit.isAlive()) {
+                        System.out.printf("\n%s (%d,%d) morreu.%n",
+                                enemyUnit.getType() + enemyUnit.getUnitCivNum(),
+                                enemyUnit.getCoordX(), enemyUnit.getCoordY());
+                        enemyUnit.die(map);
+                    } else {
+                        System.out.printf("\n%s (%d,%d) agora tem %dHP.%n",
+                                enemyUnit.getType() + enemyUnit.getUnitCivNum(),
+                                enemyUnit.getCoordX(), enemyUnit.getCoordY(),
+                                enemyUnit.getLife());
+                    }
+                } else if (targetToAttack instanceof City) {
+                    City enemyCity = (City) targetToAttack;
+                    enemyCity.takeDamage(attacker.getAttackDamage());
+
+                    if (!enemyCity.isAlive()) {
+                        System.out.printf("\n%s (%d,%d) foi destruida.%n",
+                                enemyCity.getType() + enemyCity.getCityCivNum(),
+                                enemyCity.getCoordX(), enemyCity.getCoordY());
+                        enemyCity.die(map);
+                    } else {
+                        System.out.printf("\n%s (%d,%d) agora tem %dHP.%n",
+                                enemyCity.getType() + enemyCity.getCityCivNum(),
+                                enemyCity.getCoordX(), enemyCity.getCoordY(),
+                                enemyCity.getLife());
+                    }
                 }
+                map.showMap();
             }
         }
 

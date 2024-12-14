@@ -10,7 +10,7 @@ package com.mycompany.projeto2.poo;
  */
 public class CityBuilder {
     private Map map;
-    private int coordX,coordY,cityNumber;
+    private int coordX,coordY,cityNumber,life;
     /**
      * 
      * @param coordX coordenada x escolhida para o centro da cidade pelo jogador
@@ -18,11 +18,12 @@ public class CityBuilder {
      * @param map referencia do objeto mapa
      * @param cityNumber número do jogador a quem irá pertencer a cidade
      */
-    public CityBuilder(int coordX, int coordY, Map map,int cityNumber){
+    public CityBuilder(int coordX, int coordY, Map map,int cityNumber,int life){
        this.coordX=coordX;
        this.coordY=coordY;
        this.cityNumber=cityNumber;
        this.map=map;
+       this.life=life;
     }
 
     /**
@@ -33,7 +34,7 @@ public class CityBuilder {
     public City createCity(Civilization civilization)throws CoordinatesNotSuitableException{
 
         if(checkCoordinates()){
-            City cidade = new City(coordX,coordY,map,cityNumber,civilization);
+            City cidade = new City(coordX,coordY,map,cityNumber,civilization,life);
             return cidade;
         }
         return null;    

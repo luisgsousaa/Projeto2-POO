@@ -134,10 +134,9 @@ public class StartMenu {
                 coordX = scanner.nextInt();
                 System.out.println("Coordenada Y: ");
                 coordY = scanner.nextInt();
-                
-            
-                
-                builder = new CityBuilder(coordX, coordY,map,civ.getNumber());
+
+
+                builder = new CityBuilder(coordX, coordY,map,civ.getNumber(),50);
                 
                 return builder.createCity(civ);
             }

@@ -35,11 +35,18 @@ public abstract class Unit implements Life {
     public int getUnitCivNum() {return civilization.getNumber();}
     public Civilization getUnitCiv() {return civilization;}
     public String getUnitCivName() {return civilization.getName();}
+
+
+    // vida
     public int getLife() {return this.life;}
     public int getAttackDamage(){return this.attackDamage;}
     public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
     public void heal(int amount) {this.life += amount;}
     public boolean isAlive() {return this.life > 0;}
+    public void setLife(int life) {this.life = life;}
+
+
+
 
 
     public void removeUnitFromCiv() {civilization.getControlledUnits().remove(this);}
@@ -56,7 +63,6 @@ public abstract class Unit implements Life {
     }
 
     public abstract String getUnitName();
-    public void setLife(int life) {this.life = life;}
     public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
     public void setProductionCost(int productionCost){this.productionCost=productionCost;}
     public void setProductionDelay(int productionDelay){this.productionDelay=productionDelay;}

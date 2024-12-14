@@ -57,6 +57,12 @@ public class Cell {
     /**
      * Setters e Getters para gerir as células
      */
+
+
+    public City getCity() {return (this instanceof City) ? (City) this : null;}
+
+
+
     public Cell getCell(){return this;}
     public Unit getUnit(){return unit;}
     public String getType(){return type;}

@@ -52,24 +52,24 @@ public class Projeto2POO {
         int currentPlayer = 0;
         boolean endGame = false; // no futuro isto tem de ser talvez um getter para um sitio que tem a verifica a condicao de vitoria
 
+
+
+
         // para terminar jogada clicar no 0 de sair e passa para o outro jogador
         while (!endGame) {
             System.out.println("\nVez: Jogador " + civs.get(currentPlayer).getNumber() + " (" + civs.get(currentPlayer).getName() + ")");
             menuManager.showMenuManager(civs.get(currentPlayer));
             currentPlayer = (currentPlayer + 1) % numberOfPlayers; // para ir passando 0,1,2 e depois voltar para  0,1,2 e assim sucessivamente graças ao resto da divisao
+
+            for(Civilization c : civs){
+                c.printControlled();
+            }
+
         }
 
 
-
-        //menuManager.showMenuManager();
-        
-
-        for(Civilization c : civs){
-            c.printControlled();
-        }
+        /// LIXO
         /*
-        
-
         Civilization civilization = menuMain.chooseCivilization();
 
         Unit.createUnit("M", 23, 2, map, Direction.NONE, civilization);
@@ -108,14 +108,6 @@ public class Projeto2POO {
         unit2.moveUnit(map);
 
         map.showMap();
-
-
-        // caso do militar que se pode mover duas celulas:
-        // permitir ao utilizador escolher se quer se mover 1 ou 2 casas
-        // caso escolha mover-se duas casas, unica opção é ser na mesma direção? indicar tipo UP, LEFT?
-        // o metodo de movimento da unidade tem um loop com base nos steps por isso anda 2 de uma vez, depois ver se sera preciso adaptar dependendo do que decidir
-        // enum mudar para L, R, U, D ou E, D, C, B
-
 
         /*
 
