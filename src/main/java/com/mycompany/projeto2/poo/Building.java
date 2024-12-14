@@ -8,21 +8,28 @@ private int buildTime;
 private float upkeepCost;
 private Cell location;
 private String name;
+private int type;
 
-    public Building(Map map, float buildCost, int buildTime, float upkeepCost, Cell location) {
-        this.map = map;
-        this.buildCost = buildCost;
-        this.buildTime = buildTime;
-        this.upkeepCost = upkeepCost;
-        this.location = location;
+    public getType() {
+        return type;
     }
 
-     public Building(Map map, float buildCost, int buildTime, float upkeepCost, Cell location, City city) {
+    public Building(Map map, float buildCost, int buildTime, float upkeepCost, Cell location, int type) {
         this.map = map;
         this.buildCost = buildCost;
         this.buildTime = buildTime;
         this.upkeepCost = upkeepCost;
         this.location = location;
+        this.type = type;
+    }
+
+     public Building(Map map, float buildCost, int buildTime, float upkeepCost, Cell location, City city, int type) {
+        this.map = map;
+        this.buildCost = buildCost;
+        this.buildTime = buildTime;
+        this.upkeepCost = upkeepCost;
+        this.location = location;
+        this.type = type;
         city.addIndustrialResources((-1)*this.buildCost);
         city.getCiv().addBuilding(this);
     }
