@@ -14,7 +14,7 @@ private int type;
         return type;
     }
 
-    public int countType(ArrayList<Building> buildings, int type) {
+    public static int countType(ArrayList<Building> buildings, int type) {
         int count = 0;
          for (int i = 0; i < buildings.size(); i++) {
             if(buildings.get(i).getType() == type) {
