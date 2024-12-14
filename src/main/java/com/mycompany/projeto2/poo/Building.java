@@ -14,6 +14,16 @@ private int type;
         return type;
     }
 
+    public int countType(ArrayList<Building> buildings, int type) {
+        int count = 0;
+         for (int i = 0; i < buildings.size(); i++) {
+            if(buildings.get(i).getType() == type) {
+                count = count + 1;
+            }
+        }
+        return count;
+    }
+
     public Building(Map map, float buildCost, int buildTime, float upkeepCost, Cell location, int type) {
         this.map = map;
         this.buildCost = buildCost;
