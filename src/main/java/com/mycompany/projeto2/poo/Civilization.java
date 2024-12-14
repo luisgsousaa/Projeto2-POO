@@ -8,6 +8,7 @@ public class Civilization {
     private int number;
     private ArrayList<City> controlledCities;
     private ArrayList<Unit> controlledUnits;
+    private ArrayList<Building> controlledBuildings; 
     private static ArrayList<String> civNames = new ArrayList<>();
 
     static {
