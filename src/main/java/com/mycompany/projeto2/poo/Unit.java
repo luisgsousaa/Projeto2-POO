@@ -12,7 +12,14 @@ public abstract class Unit implements Life {
     private Civilization civilization;
     private int life, attackDamage;
 
-    public Unit(String type, Civilization civilization, int steps, double maintenanceCost, int productionCost, int productionDelay, int life, int attackDamage) {
+
+    private int stepsRemaining;
+    private int maxSteps;
+
+
+
+
+    public Unit(String type, Civilization civilization, int maxSteps, double maintenanceCost, int productionCost, int productionDelay, int life, int attackDamage) {
         this.type = type;
         this.civilization = civilization;
         this.steps = steps;
@@ -22,7 +29,40 @@ public abstract class Unit implements Life {
         this.life = life;
         this.attackDamage = attackDamage;
         civilization.addUnitToCiv(this);
+
+
+        this.stepsRemaining = maxSteps;
+        this.maxSteps = maxSteps;
     }
+
+
+    public int getStepsRemaining() {
+        return stepsRemaining;
+    }
+
+    public void resetSteps() {
+        this.stepsRemaining = maxSteps;
+    }
+
+    public int getMaxSteps() {
+        return maxSteps;
+    }
+
+    public boolean move(Direction direction, Map map) {
+        if (stepsRemaining <= 0) {
+            System.out.println("Ja deu o maximo de passos possivel neste turno.");
+            return false;
+        }
+
+        this.setDirection(direction);
+        this.moveUnit(map);
+
+        stepsRemaining--;
+        return true;
+    }
+
+
+
 
     public double getMaintenanceCost(){return maintenanceCost;}
     public int getProductionCost(){return productionCost;}

@@ -19,6 +19,26 @@ public class Projeto2POO {
     private static ArrayList<City> cities;
     private static int numberOfPlayers;
 
+    private static int currentTurn = 1;
+
+    public static int getCurrentTurn() {
+        return currentTurn;
+    }
+
+    public static void nextTurn() { // tudo que acontece quando muda po proximo turno
+        currentTurn++;
+
+        for (Civilization civ : civs) {
+            for (Unit unit : civ.getControlledUnits()) {
+                unit.resetSteps(); // da reset nos passos usados por todas as unidades
+
+                // aqui tbm vai ficar o reset da comida, que desaparecem todos os turnos
+
+
+            }
+        }
+    }
+
 
     public static void main(String[] args) throws IOException {
 
@@ -61,13 +81,18 @@ public class Projeto2POO {
             menuManager.showMenuManager(civs.get(currentPlayer));
             currentPlayer = (currentPlayer + 1) % numberOfPlayers; // para ir passando 0,1,2 e depois voltar para  0,1,2 e assim sucessivamente graças ao resto da divisao
 
-            for(Civilization c : civs){
-                c.printControlled();
+            if (currentPlayer == 0) {
+                Projeto2POO.nextTurn();
+                System.out.println("Fim do turno " + (Projeto2POO.getCurrentTurn() - 1));
+                System.out.println("Inicio do turno " + Projeto2POO.getCurrentTurn());
+
+                for (Civilization c : civs) {
+                    c.printControlled();
+                }
+
             }
 
         }
-
-
         /// LIXO
         /*
         Civilization civilization = menuMain.chooseCivilization();

@@ -10,6 +10,17 @@ public class Civilization {
     private ArrayList<Unit> controlledUnits;
     private static ArrayList<String> civNames = new ArrayList<>();
 
+    private int GoldTreasure;
+
+
+    // mexer apenas nesta variavel (centralizado aqui, tudo mandado para qui retirado somado tudo aqui, cidade nao podem ter subreservas)
+
+
+
+
+
+
+
     static {
         civNames.add("Estepilhas");
         civNames.add("Lambricas");

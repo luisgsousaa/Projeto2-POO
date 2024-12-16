@@ -64,76 +64,45 @@ public class MenuManager {
             int unitIndex = Integer.parseInt(scanner.nextLine().trim());
 
             if (unitIndex < 1 || unitIndex > civilization.getControlledUnits().size()) {
-                System.out.println("\nNúmero inválido. Tente novamente.");
+                System.out.println("\nNumero invalido. Tente novamente.");
                 return;
             }
 
             Unit unit = civilization.getControlledUnits().get(unitIndex - 1);
 
-            if (unit.getSteps() == 0) {
-                System.out.println("\nEssa unidade é fixa. Tente novamente.");
+            if (unit.getStepsRemaining() <= 0) {
+                System.out.println("\nEssa unidade ja usou todos os passos disponiveis neste turno.");
                 return;
             }
 
-            int initialX = unit.getCoordX();
-            int initialY = unit.getCoordY();
+            System.out.printf("\nPode dar ate %d passos. Indique a direcao do(s) passo(s):%n", unit.getStepsRemaining());
+            String input_dirs = scanner.nextLine().toLowerCase().trim();
 
-            if (unit.getSteps() == 1) {
+            if (input_dirs.length() > unit.getStepsRemaining() || input_dirs.length() <= 0) {
+                System.out.println("\nNumero de direções invalido. Tente novamente.");
+                return;
+            }
 
-                System.out.println("\nIndique a direcao do passo:");
-                String letter = scanner.nextLine().toLowerCase().trim();
-
-                if (letter.length() != 1) {
-                    System.out.println("\nInsira apenas uma direcao. Tente novamente.");
-                    return;
-                }
-
-                Direction step_dir = inputToEnumDirection(letter);
-
+            for (char letter : input_dirs.toCharArray()) {
+                Direction step_dir = inputToEnumDirection(String.valueOf(letter));
                 if (step_dir != null) {
-                    unit.setDirection(step_dir);
-                    unit.moveUnit(map);
+                    if (!unit.move(step_dir, map)) {
+                        return; // Sai se não conseguir mover
+                    }
                 } else {
                     System.out.println("\nDirecao invalida: " + letter + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
                     return;
                 }
             }
 
-            else {
-                System.out.printf("\nPode dar ate %d passos. Indique a direcao do(s) passo(s) que pretende fazer sem espacos:%n", unit.getSteps()); //%n é para ir pa outra linha, no println e nao é preciso pq ja faz automaticamente
-                String input_dirs = scanner.nextLine().toLowerCase().trim();
-
-                if (input_dirs.length() > unit.getSteps() || input_dirs.length() <= 0) {
-                    System.out.println("\nNumero de direcoes invalido. Tente novamente.");
-                    return;
-                }
-
-                for (char letter : input_dirs.toCharArray()) { // separa caracteres do input tipo cbee = c b e e
-
-                    Direction step_dir = inputToEnumDirection(String.valueOf(letter));
-
-                    if (step_dir != null) {
-                        unit.setDirection(step_dir);
-                        unit.moveUnit(map);
-                    } else {
-                        System.out.println("\nDirecao invalida: " + letter + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
-                        return;
-                    }
-                }
-            }
-
-            if (unit.getCoordX() == initialX && unit.getCoordY() == initialY) {
-                System.out.println("\nA unidade permaneceu nas mesmas coordenadas.");
-                return;
-            }
-
-            System.out.println("\nUnidade movida com sucesso.");
+            System.out.println("\nUnidade movida com sucesso. Passos restantes: " + unit.getStepsRemaining());
             map.showMap();
 
         } catch (NumberFormatException e) {
-            System.out.println("\nCoordenadas invalidas. Tente novamente.");
+            System.out.println("\nOpcao invalida. Tente novamente.");
         }
     }
+
 
 
 
