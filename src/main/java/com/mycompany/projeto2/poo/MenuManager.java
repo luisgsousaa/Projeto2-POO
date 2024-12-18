@@ -83,20 +83,47 @@ public class MenuManager {
                 return;
             }
 
+
+            double totalCost = 0;
+
+
+
             for (char letter : input_dirs.toCharArray()) {
                 Direction step_dir = inputToEnumDirection(String.valueOf(letter));
                 if (step_dir != null) {
+
                     if (!unit.move(step_dir, map)) {
                         return; // Sai se não conseguir mover
                     }
+
+                    Cell currentCell = map.getCell(unit.getCoordX(), unit.getCoordY());
+                    if (currentCell.getTerrain() != null) {
+                        totalCost += currentCell.getTerrain().getEntryCost();
+                    }
+
+
+
                 } else {
                     System.out.println("\nDirecao invalida: " + letter + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
                     return;
                 }
             }
 
+
+            double goldBalance = civilization.getGoldTreasure();
+            if (goldBalance >= totalCost) {
+                civilization.addGoldTreasure(-totalCost);
+                System.out.println("\nUnidade movida com sucesso. Passos restantes: " + unit.getStepsRemaining());
+                System.out.println("customovimento testar " + totalCost + " //////////" + civilization.getGoldTreasure());
+                map.showMap();
+            } else {
+                System.out.println("\nNao tem ouro suficiente para mover a unidade.");
+            }
+
+
+            /*
             System.out.println("\nUnidade movida com sucesso. Passos restantes: " + unit.getStepsRemaining());
-            map.showMap();
+            map.showMap();*/
 
         } catch (NumberFormatException e) {
             System.out.println("\nOpcao invalida. Tente novamente.");

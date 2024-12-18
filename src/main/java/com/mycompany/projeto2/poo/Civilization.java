@@ -10,7 +10,7 @@ public class Civilization {
     private ArrayList<Unit> controlledUnits;
     private static ArrayList<String> civNames = new ArrayList<>();
 
-    private int GoldTreasure;
+    private double GoldTreasure;
 
 
     // mexer apenas nesta variavel (centralizado aqui, tudo mandado para qui retirado somado tudo aqui, cidade nao podem ter subreservas)
@@ -42,6 +42,8 @@ public class Civilization {
         this.number = number; // id / nr civ / nr jogador
         this.controlledUnits = new ArrayList<>();
         this.controlledCities = new ArrayList<>();
+
+        this.GoldTreasure = 0;
     }
 
     // construtor com nome
@@ -50,7 +52,31 @@ public class Civilization {
         this.number = number; // id / nr civ / nr jogador
         this.controlledCities = new ArrayList<>();
         this.controlledUnits = new ArrayList<>();
+
+        this.GoldTreasure = 0;
     }
+
+
+
+
+    public double getGoldTreasure() {
+        return GoldTreasure;
+    }
+    public void addGoldTreasure(double a) {
+        GoldTreasure += a;
+
+        if (GoldTreasure < 0) {
+            GoldTreasure = 0;
+        }
+
+
+    }
+
+
+
+
+
+
 
     public int getNumber(){return number;}
     public String getName() {return name;}

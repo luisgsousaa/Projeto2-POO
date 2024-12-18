@@ -25,15 +25,67 @@ public class Projeto2POO {
         return currentTurn;
     }
 
+
+    public static void firstTurn() {
+
+        System.out.println("Inicio do turno " + Projeto2POO.getCurrentTurn());
+
+        for (Civilization c : civs) {
+            //c.printControlled();
+
+            double totalMaintenanceCost = 0;
+
+            for (Unit unit : c.getControlledUnits()) {
+
+                if (unit.getMaintenanceCost() > 0) {
+                    totalMaintenanceCost += unit.getMaintenanceCost();
+                }
+
+
+            }
+
+            c.addGoldTreasure(-totalMaintenanceCost);
+
+
+            System.out.println("Recursos da Civilizacao " + c.getName() + " (Jogador " + c.getNumber() + "):");
+            System.out.println("  Ouro da civ: " + c.getGoldTreasure());
+            for (City city : c.getControlledCities()) {
+                System.out.println("Cidade nas coordenadas (" + city.getCoordX() + ", " + city.getCoordY() + ")");
+                System.out.println("  recursos da cidade: " + city.getIndustrialResources());
+                System.out.println("  Comida do ciclo: " + city.getFoodResources());
+                System.out.println("  ComidaReserva da cidade: " + city.getFoodReserve());
+            }
+        }
+
+
+
+    }
+
+
     public static void nextTurn() { // tudo que acontece quando muda po proximo turno
         currentTurn++;
 
         for (Civilization civ : civs) {
+
+            double totalMaintenanceCost = 0;
+
             for (Unit unit : civ.getControlledUnits()) {
                 unit.resetSteps(); // da reset nos passos usados por todas as unidades
 
-                // aqui tbm vai ficar o reset da comida, que desaparecem todos os turnos
+                if (unit.getMaintenanceCost() > 0) {
+                    totalMaintenanceCost += unit.getMaintenanceCost();
+                }
 
+
+            }
+
+            civ.addGoldTreasure(-totalMaintenanceCost);
+
+
+            for (City city : civ.getControlledCities()) {
+                city.resetFood();
+                city.resetIndustrialResources();
+                city.produceResourcesForCycle();
 
             }
         }
@@ -64,6 +116,7 @@ public class Projeto2POO {
 
         Unit.createUnit("M", 23, 2, map, Direction.NONE, civs.get(0));
         Unit.createUnit("M", 24, 3, map, Direction.NONE, civs.get(1));
+        Unit.createUnit("M", 30, 3, map, Direction.NONE, civs.get(1));
         Unit.createUnit("B", 22, 1, map, Direction.NONE, civs.get(0));
         Unit.createUnit("E", 20, 1, map, Direction.NONE, civs.get(0));
 
@@ -72,6 +125,9 @@ public class Projeto2POO {
         int currentPlayer = 0;
         boolean endGame = false; // no futuro isto tem de ser talvez um getter para um sitio que tem a verifica a condicao de vitoria
 
+
+
+        firstTurn();
 
 
 
@@ -87,7 +143,15 @@ public class Projeto2POO {
                 System.out.println("Inicio do turno " + Projeto2POO.getCurrentTurn());
 
                 for (Civilization c : civs) {
-                    c.printControlled();
+                    //c.printControlled();
+                    System.out.println("Recursos da Civilizacao " + c.getName() + " (Jogador " + c.getNumber() + "):");
+                    System.out.println("  Ouro da civ: " + c.getGoldTreasure());
+                    for (City city : c.getControlledCities()) {
+                        System.out.println("Cidade nas coordenadas (" + city.getCoordX() + ", " + city.getCoordY() + ")");
+                        System.out.println("  recursos da cidade: " + city.getIndustrialResources());
+                        System.out.println("  Comida do ciclo: " + city.getFoodResources());
+                        System.out.println("  ComidaReserva da cidade: " + city.getFoodReserve());
+                    }
                 }
 
             }

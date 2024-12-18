@@ -106,5 +106,11 @@ public class Cell {
         this.foodProduction=0;
         this.industrialProduction=0;
     }
+
+    public ITerrain getTerrain() {
+        return this.selectedTerrain;
+    }
+
+
     
 }

@@ -52,6 +52,7 @@ public class City extends Cell implements Life{
 
         // teste
         addWorkers(1,200);
+        addWorkers(2,200);
         addWorkers(3,200);
         produceResourcesForCycle();
         
@@ -210,9 +211,9 @@ public class City extends Cell implements Life{
      */
     private void setCityVariables(Map map,int cityNumber){
         population = STARTING_POPULATION;
-        foodResources = STARTING_FOOD_RESOURCES;
+        foodResources = 0;
       
-        foodReserve = 0;
+        foodReserve = STARTING_FOOD_RESOURCES;
         industrialResources = 0;
         maxNumWorkers = 0;
         this.map=map;
@@ -369,7 +370,7 @@ public class City extends Cell implements Life{
      * Percorre todas as células da cidade, se uma célula tiver 0 trabalhadores continua, caso contrário chama a função da classe utilitaria ProduceResources,
      * que irá calcular a produção dessa célula e adicionar à cidade.
      */
-    private void produceResourcesForCycle(){
+    public void produceResourcesForCycle(){
         final int CITY_SIZE = 3;
         for(int y = -1*CITY_SIZE ; y <= 1*CITY_SIZE; y++){
             for(int x = -1*CITY_SIZE ; x <= 1*CITY_SIZE; x++){
@@ -385,7 +386,46 @@ public class City extends Cell implements Life{
     /**
      * Funções usadas para adicionar os recursos que foram produzidos à cidade
      */
-    public void addFoodResources(double a){foodResources+=a;}
+
+    public void addFoodResources(double a){ // isto é chamado varias vezes no mesmo ciclo para as varias celulas da cidade
+        foodResources+=a;
+        foodReserve+=a;} // adiciona comida do ciclo à reserva de comida da cidade
     public void addIndustrialResources(double a){industrialResources+=a;}
-    public void addGoldResources(double a){goldResources+=a;}
+    public void addGoldToCivTreasure(double a){
+        civilization.addGoldTreasure(a);
+    }
+
+
+
+
+    public double getFoodReserve() {
+        return foodReserve;
+    }
+
+
+    public double getGoldResources() {
+        return goldResources;
+    }
+
+
+    public double getIndustrialResources() {
+        return industrialResources;
+    }
+
+
+    public double getFoodResources() {
+        return foodResources;
+    }
+
+
+    public void resetFood() {
+        this.foodResources = 0;
+    } // da reset na comida do ciclo da cidade
+
+    public void resetIndustrialResources() {
+        this.industrialResources = 0;
+    }
+
+
+
 }
