@@ -136,7 +136,7 @@ public class StartMenu {
                 coordY = scanner.nextInt();
 
 
-                builder = new CityBuilder(coordX, coordY,map,civ.getNumber(),50);
+                builder = new CityBuilder(coordX, coordY,map,civ.getNumber());
                 
                 return builder.createCity(civ);
             }

@@ -17,16 +17,14 @@ public abstract class Unit implements Life {
     private int maxSteps;
 
 
-
-
-    public Unit(String type, Civilization civilization, int maxSteps, double maintenanceCost, int productionCost, int productionDelay, int life, int attackDamage) {
+    public Unit(String type, Civilization civilization, int maxSteps, double maintenanceCost, int productionCost, int productionDelay, int attackDamage) {
         this.type = type;
         this.civilization = civilization;
         this.steps = steps;
         this.productionCost = productionCost;
         this.productionDelay = productionDelay;
         this.maintenanceCost = maintenanceCost;
-        this.life = life;
+        this.life = getUnitMaxLife();
         this.attackDamage = attackDamage;
         civilization.addUnitToCiv(this);
 
@@ -60,6 +58,15 @@ public abstract class Unit implements Life {
         stepsRemaining--;
         return true;
     }
+
+
+    public int getHealAmount() {
+        return 0;
+    }
+
+    public abstract int getUnitMaxLife();
+
+
 
 
 

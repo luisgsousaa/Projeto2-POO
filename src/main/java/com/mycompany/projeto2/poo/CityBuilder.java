@@ -18,12 +18,11 @@ public class CityBuilder {
      * @param map referencia do objeto mapa
      * @param cityNumber número do jogador a quem irá pertencer a cidade
      */
-    public CityBuilder(int coordX, int coordY, Map map,int cityNumber,int life){
+    public CityBuilder(int coordX, int coordY, Map map,int cityNumber){
        this.coordX=coordX;
        this.coordY=coordY;
        this.cityNumber=cityNumber;
        this.map=map;
-       this.life=life;
     }
 
     /**
@@ -34,7 +33,7 @@ public class CityBuilder {
     public City createCity(Civilization civilization)throws CoordinatesNotSuitableException{
 
         if(checkCoordinates()){
-            City cidade = new City(coordX,coordY,map,cityNumber,civilization,life);
+            City cidade = new City(coordX,coordY,map,cityNumber,civilization);
             return cidade;
         }
         return null;    

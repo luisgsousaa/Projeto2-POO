@@ -4,9 +4,10 @@ public class UnitExplorer extends Unit{
 
     private Map map;
     private static final String NAME = "Explorer";
+    private static final int MAX_LIFE = 70;
 
     public UnitExplorer (int x, int y, Map map, Direction direction, Civilization civilization){
-        super("E", civilization,  1, 0, 2, 1,100,0);
+        super("E", civilization,  1, 0, 2, 1,0);
         //"E" + civilization.getId(),
         this.setCoordX(x);
         this.setCoordY(y);
@@ -16,4 +17,12 @@ public class UnitExplorer extends Unit{
 
     @Override
     public String getUnitName() {return NAME;}
+
+
+
+    @Override
+    public int getUnitMaxLife() {
+        return MAX_LIFE; // Retorna o valor máximo de vida para esta unidade
+    }
+
 }

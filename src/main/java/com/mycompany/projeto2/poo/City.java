@@ -24,8 +24,11 @@ public class City extends Cell implements Life{
     private final int coordX, coordY;
 
     private Civilization civilization;
+
+
+    private static final int MAX_LIFE = 80;
     private int life;
-    
+
 
     
     /**
@@ -35,7 +38,7 @@ public class City extends Cell implements Life{
      * @param map referencia do objeto mapa
      * @param cityNumber número do jogador que é dado à cidade no mapa
      */
-    public City(int x, int y,Map map,int cityNumber, Civilization civilization,int life){
+    public City(int x, int y,Map map,int cityNumber, Civilization civilization){
         super("C ");
         setCityVariables(map,cityNumber);
         coordX = x;
@@ -48,7 +51,7 @@ public class City extends Cell implements Life{
         setFirstWorkers();
 
         civilization.addCityToCiv(this);
-        this.life = life;
+        this.life = MAX_LIFE;
 
         // teste
         addWorkers(1,200);
@@ -70,7 +73,9 @@ public class City extends Cell implements Life{
 
 
 
-
+    public int getCityMaxLife() {
+        return MAX_LIFE; // Retorna o valor máximo de vida para esta unidade
+    }
     // vida
     public int getLife() {return life;}
     public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}

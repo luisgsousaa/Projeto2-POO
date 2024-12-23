@@ -23,7 +23,7 @@ public class MenuManager {
             System.out.println("\nEscolha uma opcao:");
             System.out.println("1 - Mover Unidade");
             System.out.println("2 - Atacar");
-            System.out.println("3 - nada");
+            System.out.println("3 - Curar");
             System.out.println("4 - nada");
             System.out.println("0 - Terminar jogada.");
 
@@ -38,6 +38,7 @@ public class MenuManager {
                     optionAttack(scanner,civilization);
                     break;
                 case 3:
+                    optionHeal(scanner,civilization);
                     break;
                 case 4:
                     break;
@@ -197,18 +198,6 @@ public class MenuManager {
                             adjacentEnemies.add(potentialEnemyCity);
                         }
                     }
-
-
-
-
-
-
-                    /*
-
-                    Unit potentialEnemy = adjacentCell.getUnit();
-                    if (!potentialEnemy.getUnitCiv().equals(attacker.getUnitCiv())) {
-                        adjacentEnemies.add(potentialEnemy);
-                    }*/
                 }
             }
 
@@ -289,5 +278,121 @@ public class MenuManager {
 
 
 
+
+    private void optionHeal(Scanner scanner, Civilization civilization) {
+
+        ArrayList<Unit> healingUnits = new ArrayList<>();
+
+        for (Unit unit : civilization.getControlledUnits()) {
+            if (unit.getHealAmount() > 0) {
+                healingUnits.add(unit);
+            }
+        }
+
+        if (healingUnits.isEmpty()) {
+            System.out.println("\nNao tem unidades curantes na sua civilizacao.");
+            return;
+        }
+
+
+        boolean foundEntityToHeal = false;
+
+        for (Unit healer : healingUnits) {
+            int x = healer.getCoordX();
+            int y = healer.getCoordY();
+
+            Object entityToHeal = null;
+            ArrayList<Object> adjacentEntities = new ArrayList<>();
+
+            int[][] directions = {
+                    {0, -1}, // c
+                    {0, 1},  // b
+                    {-1, 0}, // e
+                    {1, 0}   // d
+            };
+
+            for (int[] dir : directions) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+
+                Cell adjacentCell = map.getCell(newX, newY);
+                if (adjacentCell.isSomethingOnTop()) {
+                    if (adjacentCell.getUnit() != null) {
+                        Unit potentialAlly = adjacentCell.getUnit();
+                        if (potentialAlly.getUnitCiv().equals(healer.getUnitCiv())) {
+                            adjacentEntities.add(potentialAlly);
+                        }
+                    }
+
+                    if (adjacentCell.getBelongsToCity() && adjacentCell.getCity() != null) {
+                        City potentialAllyCity = adjacentCell.getCity();
+                        if (potentialAllyCity.getCityCiv().equals(healer.getUnitCiv())) {
+                            adjacentEntities.add(potentialAllyCity);
+                        }
+                    }
+
+                }
+            }
+
+            if (adjacentEntities.isEmpty()) {
+                continue;
+            }
+
+            foundEntityToHeal = true;
+
+            if (adjacentEntities.size() == 1) {
+                entityToHeal = adjacentEntities.get(0);
+            } else {
+                System.out.println("\nIndique a entidade que pretende curar:");
+                for (int i = 0; i < adjacentEntities.size(); i++) {
+                    Object ally = adjacentEntities.get(i);
+                    if (ally instanceof Unit) {
+                        Unit allyUnit = (Unit) ally;
+                        System.out.printf("%d - %s (%d, %d) : %dHP%n",
+                                i + 1, allyUnit.getType() + allyUnit.getUnitCivNum(),
+                                allyUnit.getCoordX(), allyUnit.getCoordY(), allyUnit.getLife());
+                    } else if (ally instanceof City) {
+                        City enemyCity = (City) ally;
+                        System.out.printf("%d - %s (%d, %d) : %dHP%n",
+                                i + 1, enemyCity.getType() + enemyCity.getCityCivNum(),
+                                enemyCity.getCoordX(), enemyCity.getCoordY(), enemyCity.getLife());
+                    }
+                }
+
+                int choice = -1;
+                while (choice < 1 || choice > adjacentEntities.size()) {
+                    choice = scanner.nextInt();
+                }
+                entityToHeal = adjacentEntities.get(choice - 1);
+            }
+
+            if (entityToHeal != null) {
+                if (entityToHeal instanceof Unit) {
+                    Unit allyUnit = (Unit) entityToHeal;
+                    int newLife = Math.min(allyUnit.getLife() + healer.getHealAmount(), allyUnit.getUnitMaxLife());
+                    allyUnit.setLife(newLife);
+                    System.out.printf("\n%s (%d,%d) agora tem %dHP.%n",
+                            allyUnit.getType() + allyUnit.getUnitCivNum(),
+                            allyUnit.getCoordX(), allyUnit.getCoordY(),
+                            allyUnit.getLife());
+
+                } else if (entityToHeal instanceof City) {
+                    City allyCity = (City) entityToHeal;
+                    int newLife = Math.min(allyCity.getLife() + healer.getHealAmount(), allyCity.getCityMaxLife());
+                    allyCity.setLife(newLife);
+                    System.out.printf("\n%s (%d,%d) agora tem %dHP.%n",
+                            allyCity.getType() + allyCity.getCityCivNum(),
+                            allyCity.getCoordX(), allyCity.getCoordY(),
+                            allyCity.getLife());
+                }
+                map.showMap();
+            }
+        }
+
+        if (!foundEntityToHeal) {
+            System.out.println("Nao tem unidades curantes adjacentes a entidades da sua civilizacao. Aproxime-se da entidade que pretende curar e tente novamente.");
+        }
+
+    }
 
 }
