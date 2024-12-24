@@ -24,6 +24,11 @@ public class Cell {
      * @param type os caracteres tirados do ficheiro do mapa que irão dizer qual o tipo de terreno
      * @throws NullPointerException 
      */
+    
+    
+    
+    
+    
     public Cell(String type) throws NullPointerException{
 
         terrains = new UtilTerrains();

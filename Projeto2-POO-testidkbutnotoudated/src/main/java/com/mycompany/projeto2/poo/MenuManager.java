@@ -12,12 +12,13 @@ public class MenuManager {
         this.map = map;
     }
 
-    public void showMenuManager(Civilization civilization) {
+    public void showMenuManager(Civilization civilization) throws InputMismatchException {
 
         Scanner scanner = new Scanner(System.in);
         int choice;
 
         do {
+            
 
             System.out.println("\nEscolha uma opcao:");
             System.out.println("1 - Mover Unidade");
@@ -25,7 +26,7 @@ public class MenuManager {
             System.out.println("3 - Nova cidade");
             System.out.println("4 - Nova construcao");
             System.out.println("0 - Terminar jogada.");
-
+            
             choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -87,7 +88,7 @@ public class MenuManager {
             for(int i=0;i<builders.size();i++) {
                 
                 Unit temp2 = builders.get(i);
-                if(Math.abs(temp2.getCoordX()-coordX) < 4 && Math.abs(temp2.getCoordY()-coordY) < 4) { //Este cálculo de distância tem de ser atualizado para considerar a circularidade do mapa
+                if((Math.abs(temp2.getCoordX()-coordX) < 4 && Math.abs(temp2.getCoordY()-coordY) < 4) || Map.taxiCabDistanceTo(temp2.getCoordX(),temp2.getCoordY(),coordX,coordY) < 4) { //Este cálculo de distância tem de ser atualizado para considerar a circularidade do mapa
                     foundvalidbuilder = true;
                     break;
                 }
@@ -379,6 +380,16 @@ public class MenuManager {
         if (!foundEnemy) {
             System.out.println("Nao tem unidades atacantes adjacentes a um inimigo. Aproxime-se da entidade que pretende atacar e tente novamente.");
         }
+    }
+    
+    public void showMenuManager2(Civilization civ) {
+        try {
+            this.showMenuManager(civ);
+        } catch (Exception e) {
+            System.out.println("Ocorreu um erro. Tente novamente");
+            showMenuManager2(civ);
+        }
+        
     }
 
 
