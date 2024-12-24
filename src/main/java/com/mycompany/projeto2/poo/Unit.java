@@ -47,17 +47,19 @@ public abstract class Unit implements Life {
     }
 
     public boolean move(Direction direction, Map map) {
-        if (stepsRemaining <= 0) {
-            System.out.println("Ja deu o maximo de passos possivel neste turno.");
-            return false;
-        }
+        int originalX = coordX;
+        int originalY = coordY;
 
         this.setDirection(direction);
         this.moveUnit(map);
 
-        stepsRemaining--;
-        return true;
+        if (coordX != originalX || coordY != originalY) {
+            stepsRemaining--;
+            return true;
+        }
+        return false;
     }
+
 
 
     public int getHealAmount() {
@@ -67,6 +69,15 @@ public abstract class Unit implements Life {
     public abstract int getUnitMaxLife();
 
 
+    public void executeAttack(){};
+    public boolean canAttack() {return false;}
+    public int getRemainingAttacks() {return 0;}
+    public void resetAttacks() {};
+
+    public void executeHeal(){};
+    public boolean canHeal() {return false;}
+    public int getRemainingHeals() {return 0;}
+    public void resetHeals() {};
 
 
 

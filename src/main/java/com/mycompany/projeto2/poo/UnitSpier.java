@@ -22,6 +22,6 @@ public class UnitSpier extends Unit {
 
     @Override
     public int getUnitMaxLife() {
-        return MAX_LIFE; // Retorna o valor máximo de vida para esta unidade
+        return MAX_LIFE;
     }
 }

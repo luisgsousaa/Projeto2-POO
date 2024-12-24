@@ -75,8 +75,8 @@ public class Projeto2POO {
                 if (unit.getMaintenanceCost() > 0) {
                     totalMaintenanceCost += unit.getMaintenanceCost();
                 }
-
-
+                unit.resetAttacks();
+                unit.resetHeals();
             }
 
             civ.addGoldTreasure(-totalMaintenanceCost);

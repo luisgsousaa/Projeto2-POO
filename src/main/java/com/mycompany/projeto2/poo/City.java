@@ -68,6 +68,19 @@ public class City extends Cell implements Life{
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     public int getCoordX() {return coordX;}
     public int getCoordY() {return coordY;}
 
