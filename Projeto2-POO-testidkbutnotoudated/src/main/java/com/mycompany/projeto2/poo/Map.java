@@ -14,6 +14,8 @@ public class Map {
    private static Cell[][] map; // mudar para celulas
    private int width;
    private int height;
+   private static int staticwidth;
+   private static int staticheight;
    /**
     * Cria o mapa e apresenta-o na consola
     */
@@ -23,6 +25,8 @@ public class Map {
        
        height = map[0].length;
        width = map.length;
+       staticheight=height;
+       staticwidth=width;
        
        showMap();
        
@@ -30,6 +34,38 @@ public class Map {
        
        
    }
+   
+   public static int getStaticWidth() {
+       return staticwidth;
+   }
+   public static int getStaticHeight() {
+       return staticwidth;
+   }
+   public static int taxiCabDistanceTo(int x1, int y1, int x2, int y2) { //This method cannot go in Cell because cells don't store their own coords
+       int temp0 = x1 - x2;
+       int temp1 = x1 - x2 + staticwidth;
+       int temp2 = x1 - x2 - staticwidth;
+       temp0 = Math.abs(temp0);
+       temp1 = Math.abs(temp1);
+       temp2 = Math.abs(temp2);
+       
+       int tempX = Math.min(temp2,Math.min(temp0,temp1));
+       
+       temp0 = y1 - y2;
+       temp1 = y1 - y2 + staticheight;
+       temp2 = y1 - y2 - staticheight;
+       temp0 = Math.abs(temp0);
+       temp1 = Math.abs(temp1);
+       temp2 = Math.abs(temp2);
+       
+       int tempY = Math.min(temp2,Math.min(temp0,temp1));
+       
+       return tempX + tempY;
+       
+       
+   }
+   
+   
    /**
     * Função que imprime o mapa na consola, mostrando os simbolos de cada célula, percorre o array bidimensional para apresentar o mapa e escreve as coordenadas
     * x e y para facilitar a visualização

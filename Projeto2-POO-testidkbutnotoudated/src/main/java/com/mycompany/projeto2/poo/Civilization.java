@@ -32,6 +32,7 @@ public class Civilization {
         this.number = number; // id / nr civ / nr jogador
         this.controlledUnits = new ArrayList<>();
         this.controlledCities = new ArrayList<>();
+        this.controlledBuildings = new ArrayList<>();
     }
 
     // construtor com nome
@@ -40,6 +41,7 @@ public class Civilization {
         this.number = number; // id / nr civ / nr jogador
         this.controlledCities = new ArrayList<>();
         this.controlledUnits = new ArrayList<>();
+        this.controlledBuildings = new ArrayList<>();
     }
 
     public int getNumber(){return number;}

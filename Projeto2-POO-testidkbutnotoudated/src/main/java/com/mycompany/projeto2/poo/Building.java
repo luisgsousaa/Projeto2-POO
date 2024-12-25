@@ -81,7 +81,7 @@ public static final int maxtype = 1;
             city.getCiv().addBuilding(this);
             location.setSomethingOnTop(true);
             location.setPreviousTypeShown(location.getTypeShown());
-            location.setTypeShown("D");
+            location.setTypeShown("D"+Integer.toString(city.getCityCivNum()));
         } else {
             System.out.println("Insufficient Resources"); //Péssima prática mas neste caso dá
         }
