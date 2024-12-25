@@ -11,6 +11,7 @@ package com.mycompany.projeto2.poo;
 public class CityBuilder {
     private Map map;
     private int coordX,coordY,cityNumber;
+    private final int MIN_DISTANCE_BETWEEN_CITIES = 2; // distancia minima livre entre cidades
     /**
      * 
      * @param coordX coordenada x escolhida para o centro da cidade pelo jogador
@@ -100,7 +101,8 @@ public class CityBuilder {
      */
     private boolean isFarFromCities(int coordX,int coordY){
         int index = 1;
-        while(index <= 6){
+        int radius = 3 + MIN_DISTANCE_BETWEEN_CITIES;
+        while(index <= radius){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
                     try{
