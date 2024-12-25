@@ -2,17 +2,17 @@ package com.mycompany.projeto2.poo;
 
 public class UnitProducer extends Unit {
 
-    private Map map;
+    private GameMap gameMap;
     private static final String NAME = "Producer";
     private static final int MAX_LIFE = 60;
 
 
-    public UnitProducer(int x, int y, Map map, Direction direction, Civilization civilization) {
-        super("P", civilization, 1, 0, 3, 2,0);
+    public UnitProducer(int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
+        super("P", civilization, 1, 0, 50, 2,0);
         //"P" + civilization.getId(),
         this.setCoordX(x);
         this.setCoordY(y);
-        this.map = map;
+        this.gameMap = gameMap;
         this.setDirection(direction);
     }
 

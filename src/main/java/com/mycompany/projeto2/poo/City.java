@@ -20,7 +20,7 @@ public class City extends Cell implements Life{
     private int foodWorkers, industrialWorkers, goldWorkers;
     
     private String[] layers;
-    private Map map;
+    private GameMap gameMap;
     private final int coordX, coordY;
 
     private Civilization civilization;
@@ -35,12 +35,12 @@ public class City extends Cell implements Life{
      * É criada uma nova célula do tipo cidade usando o construtor da super classe, é criada a cidade e os primeiros trabalhadores são atribuidos aos terrenos
      * @param x coordenada x da cidade, escolhida pelo jogador
      * @param y coordenada y da cidade, escolhida pelo jogador
-     * @param map referencia do objeto mapa
+     * @param gameMap referencia do objeto mapa
      * @param cityNumber número do jogador que é dado à cidade no mapa
      */
-    public City(int x, int y,Map map,int cityNumber, Civilization civilization){
+    public City(int x, int y, GameMap gameMap, int cityNumber, Civilization civilization){
         super("C ");
-        setCityVariables(map,cityNumber);
+        setCityVariables(gameMap,cityNumber);
         coordX = x;
         coordY = y;
         this.civilization = civilization;
@@ -75,6 +75,9 @@ public class City extends Cell implements Life{
 
 
 
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
+    }
 
 
 
@@ -96,9 +99,9 @@ public class City extends Cell implements Life{
     public boolean isAlive() {return this.life > 0;}
     public void setLife(int life) {this.life = life;}
 
-    public void die(Map map) {
+    public void die(GameMap gameMap) {
 
-        Cell c = map.getCell(coordX, coordY);
+        Cell c = gameMap.getCell(coordX, coordY);
 
         if (c != null) {
             c.setSomethingOnTop(false);
@@ -135,11 +138,11 @@ public class City extends Cell implements Life{
      */
     private void createCity(){
                 
-        map.setCell(coordX,coordY,this);
+        gameMap.setCell(coordX,coordY,this);
         String newType = this.getType().trim() + cityNumber ;
         this.setTypeShown(newType);
 
-        Cell cell = map.getCell(coordX, coordY);
+        Cell cell = gameMap.getCell(coordX, coordY);
         cell.setSomethingOnTop(true);
 
 
@@ -148,17 +151,17 @@ public class City extends Cell implements Life{
         while(index <= 3){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
-                    String symbol = map.getCellTypeShown(x+coordX,y+coordY);
+                    String symbol = gameMap.getCellTypeShown(x+coordX,y+coordY);
 
 
 
                     if(!symbol.equals(layers[0]) && !symbol.equals(layers[1]) && !symbol.equals(layers[2])){
-                        map.setCellTypeShown(x+coordX,y+coordY,layers[index]);
-                        map.setCellBelongsToCity(x+coordX,y+coordY, true);
+                        gameMap.setCellTypeShown(x+coordX,y+coordY,layers[index]);
+                        gameMap.setCellBelongsToCity(x+coordX,y+coordY, true);
 
 
 
-                        maxNumWorkers+= map.getCellMaxNumWorkers(x+coordX,y+coordY);
+                        maxNumWorkers+= gameMap.getCellMaxNumWorkers(x+coordX,y+coordY);
                         setProductionType(x+coordX,y+coordY,index);
                     }                
                 }         
@@ -177,13 +180,13 @@ public class City extends Cell implements Life{
     private void setProductionType(int x,int y,int index){
         switch(index){
             case 1:
-                map.setCellToGoldProduction(x, y);
+                gameMap.setCellToGoldProduction(x, y);
                 break;
             case 2:
-                map.setCellToIndustrialProduction(x, y);
+                gameMap.setCellToIndustrialProduction(x, y);
                 break;
             case 3:
-                map.setCellToFoodProduction(x, y);
+                gameMap.setCellToFoodProduction(x, y);
                 break;
             
         }
@@ -210,7 +213,7 @@ public class City extends Cell implements Life{
         while(index <= 3){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
-                    map.getCellType(x+coordX,y+coordY);
+                    gameMap.getCellType(x+coordX,y+coordY);
                     
                                    
                 }         
@@ -224,17 +227,17 @@ public class City extends Cell implements Life{
     
     /**
      * É chamada no construtor, dá os valores às variáveis da cidade
-     * @param map referencia do objeto mapa
+     * @param gameMap referencia do objeto mapa
      * @param cityNumber número do jogador a quem pertence a cidade
      */
-    private void setCityVariables(Map map,int cityNumber){
+    private void setCityVariables(GameMap gameMap, int cityNumber){
         population = STARTING_POPULATION;
         foodResources = 0;
       
         foodReserve = STARTING_FOOD_RESOURCES;
         industrialResources = 0;
         maxNumWorkers = 0;
-        this.map=map;
+        this.gameMap = gameMap;
         this.cityNumber = cityNumber;
         this.setBelongsToCity(true);
         updateFoodNecessity();
@@ -299,16 +302,16 @@ public class City extends Cell implements Life{
         for(int y = -1*layer ; y <= 1*layer; y++){
             for(int x = -1*layer ; x <= 1*layer; x++){
                 
-                if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
+                if(gameMap.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
                     
                     
-                    int maxWorkers = map.getCellMaxNumWorkers(x+coordX,y+coordY);
+                    int maxWorkers = gameMap.getCellMaxNumWorkers(x+coordX,y+coordY);
                     
-                    if(map.getCellNumWorkers(x+coordX,y+coordY) == maxWorkers){continue;}
+                    if(gameMap.getCellNumWorkers(x+coordX,y+coordY) == maxWorkers){continue;}
                     else{
-                        while(map.getCellNumWorkers(x+coordX,y+coordY) < maxWorkers){
+                        while(gameMap.getCellNumWorkers(x+coordX,y+coordY) < maxWorkers){
                             if(workersAdded<quantity){
-                                map.changeCellNumWorkers(x+coordX,y+coordY,+1);
+                                gameMap.changeCellNumWorkers(x+coordX,y+coordY,+1);
                                 workersAdded++;
                                 countWorkers(layer,1);
                             }
@@ -338,12 +341,12 @@ public class City extends Cell implements Life{
         for(int y = -1*layer ; y <= 1*layer; y++){
             for(int x = -1*layer ; x <= 1*layer; x++){
                
-                if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
-                    if(map.getCellNumWorkers(x+coordX,y+coordY) == 0){continue;}
+                if(gameMap.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
+                    if(gameMap.getCellNumWorkers(x+coordX,y+coordY) == 0){continue;}
                     else{
-                        while(map.getCellNumWorkers(x+coordX,y+coordY) > 0){
+                        while(gameMap.getCellNumWorkers(x+coordX,y+coordY) > 0){
                             if(workersRemoved<quantity){
-                                map.changeCellNumWorkers(x+coordX,y+coordY,-1);
+                                gameMap.changeCellNumWorkers(x+coordX,y+coordY,-1);
                                 workersRemoved++;
                                 countWorkers(layer,-1);
                             }
@@ -392,7 +395,7 @@ public class City extends Cell implements Life{
         final int CITY_SIZE = 3;
         for(int y = -1*CITY_SIZE ; y <= 1*CITY_SIZE; y++){
             for(int x = -1*CITY_SIZE ; x <= 1*CITY_SIZE; x++){
-                Cell currentCell = map.getCell(x+coordX, y+coordY);
+                Cell currentCell = gameMap.getCell(x+coordX, y+coordY);
                 if(currentCell.getNumWorkers() == 0){continue;}            
                 else{
                     ProduceResources.chooseProduceType(currentCell,this);

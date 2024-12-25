@@ -10,14 +10,14 @@ import java.io.IOException;
  *
  * @author Admin
  */
-public class Map {
+public class GameMap {
    private static Cell[][] map; // mudar para celulas
    private int width;
    private int height;
    /**
     * Cria o mapa e apresenta-o na consola
     */
-   public Map() throws IOException{
+   public GameMap() throws IOException{
        MapBuilder mapBuilder = new MapBuilder();
        map = mapBuilder.getMap();
        

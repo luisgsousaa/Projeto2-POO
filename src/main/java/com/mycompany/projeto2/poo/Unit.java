@@ -15,6 +15,9 @@ public abstract class Unit implements Life {
 
     private int stepsRemaining;
     private int maxSteps;
+    private boolean isColonizer;
+
+
 
 
     public Unit(String type, Civilization civilization, int maxSteps, double maintenanceCost, int productionCost, int productionDelay, int attackDamage) {
@@ -27,11 +30,22 @@ public abstract class Unit implements Life {
         this.life = getUnitMaxLife();
         this.attackDamage = attackDamage;
         civilization.addUnitToCiv(this);
-
+        this.isColonizer = false;
 
         this.stepsRemaining = maxSteps;
         this.maxSteps = maxSteps;
     }
+
+
+
+    public boolean isColonizer() {
+        return isColonizer;
+    }
+
+    public void setColonizer(boolean colonizer) {
+        this.isColonizer = colonizer;
+    }
+
 
 
     public int getStepsRemaining() {
@@ -46,12 +60,12 @@ public abstract class Unit implements Life {
         return maxSteps;
     }
 
-    public boolean move(Direction direction, Map map) {
+    public boolean move(Direction direction, GameMap gameMap) {
         int originalX = coordX;
         int originalY = coordY;
 
         this.setDirection(direction);
-        this.moveUnit(map);
+        this.moveUnit(gameMap);
 
         if (coordX != originalX || coordY != originalY) {
             stepsRemaining--;
@@ -69,7 +83,7 @@ public abstract class Unit implements Life {
     public abstract int getUnitMaxLife();
 
 
-    public void executeAttack(){};
+    public void executeConfrontation(){};
     public boolean canAttack() {return false;}
     public int getRemainingAttacks() {return 0;}
     public void resetAttacks() {};
@@ -93,6 +107,9 @@ public abstract class Unit implements Life {
     public int getUnitCivNum() {return civilization.getNumber();}
     public Civilization getUnitCiv() {return civilization;}
     public String getUnitCivName() {return civilization.getName();}
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
+    }
 
 
     // vida
@@ -108,9 +125,9 @@ public abstract class Unit implements Life {
 
 
     public void removeUnitFromCiv() {civilization.getControlledUnits().remove(this);}
-    public void die(Map map) {
+    public void die(GameMap gameMap) {
 
-        Cell c = map.getCell(coordX, coordY);
+        Cell c = gameMap.getCell(coordX, coordY);
 
         if (c != null) {
             c.removeUnit();
@@ -136,14 +153,14 @@ public abstract class Unit implements Life {
 
 
 
-    public static Unit createUnit(String unitType, int x, int y, Map map, Direction direction, Civilization civilization) {
+    public static Unit createUnit(String unitType, int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
 
-        if (x < 0 || x >= map.getWidth() || y < 0 || y >= map.getHeight()) {
+        if (x < 0 || x >= gameMap.getWidth() || y < 0 || y >= gameMap.getHeight()) {
             System.out.println("Coordenadas invalidas.");
             return null;
         }
 
-        Cell targetCell = map.getCell(x,y);
+        Cell targetCell = gameMap.getCell(x,y);
 
         if (targetCell.isSomethingOnTop()) {
             System.out.println("A celula (" + x + "," + y + ") ja esta ocupada.");
@@ -154,28 +171,11 @@ public abstract class Unit implements Life {
             System.out.println("A celula (" + x + "," + y + ") e inacessivel.");
             return null;
         }
-
-        Unit newUnit;
-
-        switch (unitType.trim()) {
-            case "M":
-                newUnit = new UnitMilitary(x, y, map, direction, civilization);
-                break;
-            case "E":
-                newUnit = new UnitExplorer(x, y, map, direction, civilization);
-                break;
-            case "B":
-                newUnit = new UnitBuilder(x, y, map, direction, civilization);
-                break;
-            case "S":
-                newUnit = new UnitSpier(x, y, map, direction, civilization);
-                break;
-            case "P":
-                newUnit = new UnitProducer(x, y, map, direction, civilization);
-                break;
-            default:
-                System.out.println("Unidade desconhecida.");
-                return null;
+        Unit newUnit = UnitFactoryRegistry.createUnit(unitType.trim(), x, y, gameMap, direction, civilization);
+        //Unit newUnit = createUnitOfType(unitType.trim(), x, y, gameMap, direction, civilization);
+        if (newUnit == null) {
+            System.out.println("Unidade desconhecida.");
+            return null;
         }
 
         targetCell.setPreviousTypeShown(targetCell.getTypeShown());
@@ -185,9 +185,52 @@ public abstract class Unit implements Life {
 
         return newUnit;
     }
+/*
+    private static Unit createUnitOfType(String unitType, int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
+        switch (unitType) {
+            case "M":
+                return new UnitMilitary(x, y, gameMap, direction, civilization);
+            case "E":
+                return new UnitExplorer(x, y, gameMap, direction, civilization);
+            case "B":
+                return new UnitBuilder(x, y, gameMap, direction, civilization);
+            case "S":
+                return new UnitSpier(x, y, gameMap, direction, civilization);
+            case "P":
+                return new UnitProducer(x, y, gameMap, direction, civilization);
+            default:
+                return null;
+        }
+    }
+*/
 
 
-    public void moveUnit(Map map) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void moveUnit(GameMap gameMap) {
 
             int newX = coordX;
             int newY = coordY;
@@ -195,22 +238,22 @@ public abstract class Unit implements Life {
             switch (direction) {
                 case UP:
                     newY--;
-                    if (newY < 0) {newY = map.getHeight() - 1;} // Circ vert cim
+                    if (newY < 0) {newY = gameMap.getHeight() - 1;} // Circ vert cim
                     break;
 
                 case DOWN:
                     newY++;
-                    if (newY >= map.getHeight()) {newY = 0;} // circ vert baix
+                    if (newY >= gameMap.getHeight()) {newY = 0;} // circ vert baix
                     break;
 
                 case LEFT:
                     newX--;
-                    if (newX < 0) {coordX = map.getWidth() - 1;} // Circ horz esq
+                    if (newX < 0) {coordX = gameMap.getWidth() - 1;} // Circ horz esq
                     break;
 
                 case RIGHT:
                     newX++;
-                    if (newX >= map.getWidth()) {newX = 0;} //circ horz dir
+                    if (newX >= gameMap.getWidth()) {newX = 0;} //circ horz dir
                     break;
 
                 case NONE:
@@ -220,8 +263,8 @@ public abstract class Unit implements Life {
                     return;
             }
 
-            Cell currentCell = map.getCell(coordX, coordY); // celula em que se ta atualmente
-            Cell targetCell = map.getCell(newX, newY); // nova celula que queremos nos mover
+            Cell currentCell = gameMap.getCell(coordX, coordY); // celula em que se ta atualmente
+            Cell targetCell = gameMap.getCell(newX, newY); // nova celula que queremos nos mover
 
             if (targetCell == null) {
                 System.out.println("A celula de destino (" + newX + ", " + newY + ") nao existe.");
