@@ -3,15 +3,17 @@ package com.mycompany.projeto2.poo;
 public class UnitBuilder extends Unit {
 
     private GameMap gameMap;
-    private static final String NAME = "Builder";
-    private static final int HEAL_AMOUNT = 10;
+    public static final String NAME = "Builder";
+    private static final String TYPE = "B";
+    public static final int PRODUCTION_COST = 150;
+    private static final int LIFE = 80;
 
-    private static final int MAX_LIFE = 80;
+    private static final int HEAL_AMOUNT = 10;
     private static final int MAX_HEALS = 2;
     private int remainingHeals;
 
     public UnitBuilder(int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
-        super("B", civilization,  30, 0, 150, 2,0);
+        super(NAME,TYPE, civilization,  LIFE,30, 0, PRODUCTION_COST, 2,0);
         this.setCoordX(x);
         this.setCoordY(y);
         this.gameMap = gameMap;
@@ -19,29 +21,15 @@ public class UnitBuilder extends Unit {
         this.remainingHeals = MAX_HEALS;
     }
 
+    // para a lógica de curar/reparar unidades ou cidades da sua civilizacao
     @Override
-    public String getUnitName() {return NAME;}
-
+    public int getHealAmount() {return HEAL_AMOUNT;}
     @Override
-    public int getHealAmount() {
-        return HEAL_AMOUNT;
-    }
-
+    public boolean canHeal() {return remainingHeals > 0;}
     @Override
-    public int getUnitMaxLife() {
-        return MAX_LIFE;
-    }
-
-
-
+    public int getRemainingHeals() {return remainingHeals;}
     @Override
-    public int getRemainingHeals() {
-        return remainingHeals;
-    }
-    @Override
-    public void resetHeals() {
-        remainingHeals = MAX_HEALS;
-    }
+    public void resetHeals() {remainingHeals = MAX_HEALS;}
     @Override
     public void executeHeal() {
         if (remainingHeals > 0) {
@@ -51,35 +39,4 @@ public class UnitBuilder extends Unit {
             System.out.println("Todas as curas desta unidade ja foram usadas neste ciclo.");
         }
     }
-    @Override
-    public boolean canHeal() {
-        return remainingHeals > 0;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

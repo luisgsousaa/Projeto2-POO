@@ -44,7 +44,7 @@ public class Cell {
         this.previousTypeShown = typeShown;
         this.productivity = selectedTerrain.getProductivity();
         this.entryCost = selectedTerrain.getEntryCost();
-        this.cyclesToTraverse = selectedTerrain.getCyclesToTraverse();
+        this.cyclesToTraverse = selectedTerrain.getStepsToTraverse();
         this.maxNumWorkers = selectedTerrain.getMaxNumWorkers();
         this.numWorkers = 0;
         this.foodProduction = selectedTerrain.getFoodProduction();

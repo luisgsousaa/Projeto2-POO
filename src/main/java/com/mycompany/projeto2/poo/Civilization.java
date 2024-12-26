@@ -9,17 +9,7 @@ public class Civilization {
     private ArrayList<City> controlledCities;
     private ArrayList<Unit> controlledUnits;
     private static ArrayList<String> civNames = new ArrayList<>();
-
     private double GoldTreasure;
-
-
-    // mexer apenas nesta variavel (centralizado aqui, tudo mandado para qui retirado somado tudo aqui, cidade nao podem ter subreservas)
-
-
-
-
-
-
 
     static {
         civNames.add("Estepilhas");
@@ -57,25 +47,14 @@ public class Civilization {
     }
 
 
-
-
-    public double getGoldTreasure() {
-        return GoldTreasure;
-    }
+    // tesouro da civilizacao
+    public double getGoldTreasure() {return GoldTreasure;}
     public void addGoldTreasure(double a) {
         GoldTreasure += a;
-
         if (GoldTreasure < 0) {
             GoldTreasure = 0;
         }
-
-
     }
-
-
-
-
-
 
 
     public int getNumber(){return number;}
@@ -83,11 +62,8 @@ public class Civilization {
     public static ArrayList<String> getCivNames() {return civNames;}
     public ArrayList<Unit> getControlledUnits() {return controlledUnits;}
     public ArrayList<City> getControlledCities() {return controlledCities;}
-
     public void addUnitToCiv(Unit unit) {controlledUnits.add(unit);}
     public void addCityToCiv(City city) {controlledCities.add(city);}
-
-
 
 
     public static void addCivName(String name) {
@@ -110,13 +86,11 @@ public class Civilization {
         }
     }
 
-
-    // por enquanto ainda nao foi usado, depois ver se sera preciso
     public static void showControlledCities(Civilization civ) {
         System.out.println("\nCidades controladas:");
         int index = 1;
         for (City c : civ.getControlledCities()) {
-            System.out.println(index + " - " + c.getType() + c.getCityCivNum());
+            System.out.println(index + " - " + c.getType() + c.getCityCivNum() + " (" + c.getCoordX() + "," + c.getCoordY() + ")");
             index++;
         }
 
@@ -124,62 +98,5 @@ public class Civilization {
             System.out.println("Nao tem cidades na sua civilizacao.");
         }
     }
-
-
-
-    /// em principio lixo
-    /*
-    public static void showControlledUnits(Civilization civ, Class<? extends Unit> unitClass) {
-        if (unitClass == null) {
-            System.out.println("\nClasse fornecida é nula");
-            return;
-        }
-
-        String unitName = "unidade";
-        for (Unit u : civ.getControlledUnits()) {
-            if (unitClass.isInstance(u)) {
-                unitName = u.getUnitName();
-                break;
-            }
-        }
-        System.out.println("\nUnidades " + unitName + " controladas:");
-
-        int index = 1;
-        for (Unit u : civ.getControlledUnits()) {
-            if (unitClass.isInstance(u)) {
-                System.out.println(index + " - " + u.getType() + u.getUnitCivNum() + " (" + u.getCoordX() + "," + u.getCoordY() + ")");
-                index++;
-            }
-        }
-
-        if (index == 1) {
-            System.out.println("Nao tem unidades " + unitName + " na sua civilizacao.");
-        }
-    }*/
-
-
-
-
-
-
-
-/// para testes
-    public void printControlled() {
-        System.out.println("civ " + this.name);
-        System.out.println("num unidades controladas " + getControlledUnits().size());
-        for (Unit u : controlledUnits) {
-            System.out.println(u.getType() + u.getUnitCivNum());
-        }
-        System.out.println("num cid controladas " + getControlledCities().size());
-        for (City c : controlledCities) {
-            System.out.println(c.getType() + c.getCityCivNum());
-        }
-    }
-
-
-    // notas
-
-    //fazer a atualizacao do array list do controlled cells e units sempre que a celula ou unidade "morre" e quando é criada uma unidade (subclasses de unidade) ou celula (subclasses de celula)
-    // a ideia depois sera atraves desse array list se a civilizacao perde (ou ganha?) e tbm para imprimir unidades e cidades que pertencem a civilizacao nos menus
 
 }

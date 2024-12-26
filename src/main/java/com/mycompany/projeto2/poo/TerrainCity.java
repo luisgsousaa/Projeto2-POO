@@ -46,7 +46,7 @@ public class TerrainCity implements ITerrain {
     @Override
     public int getEntryCost(){return entryCost;}
     @Override
-    public int getCyclesToTraverse(){return cyclesToTraverse;}
+    public int getStepsToTraverse(){return cyclesToTraverse;}
     @Override
     public int getMaxNumWorkers(){return maxNumWorkers;}
     @Override

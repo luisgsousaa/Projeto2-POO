@@ -9,7 +9,7 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class TerrainMountain implements ITerrain {
-    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers;
+    private int productivity, entryCost, stepsToTraverse, maxNumWorkers;
     private double foodProduction, industrialProduction;
     private double goldProduction;
     private String type, typeShown;
@@ -23,7 +23,7 @@ public class TerrainMountain implements ITerrain {
         this.typeShown = "Z ";
         this.productivity = 5;
         this.entryCost = 3;
-        this.cyclesToTraverse = 2;
+        this.stepsToTraverse = 2;
         this.maxNumWorkers = 6;
         this.foodProduction = 1.5;
         this.industrialProduction = 1;
@@ -44,7 +44,7 @@ public class TerrainMountain implements ITerrain {
     @Override
     public int getEntryCost(){return entryCost;}
     @Override
-    public int getCyclesToTraverse(){return cyclesToTraverse;}
+    public int getStepsToTraverse(){return stepsToTraverse;}
     @Override
     public int getMaxNumWorkers(){return maxNumWorkers;}
     @Override

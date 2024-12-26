@@ -1,11 +1,65 @@
 package com.mycompany.projeto2.poo;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MenuManager {
 
     private GameMap gameMap;
+    private ArrayList<MenuOption> menuOptions = new ArrayList<>();
+
+    public MenuManager(GameMap gameMap) {
+        this.gameMap = gameMap;
+        initializeMenuOptions();
+    }
+
+    private void initializeMenuOptions() {
+        menuOptions.add(new MenuMoveUnitOption());
+        menuOptions.add(new MenuConfrontOption());
+        menuOptions.add(new MenuHealOption());
+        menuOptions.add(new MenuCreateUnitOption());
+        menuOptions.add(new MenuCreateCityOption());
+    }
+
+
+    public boolean showMenuManager(Civilization civilization) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\nEscolha uma opcao:");
+            for (int i = 0; i < menuOptions.size(); i++) {
+                System.out.printf("%d - %s%n", i + 1, menuOptions.get(i).getDescription());
+            }
+            System.out.println("0 - Terminar jogada.");
+
+            while (!scanner.hasNextInt()) {
+                System.out.println("Entrada invalida. Por favor, insira um numero.");
+                scanner.next();
+            }
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice > 0 && choice <= menuOptions.size()) {
+                menuOptions.get(choice - 1).execute(scanner, civilization, gameMap);
+            } else if (choice == 0) {
+                return true;
+            } else {
+                System.out.println("Opcao invalida. Tente novamente.");
+            }
+        } while (choice != 0);
+
+        return false;
+        //scanner.close();
+    }
+
+}
+
+
+/*
+
     private Unit unit;
     private Civilization civilization;
 
@@ -48,7 +102,7 @@ public class MenuManager {
                     optionHeal(scanner, civilization);
                     break;
                 case 4:
-                    //optionCreateUnit(scanner, civilization);
+                    optionCreateUnit(scanner, civilization);
                     break;
                 case 5:
                     optionCreateCity(scanner, civilization);
@@ -576,10 +630,18 @@ public class MenuManager {
         }
     }
 
-/*
+
+
+
+
+
+
+
+
+
     private void optionCreateUnit(Scanner scanner, Civilization civilization) {
 
-        Civilization.showControlledCities(civilization);
+        Civilization.showControlledCities(civilization); // mostra as cidades controladas pela civilizacao
 
         System.out.println("\nIndique a cidade onde pretende criar unidade(s):");
 
@@ -591,18 +653,91 @@ public class MenuManager {
                 return;
             }
 
-            City city = civilization.getControlledCities().get(cityIndex - 1);
+            City city = civilization.getControlledCities().get(cityIndex - 1);  // obtem a cidade escolhida
 
-            System.out.printf("\nRecursos dessa cidade: %n", city.getIndustrialResources());
+            System.out.println("\nRecursos dessa cidade: " + city.getIndustrialResources());
+
+            System.out.println("\nEscolha o tipo de unidade a ser criada (escreva a primeira letra do seu nome):");
+            showAvailableUnits();
+
+            String unitType = scanner.nextLine().trim().toUpperCase();
+
+            UnitFactory selectedFactory = UnitFactoryRegistry.getFactories().get(unitType);
+
+            if (selectedFactory == null) {
+                System.out.println("\nUnidade desconhecida. Tente novamente.");
+                return;
+            }
+
+            int productionCost = selectedFactory.getProductionCost();
+            if (city.getIndustrialResources() < productionCost) {
+                System.out.println("\nNao tem recursos suficientes para criar esta unidade.");
+                return;
+            }
+
+            city.setIndustrialResources(city.getIndustrialResources() - productionCost);
+
+            System.out.println("\nIndique as coordenadas (x,y) onde pretende criar a unidade:");
+            String[] coordinates = scanner.nextLine().split(",");
+
+            if (coordinates.length != 2) {
+                System.out.println("Formato invalido. Por favor, insira as coordenadas no formato x,y.");
+                return;
+            }
+
+            try {
+
+            int x = Integer.parseInt(coordinates[0]);
+            int y = Integer.parseInt(coordinates[1]);
 
 
+            Direction direction = Direction.NONE;
+            Unit newUnit = Unit.createUnit(unitType, x, y, gameMap, direction, civilization);
+
+            if (newUnit != null) {
+                System.out.println("A unidade " + newUnit.getUnitName() + " foi criada nas coordenadas (" + x + ", " + y + ").");
+            } else {
+                System.out.println("A criacao da unidade falhou.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada invalida. As coordenadas devem ser numeros inteiros.");
         }
-    }*/
+
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada invalida. Escolha um indice da lista");
+        }
+
+    }
+
+    private void showAvailableUnits() {
+        Map<String, UnitFactory> availableUnits = UnitFactoryRegistry.getFactories();
+        for (Map.Entry<String, UnitFactory> entry : availableUnits.entrySet()) {
+            UnitFactory unitFactory = entry.getValue();
+            System.out.printf("Unidade: %s - Custo: %d \n", unitFactory.getUnitName(), unitFactory.getProductionCost());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     private void optionCreateCity(Scanner scanner, Civilization civilization) {
 
+        // vai buscar unidades que podem fundar cidades
         ArrayList<Unit> colonizerUnits = new ArrayList<>();
         for (Unit unit : civilization.getControlledUnits()) {
             if (unit.isColonizer()) {
@@ -677,4 +812,4 @@ public class MenuManager {
         }
     }
 
-}
+}*/

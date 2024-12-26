@@ -20,8 +20,10 @@ public class UnitFactoryRegistry {
             System.out.println("Unidade desconhecida.");
             return null;
         }
-
         return factory.createUnit(x, y, gameMap, direction, civilization);
     }
+
+    public static Map<String, UnitFactory> getFactories() {return factories;}
+
 }
 

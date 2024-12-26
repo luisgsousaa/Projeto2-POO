@@ -25,7 +25,6 @@ public class City extends Cell implements Life{
 
     private Civilization civilization;
 
-
     private static final int MAX_LIFE = 80;
     private int life;
 
@@ -45,8 +44,6 @@ public class City extends Cell implements Life{
         coordY = y;
         this.civilization = civilization;
 
-        
-        
         createCity();
         setFirstWorkers();
 
@@ -63,62 +60,38 @@ public class City extends Cell implements Life{
         System.out.println("Gold " + goldResources);
         System.out.println("Industrial " + industrialResources);
         //teste
-        
-        
+
     }
-
-
-
-
-
-
-
-
-
-    public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
-    }
-
-
-
-
 
 
     public int getCoordX() {return coordX;}
     public int getCoordY() {return coordY;}
 
 
-
-    public int getCityMaxLife() {
-        return MAX_LIFE; // Retorna o valor máximo de vida para esta unidade
-    }
     // vida
+    public int getCityMaxLife() {return MAX_LIFE;} // Retorna o valor máximo de vida para esta unidade
     public int getLife() {return life;}
     public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
     public void heal(int amount) {this.life += amount;}
     public boolean isAlive() {return this.life > 0;}
     public void setLife(int life) {this.life = life;}
-
     public void die(GameMap gameMap) {
-
         Cell c = gameMap.getCell(coordX, coordY);
-
         if (c != null) {
             c.setSomethingOnTop(false);
             c.setTypeShown(c.getPreviousTypeShown());
         }
-
         removeCityFromCiv();
     }
 
-
-    //civ
+    //civilization
     public void removeCityFromCiv() {civilization.getControlledCities().remove(this);}
     public Civilization getCityCiv() {return civilization;}
+    public int getCityCivNum() {return civilization.getNumber();}
+    public void setCivilization(Civilization civilization) {this.civilization = civilization;}
 
 
 
-  public int getCityCivNum() {return civilization.getNumber();}
     /**
      * Array que guarda as camadas de terrenos da cidade, o primeiro é (g)old, o segundo é (i)dustry e o terceiro é (f)ood
      */
@@ -403,50 +376,23 @@ public class City extends Cell implements Life{
             }         
         }
     }
-    
-    /**
-     * Funções usadas para adicionar os recursos que foram produzidos à cidade
-     */
 
+
+    // comida
     public void addFoodResources(double a){ // isto é chamado varias vezes no mesmo ciclo para as varias celulas da cidade
         foodResources+=a;
         foodReserve+=a;} // adiciona comida do ciclo à reserva de comida da cidade
+    public double getFoodReserve() {return foodReserve;}
+    public void resetFood() {this.foodResources = 0;} // da reset na comida do ciclo da cidade
+    public double getFoodResources() {return foodResources;}
+
+    // ouro
+    public double getGoldResources() {return goldResources;}
+    public void addGoldToCivTreasure(double a){civilization.addGoldTreasure(a);}
+
+    // recursos industriais
+    public double getIndustrialResources() {return industrialResources;}
+    public void resetIndustrialResources() {this.industrialResources = 0;}
+    public void setIndustrialResources(double industrialResources) {this.industrialResources = industrialResources;}
     public void addIndustrialResources(double a){industrialResources+=a;}
-    public void addGoldToCivTreasure(double a){
-        civilization.addGoldTreasure(a);
-    }
-
-
-
-
-    public double getFoodReserve() {
-        return foodReserve;
-    }
-
-
-    public double getGoldResources() {
-        return goldResources;
-    }
-
-
-    public double getIndustrialResources() {
-        return industrialResources;
-    }
-
-
-    public double getFoodResources() {
-        return foodResources;
-    }
-
-
-    public void resetFood() {
-        this.foodResources = 0;
-    } // da reset na comida do ciclo da cidade
-
-    public void resetIndustrialResources() {
-        this.industrialResources = 0;
-    }
-
-
-
 }

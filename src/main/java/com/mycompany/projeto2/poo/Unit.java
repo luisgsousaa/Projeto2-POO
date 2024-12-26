@@ -11,54 +11,119 @@ public abstract class Unit implements Life {
     private int productionDelay; //nr ciclos a serem criados
     private Civilization civilization;
     private int life, attackDamage;
-
-
     private int stepsRemaining;
     private int maxSteps;
     private boolean isColonizer;
+    private String name;
+    private int maxLife;
 
 
-
-
-    public Unit(String type, Civilization civilization, int maxSteps, double maintenanceCost, int productionCost, int productionDelay, int attackDamage) {
+    public Unit(String name, String type, Civilization civilization, int life, int maxSteps, double maintenanceCost, int productionCost, int productionDelay, int attackDamage) {
+        this.name = name;
         this.type = type;
         this.civilization = civilization;
         this.steps = steps;
         this.productionCost = productionCost;
+        this.life = life;
         this.productionDelay = productionDelay;
         this.maintenanceCost = maintenanceCost;
-        this.life = getUnitMaxLife();
+        this.maxLife = life;
         this.attackDamage = attackDamage;
         civilization.addUnitToCiv(this);
         this.isColonizer = false;
-
         this.stepsRemaining = maxSteps;
         this.maxSteps = maxSteps;
     }
 
 
 
-    public boolean isColonizer() {
-        return isColonizer;
-    }
-
-    public void setColonizer(boolean colonizer) {
-        this.isColonizer = colonizer;
-    }
+    public void setType(String type){this.type = type;}
+    public void setDirection(Direction direction) {this.direction = direction;}
+    public void setCoordX(int coordX) {this.coordX = coordX;}
+    public void setCoordY(int coordY) {this.coordY = coordY;}
 
 
+    // definição se a unidade pode criar cidades ou nao
+    public boolean isColonizer() {return isColonizer;} // verifica se a unidade pode fundar cidades ou nao
+    public void setColonizer(boolean colonizer) {this.isColonizer = colonizer;} // para possibilitar uma unidade a poder fundar novas cidades
 
+
+    // passos
     public int getStepsRemaining() {
         return stepsRemaining;
     }
-
     public void resetSteps() {
         this.stepsRemaining = maxSteps;
     }
-
     public int getMaxSteps() {
         return maxSteps;
     }
+    public int getSteps(){return steps;}
+
+    // dados basicos da unidade
+    public String getUnitName() {return name;}
+    public String getType(){return type;}
+    public Direction getDirection() {return direction;}
+    public int getCoordX() {return coordX;}
+    public int getCoordY() {return coordY;}
+
+
+    // confronto (ataque+captura)
+    public void executeConfrontation(){};
+    public boolean canAttack() {return false;}
+    public int getRemainingAttacks() {return 0;}
+    public void resetAttacks() {};
+    public int getAttackDamage(){return this.attackDamage;}
+    public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
+
+
+    // cura
+    public int getHealAmount() {return 0;} // definida a zero por default
+    public void executeHeal(){};
+    public boolean canHeal() {return false;}
+    public int getRemainingHeals() {return 0;}
+    public void resetHeals() {};
+    public void heal(int amount) {
+        this.life += amount;
+        if (this.life > maxLife) {
+            this.life = maxLife;
+        }
+    }
+
+
+    // vida
+    public int getLife() {return this.life;}
+    public int getUnitMaxLife() {return maxLife;}
+    public boolean isAlive() {return this.life > 0;}
+    public void setLife(int life) {this.life = life;}
+
+
+    // civilization
+    public int getUnitCivNum() {return civilization.getNumber();}
+    public Civilization getUnitCiv() {return civilization;}
+    public String getUnitCivName() {return civilization.getName();}
+    public void setCivilization(Civilization civilization) {this.civilization = civilization;}
+    public void removeUnitFromCiv() {civilization.getControlledUnits().remove(this);}
+
+    public void die(GameMap gameMap) {
+        Cell c = gameMap.getCell(coordX, coordY);
+        if (c != null) {
+            c.removeUnit();
+            c.setTypeShown(c.getPreviousTypeShown());
+        }
+        removeUnitFromCiv();
+    }
+
+
+    // manutenção, produtividade e tempo de criação
+    public double getMaintenanceCost(){return maintenanceCost;}
+    public int getProductionCost(){return productionCost;}
+    public int getProductionDelay(){return productionDelay;}
+    public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
+    public void setProductionCost(int productionCost){this.productionCost=productionCost;}
+    public void setProductionDelay(int productionDelay){this.productionDelay=productionDelay;}
+
+
 
     public boolean move(Direction direction, GameMap gameMap) {
         int originalX = coordX;
@@ -68,88 +133,18 @@ public abstract class Unit implements Life {
         this.moveUnit(gameMap);
 
         if (coordX != originalX || coordY != originalY) {
-            stepsRemaining--;
+            Cell currentCell = gameMap.getCell(coordX, coordY);
+            if (currentCell.getTerrain() != null) {
+                int stepsToMove = currentCell.getTerrain().getStepsToTraverse();
+                stepsRemaining -= stepsToMove; // Deduz o número de passos necessários para atravessar o terreno
+                if (stepsRemaining < 0) {
+                    stepsRemaining = 0; // Evitar que os passos negativos aconteçam
+                }
+            }
             return true;
         }
         return false;
     }
-
-
-
-    public int getHealAmount() {
-        return 0;
-    }
-
-    public abstract int getUnitMaxLife();
-
-
-    public void executeConfrontation(){};
-    public boolean canAttack() {return false;}
-    public int getRemainingAttacks() {return 0;}
-    public void resetAttacks() {};
-
-    public void executeHeal(){};
-    public boolean canHeal() {return false;}
-    public int getRemainingHeals() {return 0;}
-    public void resetHeals() {};
-
-
-
-
-    public double getMaintenanceCost(){return maintenanceCost;}
-    public int getProductionCost(){return productionCost;}
-    public int getProductionDelay(){return productionDelay;}
-    public String getType(){return type;}
-    public Direction getDirection() {return direction;}
-    public int getCoordX() {return coordX;}
-    public int getCoordY() {return coordY;}
-    public int getSteps(){return steps;}
-    public int getUnitCivNum() {return civilization.getNumber();}
-    public Civilization getUnitCiv() {return civilization;}
-    public String getUnitCivName() {return civilization.getName();}
-    public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
-    }
-
-
-    // vida
-    public int getLife() {return this.life;}
-    public int getAttackDamage(){return this.attackDamage;}
-    public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
-    public void heal(int amount) {this.life += amount;}
-    public boolean isAlive() {return this.life > 0;}
-    public void setLife(int life) {this.life = life;}
-
-
-
-
-
-    public void removeUnitFromCiv() {civilization.getControlledUnits().remove(this);}
-    public void die(GameMap gameMap) {
-
-        Cell c = gameMap.getCell(coordX, coordY);
-
-        if (c != null) {
-            c.removeUnit();
-            c.setTypeShown(c.getPreviousTypeShown());
-        }
-
-        removeUnitFromCiv();
-    }
-
-    public abstract String getUnitName();
-    public void setMaintenanceCost(double maintenanceCost){this.maintenanceCost=maintenanceCost;}
-    public void setProductionCost(int productionCost){this.productionCost=productionCost;}
-    public void setProductionDelay(int productionDelay){this.productionDelay=productionDelay;}
-    public void setType(String type){this.type = type;}
-    public void setDirection(Direction direction) {this.direction = direction;}
-    public void setCoordX(int coordX) {this.coordX = coordX;}
-    public void setCoordY(int coordY) {this.coordY = coordY;}
-
-
-
-
-
 
 
 
@@ -185,49 +180,6 @@ public abstract class Unit implements Life {
 
         return newUnit;
     }
-/*
-    private static Unit createUnitOfType(String unitType, int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
-        switch (unitType) {
-            case "M":
-                return new UnitMilitary(x, y, gameMap, direction, civilization);
-            case "E":
-                return new UnitExplorer(x, y, gameMap, direction, civilization);
-            case "B":
-                return new UnitBuilder(x, y, gameMap, direction, civilization);
-            case "S":
-                return new UnitSpier(x, y, gameMap, direction, civilization);
-            case "P":
-                return new UnitProducer(x, y, gameMap, direction, civilization);
-            default:
-                return null;
-        }
-    }
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public void moveUnit(GameMap gameMap) {
@@ -292,9 +244,6 @@ public abstract class Unit implements Life {
             coordX = newX;
             coordY = newY;
     }
-
-
-
 
 }
 
