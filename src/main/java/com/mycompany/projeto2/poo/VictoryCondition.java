@@ -5,7 +5,6 @@
 package com.mycompany.projeto2.poo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class VictoryCondition {
