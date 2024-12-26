@@ -1,6 +1,6 @@
 package com.mycompany.projeto2.poo;
 
-public interface Life {
+public interface ILife {
     int getLife();
     void setLife(int life);
     void takeDamage(int damage);

@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Admin
  */
 public class GameMap {
-   private static Cell[][] map; // mudar para celulas
+   private static Cell[][] map;
    private int width;
    private int height;
    /**
@@ -55,7 +55,6 @@ public class GameMap {
             for(int j = 0; j<width;j++){ //Impressão das células do map deixando um espaço entre estas.
                 
                 System.out.print(map[j][i].getTypeShown());
-                //System.out.print(map[j][i].getNumWorkers()); //teste ------------------------------------------------------------------------
                 System.out.print(" ");
             }
             System.out.println(); // linha a baixo
