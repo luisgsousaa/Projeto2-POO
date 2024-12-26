@@ -1,6 +1,6 @@
 package com.mycompany.projeto2.poo;
 
-public abstract class Unit implements Life {
+public abstract class Unit implements ILife {
     
     private String type;
     private Direction direction;

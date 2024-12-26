@@ -8,7 +8,7 @@ package com.mycompany.projeto2.poo;
  *
  * @author Admin
  */
-public class City extends Cell implements Life{
+public class City extends Cell implements ILife{
     private int population, maxNumWorkers;
     private final int STARTING_POPULATION = 3;
     private final int STARTING_FOOD_RESOURCES = 6;
