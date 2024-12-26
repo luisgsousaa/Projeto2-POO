@@ -14,6 +14,8 @@ public class UnitBuilder extends Unit {
     private static final int MAX_HEALS = 2;
     private int remainingHeals;
 
+    private Cell currentCell;
+
     public UnitBuilder(int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
         super(NAME,TYPE, civilization,  LIFE,MAX_STEPS, 0, PRODUCTION_COST, 2,ATTACK_DAMAGE);
         this.setCoordX(x);
@@ -21,7 +23,35 @@ public class UnitBuilder extends Unit {
         this.gameMap = gameMap;
         this.setDirection(direction);
         this.remainingHeals = MAX_HEALS;
+
+        this.currentCell = gameMap.getCell(x, y);
+        applyEffectToCell(currentCell);
+
     }
+
+    private void applyEffectToCell(Cell cell) {
+        if (cell != null) {
+            cell.increaseProductivityByMultiplier(1.5);
+        }
+    }
+
+    private void removeEffectFromCell(Cell cell) {
+        if (cell != null) {
+            cell.resetProductivityToOriginal();
+        }
+    }
+
+    public boolean move(Direction direction, GameMap gameMap) {
+        Cell previousCell = currentCell;
+        boolean moved = super.move(direction, gameMap);
+        if (moved) {
+            removeEffectFromCell(previousCell);
+            currentCell = gameMap.getCell(getCoordX(), getCoordY());
+            applyEffectToCell(currentCell);
+        }
+        return moved;
+    }
+
 
     // para a lógica de curar/reparar unidades ou cidades da sua civilizacao
     @Override

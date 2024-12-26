@@ -18,6 +18,7 @@ public class Cell {
     private Unit unit;
     private UtilTerrains terrains;
     private ITerrain selectedTerrain;
+    private int originalProductivity;
 
     /**
      * O construtor usa uma classe utilitaria para obter os tipos de terreno que existem e comparar o tipo passado como parâmetro com o tipo que define o terreno
@@ -43,6 +44,7 @@ public class Cell {
         this.typeShown = selectedTerrain.getType();
         this.previousTypeShown = typeShown;
         this.productivity = selectedTerrain.getProductivity();
+        this.originalProductivity = productivity;
         this.entryCost = selectedTerrain.getEntryCost();
         this.cyclesToTraverse = selectedTerrain.getStepsToTraverse();
         this.maxNumWorkers = selectedTerrain.getMaxNumWorkers();
@@ -88,6 +90,8 @@ public class Cell {
     public void setPreviousTypeShown (String input){this.previousTypeShown = input;};
 
     public void multiplyProductivity(double multiplier){this.productivity *=multiplier;}
+
+
     public void setBelongsToCity(boolean input){this.belongsToCity = input;}
     public void setTypeShown(String s){this.typeShown = s;}
     public void changeNumWorkers(int num){this.numWorkers += num;}
@@ -107,10 +111,11 @@ public class Cell {
         this.industrialProduction=0;
     }
 
-    public ITerrain getTerrain() {
-        return this.selectedTerrain;
-    }
+    public ITerrain getTerrain() {return this.selectedTerrain;}
 
+    public void setProductivity(int productivity) {this.productivity = productivity;}
+    public void increaseProductivityByMultiplier(double multiplier) {this.productivity *= multiplier;}
+    public void resetProductivityToOriginal() {this.productivity = originalProductivity;}
 
     
 }
