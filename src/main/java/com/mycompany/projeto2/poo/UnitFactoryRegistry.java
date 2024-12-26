@@ -11,7 +11,7 @@ public class UnitFactoryRegistry {
         factories.put("M", new UnitMilitaryFactory());
         factories.put("E", new UnitExplorerFactory());
         factories.put("B", new UnitBuilderFactory());
-        factories.put("S", new UnitSpierFactory());
+        factories.put("S", new UnitSupremeWarriorFactory());
     }
 
     public static Unit createUnit(String unitType, int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {

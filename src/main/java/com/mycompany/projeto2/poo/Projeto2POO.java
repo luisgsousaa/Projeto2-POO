@@ -91,6 +91,7 @@ public class Projeto2POO {
         Unit.createUnit("B", 25, 2, gameMap, Direction.NONE, civs.get(1));
         //Unit.createUnit("B", 23, 3, map, Direction.NONE, civs.get(1));
         //Unit.createUnit("B", 24, 3, map, Direction.NONE, civs.get(0));
+        Unit.createUnit("S", 30, 3, gameMap, Direction.NONE, civs.get(1));
         Unit.createUnit("E", 25, 3, gameMap, Direction.NONE, civs.get(1));
         Unit.createUnit("E", 24, 4, gameMap, Direction.NONE, civs.get(0));
 

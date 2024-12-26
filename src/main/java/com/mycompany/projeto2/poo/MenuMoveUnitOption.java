@@ -37,30 +37,28 @@ public class MenuMoveUnitOption implements MenuOption {
             }
 
             double totalCost = 0;
-            int actualSteps = 0;
+            int actualMoves = 0;
+            int stepsMade = 0;
 
             for (char letter : input_dirs.toCharArray()) {
-                Direction step_dir = inputToEnumDirection(String.valueOf(letter));
-                if (step_dir != null) {
-                    if (unit.move(step_dir, gameMap)) {
+                Direction stepDir = inputToEnumDirection(String.valueOf(letter));
+                if (stepDir != null) {
                         Cell currentCell = gameMap.getCell(unit.getCoordX(), unit.getCoordY());
-                        if (currentCell.getTerrain() != null) {
-                            totalCost += currentCell.getTerrain().getEntryCost();
-
-                            int stepsToTraverse = currentCell.getTerrain().getStepsToTraverse();
+                        int stepsToTraverse = currentCell.getTerrain().getStepsToTraverse();
 
                             if (unit.getStepsRemaining() >= stepsToTraverse) {
-                                actualSteps++;
+                                if (unit.move(stepDir, gameMap)) {
+                                    actualMoves++;
+                                    stepsMade += stepsToTraverse;
+                                    totalCost += currentCell.getTerrain().getEntryCost();
+                                } else {
+                                    System.out.println("\nMovimento impossivel na direcao: " + letter);
+                                    break;
+                                }
+                            } else {
+                                System.out.printf("\nJa nao tem passos suficientes para atravessar o terreno na direcao: %s.%n", letter);
+                                break;
                             }
-                            else {
-                                System.out.println("\nJa nao tem passos suficientes para fazer a deslocacao deste terreno.");
-                                return;
-                            }
-                        }
-
-                    } else {
-                        continue;
-                    }
                 } else {
                     System.out.println("\nDirecao invalida: " + letter + ". Utilize apenas 'c', 'b', 'e' ou 'd'.");
                     return;
@@ -68,10 +66,10 @@ public class MenuMoveUnitOption implements MenuOption {
             }
 
             double goldBalance = civilization.getGoldTreasure();
-            if (actualSteps > 0) {
+            if (actualMoves > 0) {
                 if (goldBalance >= totalCost) {
                     civilization.addGoldTreasure(-totalCost);
-                    System.out.printf("\nUnidade movida com sucesso. Deslocacoes feitas: %d Passos restantes: %d.%n", actualSteps, unit.getStepsRemaining());
+                    System.out.printf("\nUnidade movida com sucesso. Deslocacoes feitas: %d Passos dados: %s Passos restantes: %d.%n", actualMoves, stepsMade, unit.getStepsRemaining());
                     System.out.println("customovimento testar " + totalCost + " /////APAGAR/////" + civilization.getGoldTreasure());
                     gameMap.showMap();
                 } else {

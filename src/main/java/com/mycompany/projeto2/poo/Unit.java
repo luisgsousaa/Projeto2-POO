@@ -136,9 +136,10 @@ public abstract class Unit implements Life {
             Cell currentCell = gameMap.getCell(coordX, coordY);
             if (currentCell.getTerrain() != null) {
                 int stepsToMove = currentCell.getTerrain().getStepsToTraverse();
-                stepsRemaining -= stepsToMove; // Deduz o número de passos necessários para atravessar o terreno
-                if (stepsRemaining < 0) {
-                    stepsRemaining = 0; // Evitar que os passos negativos aconteçam
+                if (stepsRemaining >= stepsToMove) {
+                    stepsRemaining -= stepsToMove;
+                } else {
+                    stepsRemaining = 0;
                 }
             }
             return true;

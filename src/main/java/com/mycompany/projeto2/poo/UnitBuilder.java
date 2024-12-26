@@ -7,13 +7,15 @@ public class UnitBuilder extends Unit {
     private static final String TYPE = "B";
     public static final int PRODUCTION_COST = 150;
     private static final int LIFE = 80;
+    private static final int MAX_STEPS = 15;
+    private static final int ATTACK_DAMAGE = 0;
 
     private static final int HEAL_AMOUNT = 10;
     private static final int MAX_HEALS = 2;
     private int remainingHeals;
 
     public UnitBuilder(int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
-        super(NAME,TYPE, civilization,  LIFE,30, 0, PRODUCTION_COST, 2,0);
+        super(NAME,TYPE, civilization,  LIFE,MAX_STEPS, 0, PRODUCTION_COST, 2,ATTACK_DAMAGE);
         this.setCoordX(x);
         this.setCoordY(y);
         this.gameMap = gameMap;
