@@ -50,16 +50,6 @@ public class City extends Cell implements Life{
         civilization.addCityToCiv(this);
         this.life = MAX_LIFE;
 
-        // teste
-        addWorkers(1,200);
-        addWorkers(2,200);
-        addWorkers(3,200);
-        produceResourcesForCycle();
-        
-        System.out.println("Food " + foodResources);
-        System.out.println("Gold " + goldResources);
-        System.out.println("Industrial " + industrialResources);
-        //teste
 
     }
 
@@ -70,16 +60,22 @@ public class City extends Cell implements Life{
 
     // vida
     public int getCityMaxLife() {return MAX_LIFE;} // Retorna o valor máximo de vida para esta unidade
+    @Override
     public int getLife() {return life;}
+    @Override
     public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
+    @Override
     public void heal(int amount) {this.life += amount;}
+    @Override
     public boolean isAlive() {return this.life > 0;}
+    @Override
     public void setLife(int life) {this.life = life;}
+    
     public void die(GameMap gameMap) {
         Cell c = gameMap.getCell(coordX, coordY);
         if (c != null) {
             c.setSomethingOnTop(false);
-            c.setTypeShown(c.getPreviousTypeShown());
+            c.setTypeShown("CX");
         }
         removeCityFromCiv();
     }

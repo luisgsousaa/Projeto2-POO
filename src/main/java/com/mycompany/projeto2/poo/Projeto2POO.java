@@ -63,7 +63,13 @@ public class Projeto2POO {
             }
         }
     }
-
+    private static void removeEmptyCivs(){
+        for(Civilization civ : civs){
+                if(civ.getControlledCities().isEmpty()){
+                    civs.remove(civ);
+                }
+            }
+    }
 
     public static void main(String[] args) throws IOException {
         civs = new ArrayList<>();
@@ -129,7 +135,8 @@ public class Projeto2POO {
                 }
 
             }
-
+            ArrayList<Civilization> copyCivs = civs;
+            endGame = VictoryCondition.isEndGame(copyCivs);
         }
 
     }

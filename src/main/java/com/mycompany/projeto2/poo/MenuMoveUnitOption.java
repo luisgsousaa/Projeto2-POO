@@ -28,7 +28,7 @@ public class MenuMoveUnitOption implements MenuOption {
                 return;
             }
 
-            System.out.printf("\nPode dar ate %d passos. Indique a direcao da(s) deslocacao(oes) pretendidas:%n", unit.getStepsRemaining());
+            System.out.printf("\nPode dar ate %d passos. Indique a direcao da(s) deslocacao(oes) pretendidas:%n"+"Utilize 'c', 'b', 'e' ou 'd'.", unit.getStepsRemaining());
             String input_dirs = scanner.nextLine().toLowerCase().trim();
 
             if (input_dirs.length() > unit.getStepsRemaining() || input_dirs.length() <= 0) {
