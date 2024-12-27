@@ -10,7 +10,8 @@ package com.mycompany.projeto2.poo;
  */
 public class Cell {
 
-    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers, numWorkers;
+    private int productivity, cyclesToTraverse, maxNumWorkers, numWorkers;
+    private double entryCost;
     private double foodProduction, industrialProduction;
     private double goldProduction;
     private String type, typeShown, previousTypeShown;//
@@ -71,7 +72,7 @@ public class Cell {
     public String getTypeShown(){return typeShown;}
     public String getPreviousTypeShown(){return previousTypeShown;}
     public int getProductivity(){return productivity;}
-    public int getEntryCost(){return entryCost;}
+    public double getEntryCost(){return entryCost;}
     public int getCyclesToTraverse(){return cyclesToTraverse;}
     public int getMaxNumWorkers(){return maxNumWorkers;}
     public int getNumWorkers(){return numWorkers;}

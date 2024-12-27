@@ -9,7 +9,8 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class TerrainMountain implements ITerrain {
-    private int productivity, entryCost, stepsToTraverse, maxNumWorkers;
+    private int productivity, stepsToTraverse, maxNumWorkers;
+    private double entryCost;
     private double foodProduction, industrialProduction;
     private double goldProduction;
     private String type, typeShown;
@@ -42,7 +43,7 @@ public class TerrainMountain implements ITerrain {
     @Override
     public int getProductivity(){return productivity;}
     @Override
-    public int getEntryCost(){return entryCost;}
+    public double getEntryCost(){return entryCost;}
     @Override
     public int getStepsToTraverse(){return stepsToTraverse;}
     @Override

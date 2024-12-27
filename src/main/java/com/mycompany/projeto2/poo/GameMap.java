@@ -96,7 +96,7 @@ public class GameMap {
      */
     public int getWidth(){return map.length;}
     public int getHeight(){return map[0].length;}
-    public int getCellEntryCost(int x, int y){return map[x][y].getEntryCost();}
+    public double getCellEntryCost(int x, int y){return map[x][y].getEntryCost();}
     public boolean getCellIsSomethingOnTop(int x, int y){return map[x][y].isSomethingOnTop();}   
     public boolean getCellBelongsToCity(int x, int y){return map[x][y].getBelongsToCity();}
     public String getCellTypeShown(int x, int y){return map[x][y].getTypeShown();}

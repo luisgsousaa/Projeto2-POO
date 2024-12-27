@@ -9,10 +9,11 @@ package com.mycompany.projeto2.poo;
  * @author Admin
  */
 public class TerrainPlains implements ITerrain {
-    private int productivity, entryCost, stepsToTraverse, maxNumWorkers;
+    private int productivity, stepsToTraverse, maxNumWorkers;
     private double foodProduction, industrialProduction;
     private double goldProduction;
     private String type, typeShown;
+    private double entryCost;
     
     /**
      * Definição das váriaveis do tipo de terreno planicie usado na interface ITerrain
@@ -41,7 +42,7 @@ public class TerrainPlains implements ITerrain {
     @Override
     public int getProductivity(){return productivity;}
     @Override
-    public int getEntryCost(){return entryCost;}
+    public double getEntryCost(){return entryCost;}
     @Override
     public int getStepsToTraverse(){return stepsToTraverse;}
     @Override

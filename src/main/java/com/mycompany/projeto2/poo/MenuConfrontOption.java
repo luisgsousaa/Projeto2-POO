@@ -3,6 +3,10 @@ package com.mycompany.projeto2.poo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+/**
+ * Opção jogador pode escolher entre atacar unidades ou capturar unidades e cidades inimigas adjacentes.
+ */
 public class MenuConfrontOption implements MenuOption {
 
     @Override
@@ -53,25 +57,40 @@ public class MenuConfrontOption implements MenuOption {
         }
     }
 
+    /**
+     * Pergunta a ação de ataque ou captura escolhida pelo jogador.
+     *
+     */
     private void performAction(Scanner scanner, Unit attacker, GameMap gameMap) {
         if (!attacker.canAttack()) {
             System.out.println("A sua unidade não pode enfrentar mais inimigos neste ciclo.");
             return;
         }
 
-        System.out.println("Deseja capturar ou atacar? (1 - Capturar, 2 - Atacar)");
-        int actionChoice = scanner.nextInt();
+        int actionChoice = -1;
+        while (actionChoice != 1 && actionChoice != 2) {
+            System.out.println("Deseja capturar ou atacar? (1 - Capturar, 2 - Atacar)");
 
-        if (actionChoice == 1) {
-            performCapture(scanner, attacker, gameMap);
-        } else if (actionChoice == 2) {
-            performAttack(scanner, attacker, gameMap);
-        } else {
-            System.out.println("Opcao invalida. Tente novamente.");
-            performAction(scanner, attacker, gameMap);
+            if (scanner.hasNextInt()) {
+                actionChoice = scanner.nextInt();
+                if (actionChoice == 1) {
+                    performCapture(scanner, attacker, gameMap);
+                } else if (actionChoice == 2) {
+                    performAttack(scanner, attacker, gameMap);
+                } else {
+                    System.out.println("Opção invalida. Tente novamente.");
+                }
+            } else {
+                System.out.println("Entrada invalida. Por favor, insira um numero (1 ou 2).");
+                scanner.next();
+            }
         }
     }
 
+    /**
+     * Mostra opcoes captura de uma unidade ou cidade inimiga adjacente.
+     *
+     */
     private void performCapture(Scanner scanner, Unit attacker, GameMap gameMap) {
         int x = attacker.getCoordX();
         int y = attacker.getCoordY();
@@ -107,6 +126,10 @@ public class MenuConfrontOption implements MenuOption {
         gameMap.showMap();
     }
 
+    /**
+     * Mostra opcoes de ataque a uma unidade ou cidade inimiga adjacente.
+     *
+     */
     private void performAttack(Scanner scanner, Unit attacker, GameMap gameMap) {
         int x = attacker.getCoordX();
         int y = attacker.getCoordY();
@@ -145,6 +168,10 @@ public class MenuConfrontOption implements MenuOption {
     }
 
 
+    /**
+     * Captura a unidade ou cidade inimiga selecionada pelo jogador.
+     *
+     */
     private void captureTarget(Scanner scanner, Object targetToAttack, Unit attacker, GameMap gameMap) {
         if (targetToAttack instanceof Unit) {
             Unit enemyUnit = (Unit) targetToAttack;
@@ -187,6 +214,11 @@ public class MenuConfrontOption implements MenuOption {
         }
     }
 
+
+    /**
+     * Ataca a unidade ou cidade inimiga selecionada pelo jogador.
+     *
+     */
     private void attackTarget(Scanner scanner, Object targetToAttack, Unit attacker, GameMap gameMap) {
         if (targetToAttack instanceof Unit) {
             Unit enemyUnit = (Unit) targetToAttack;
@@ -221,7 +253,11 @@ public class MenuConfrontOption implements MenuOption {
         }
     }
 
-
+    /**
+     * Obtém uma lista das unidades que podem atacar, ou seja, unidades que têm inimigos adjacentes.
+     * @param attackingUnits - lista de unidades controladas pela civilização que podem ser atacantes
+     * @return uma lista de unidades disponíveis para atacar (unidades com inimigos adjacentes)
+     */
     private ArrayList<Unit> getAvailableAttackers(ArrayList<Unit> attackingUnits, GameMap gameMap) {
         ArrayList<Unit> availableAttackers = new ArrayList<>();
         boolean foundEnemy = false;
@@ -242,6 +278,10 @@ public class MenuConfrontOption implements MenuOption {
         return availableAttackers;
     }
 
+    /**
+     * Obtém os inimigos adjacentes a uma unidade em um determinado ponto do mapa
+     * @return uma lista de objetos adjacentes (que podem ser unidades ou cidades) que pertencem a uma civilização inimiga
+     */
     private ArrayList<Object> getAdjacentEnemies(int x, int y, Unit attacker, GameMap gameMap) {
         ArrayList<Object> adjacentEnemies = new ArrayList<>();
 

@@ -3,6 +3,10 @@ package com.mycompany.projeto2.poo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+/**
+ * jogador escolhe uma unidade colonizadora, selecione a direção para fundar uma cidade e realiza a construção da cidade.
+ */
 public class MenuCreateCityOption implements MenuOption {
 
     @Override

@@ -1,5 +1,9 @@
 package com.mycompany.projeto2.poo;
 
+
+/**
+ * Fábrica responsável por criar instâncias de unidades Builder
+ */
 class UnitBuilderFactory implements UnitFactory {
 
     @Override

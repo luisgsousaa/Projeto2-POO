@@ -15,7 +15,7 @@ public interface ITerrain {
     public String getType(); //tipo da celula
     public String getTypeShown(); // tipo a mostra, por exemplo se tem uma unidade Militar em cima, a celula ainda e - mas o TypeShown e M
     public int getProductivity();
-    public int getEntryCost();
+    public double getEntryCost();
     public int getStepsToTraverse();
     public int getMaxNumWorkers();
     public double getFoodProduction();

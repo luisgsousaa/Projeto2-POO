@@ -3,16 +3,25 @@ package com.mycompany.projeto2.poo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+/**
+ * A classe permite que o jogador utilize unidades curadoras para recuperar a vida de unidades ou cidades da mesma civilizacao.
+ */
 public class MenuHealOption implements MenuOption {
 
     @Override
     public String getDescription() {return "Curar unidade ou reparar cidade";}
 
+
+    /**
+     * Executa a opção de curar uma unidade ou reparar uma cidade.
+     * O jogador pode selecionar uma unidade curadora próxima das unidades ou cidades da mesma civ feridas e realizar a cura ou reparo.
+     */
     @Override
     public void execute(Scanner scanner, Civilization civilization, GameMap gameMap) {
         ArrayList<Unit> healingUnits = new ArrayList<>();
 
-        // Filtra as unidades que podem curar
+        /// unidades que podem curar
         for (Unit unit : civilization.getControlledUnits()) {
             if (unit.getHealAmount() > 0) {
                 healingUnits.add(unit);
@@ -32,7 +41,6 @@ public class MenuHealOption implements MenuOption {
             return;
         }
 
-
         if (availableHealers.size() > 1) {
             System.out.println("\nTem mais do que uma unidade curadora próxima de aliados feridos. Escolha a que pretende utilizar:");
             for (int i = 0; i < availableHealers.size(); i++) {
@@ -49,10 +57,17 @@ public class MenuHealOption implements MenuOption {
             Unit selectedHealer = availableHealers.get(choice - 1);
             performHealing(scanner, selectedHealer, gameMap);
         } else {
-            performHealing(scanner, availableHealers.get(0), gameMap); //cura logo se so tiver um
+            performHealing(scanner, availableHealers.get(0), gameMap); //cura logo se so tiver uma curadora
         }
     }
 
+
+    /**
+     * Obtém as unidades curadoras que estão próximas a aliados feridos
+     *
+     * @param healingUnits Lista de unidades que podem curar
+     * @return lista de unidades curadoras próximas a aliados feridos
+     */
     private ArrayList<Unit> getAvailableHealers(ArrayList<Unit> healingUnits, GameMap gameMap) {
         ArrayList<Unit> availableHealers = new ArrayList<>();
         boolean foundAlly = false;
@@ -72,6 +87,11 @@ public class MenuHealOption implements MenuOption {
         return availableHealers;
     }
 
+
+    /**
+     * Obtém as entidades da mesma civ adjacentes a uma unidade curadora
+     * @return lista de entidades da mesma civ  adjacentes à unidade curadora que podem ser curados (feridos)
+     */
     private ArrayList<Object> getAdjacentAllies(int x, int y, Unit healer, GameMap gameMap) {
         ArrayList<Object> adjacentAllies = new ArrayList<>();
 
@@ -107,6 +127,12 @@ public class MenuHealOption implements MenuOption {
         return adjacentAllies;
     }
 
+
+    /**
+     * Realiza a cura ou reparo de um entidade da mesma civ
+     *
+     * @param healer A unidade curadora
+     */
     private void performHealing(Scanner scanner, Unit healer, GameMap gameMap) {
         if (!healer.canHeal()) {
             System.out.println("A sua unidade não pode curar mais neste ciclo.");
@@ -148,6 +174,11 @@ public class MenuHealOption implements MenuOption {
         gameMap.showMap();
     }
 
+    /**
+     * Realiza a cura de um alvo específico (unidade ou cidade)
+     * @param targetToHeal O alvo que será curado, que pode ser uma unidade ou cidade
+     * @param healer A unidade curadora que realizará a cura
+     */
     private void healTarget(Scanner scanner, Object targetToHeal, Unit healer) {
         if (targetToHeal instanceof Unit) {
             Unit allyUnit = (Unit) targetToHeal;

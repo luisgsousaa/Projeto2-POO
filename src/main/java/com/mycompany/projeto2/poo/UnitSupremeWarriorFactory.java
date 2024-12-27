@@ -1,5 +1,10 @@
 package com.mycompany.projeto2.poo;
 
+
+
+/**
+ * Fábrica responsável por criar instâncias de unidades SupremeWarrior
+ */
 class UnitSupremeWarriorFactory implements UnitFactory {
 
     @Override

@@ -3,11 +3,20 @@ package com.mycompany.projeto2.poo;
 import java.util.Map;
 import java.util.Scanner;
 
+
+/**
+ * pede ao jogador que escolha uma cidade controlada, selecione um tipo de unidade que pretende criar  e defina as coordenadas para a criação da unidade
+ */
 public class MenuCreateUnitOption implements MenuOption {
 
     @Override
     public String getDescription() {return "Criar unidade";}
 
+
+    /**
+     * Executa a opção de criar uma unidade.
+     * O jogador escolhe uma cidade controlada, seleciona o tipo de unidade a ser criada, verifica se possui recursos suficientes e define as coordenadas onde a unidade será posicionada no mapa
+     */
     @Override
     public void execute(Scanner scanner, Civilization civilization, GameMap gameMap) {
 
@@ -82,6 +91,9 @@ public class MenuCreateUnitOption implements MenuOption {
 
     }
 
+    /**
+     * Mostra todas as unidades disponíveis para criação (nome + custo)
+     */
     private void showAvailableUnits() {
         Map<String, UnitFactory> availableUnits = UnitFactoryRegistry.getFactories();
         for (Map.Entry<String, UnitFactory> entry : availableUnits.entrySet()) {

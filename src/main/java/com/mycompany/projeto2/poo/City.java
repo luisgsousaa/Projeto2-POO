@@ -53,12 +53,16 @@ public class City extends Cell implements ILife{
 
     }
 
-
+    /*
+    Métodos que retornam as coordenadas da cidade
+    */
     public int getCoordX() {return coordX;}
     public int getCoordY() {return coordY;}
 
 
-    // vida
+    /**
+     * Getters, setters e outros metodos para a vida
+     */
     public int getCityMaxLife() {return MAX_LIFE;} // Retorna o valor máximo de vida para esta unidade
     @Override
     public int getLife() {return life;}
@@ -70,7 +74,6 @@ public class City extends Cell implements ILife{
     public boolean isAlive() {return this.life > 0;}
     @Override
     public void setLife(int life) {this.life = life;}
-    
     public void die(GameMap gameMap) {
         Cell c = gameMap.getCell(coordX, coordY);
         if (c != null) {
@@ -80,7 +83,11 @@ public class City extends Cell implements ILife{
         removeCityFromCiv();
     }
 
-    //civilization
+
+
+    /**
+     * Getters, setters e outros metodos para a civilizacao
+     */
     public void removeCityFromCiv() {civilization.getControlledCities().remove(this);}
     public Civilization getCityCiv() {return civilization;}
     public int getCityCivNum() {return civilization.getNumber();}
@@ -164,7 +171,7 @@ public class City extends Cell implements ILife{
     /**
      * Adiciona os primeiros trabalhadores aos terrenos, 1 por cada tipo de produção
      */
-    private void setFirstWorkers(){
+    public void setFirstWorkers(){
         addWorkers(1,1);
         addWorkers(2,1);
         addWorkers(3,1);
@@ -183,8 +190,8 @@ public class City extends Cell implements ILife{
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
                     gameMap.getCellType(x+coordX,y+coordY);
-                    
-                                   
+
+
                 }         
             }
             index++;  
@@ -222,7 +229,7 @@ public class City extends Cell implements ILife{
     /**
      * Determina se a população irá crescer ou não tendo em conta o excesso de comida na reserva
      */
-    private void populationGrowth(){ // ao fim do turno
+    public void populationGrowth(){ // ao fim do turno
         double abundance = foodNecessity * (POPULATION_GROWTH_FOOD_MARGIN + 1);
         if(foodReserve > abundance ){
             population+=2;
@@ -232,7 +239,7 @@ public class City extends Cell implements ILife{
     /**
      * Determina se a população irá diminuir ou não tendo em conta a falta de comida na reserva
      */
-    private void populationDecrease(){ // ao fim do turno
+    public void populationDecrease(){ // ao fim do turno
         if(foodReserve < 0){
             population-=1;
         }
@@ -249,10 +256,8 @@ public class City extends Cell implements ILife{
      * @return Número total de trabalhadores na cidade, é overwrite da classe cell que diz apenas o número de trabalhadores nessa célula
      */
     @Override
-    public int getNumWorkers(){
-        return foodWorkers + industrialWorkers + goldWorkers;
-    }
-    
+    public int getNumWorkers(){return foodWorkers + industrialWorkers + goldWorkers;}
+    public int getPopulation(){return population;}
     
     
     /**
@@ -374,7 +379,9 @@ public class City extends Cell implements ILife{
     }
 
 
-    // comida
+    /**
+     * Getters, setters e outros metodos para a gestao da comida
+     */
     public void addFoodResources(double a){ // isto é chamado varias vezes no mesmo ciclo para as varias celulas da cidade
         foodResources+=a;
         foodReserve+=a;} // adiciona comida do ciclo à reserva de comida da cidade
@@ -382,13 +389,20 @@ public class City extends Cell implements ILife{
     public void resetFood() {this.foodResources = 0;} // da reset na comida do ciclo da cidade
     public double getFoodResources() {return foodResources;}
 
-    // ouro
+    /**
+     * Getters, setters e outros metodos para a gestao dos ouros
+     */
     public double getGoldResources() {return goldResources;}
     public void addGoldToCivTreasure(double a){civilization.addGoldTreasure(a);}
 
-    // recursos industriais
+    /**
+     * Getters, setters e outros metodos para a gestao dos recursos industriais
+     */
     public double getIndustrialResources() {return industrialResources;}
     public void resetIndustrialResources() {this.industrialResources = 0;}
     public void setIndustrialResources(double industrialResources) {this.industrialResources = industrialResources;}
     public void addIndustrialResources(double a){industrialResources+=a;}
+
+
+
 }

@@ -2,12 +2,20 @@ package com.mycompany.projeto2.poo;
 
 import java.util.Scanner;
 
+
+/**
+ * O jogador escolhe uma unidade controlada pela civilização e move-a para direções especificadas, consumindo os passos disponíveis e o ouro conforme o movimento.
+ */
 public class MenuMoveUnitOption implements MenuOption {
 
     @Override
     public String getDescription() {return "Mover Unidade";}
 
-
+    /**
+     * Executa a movimentação de uma unidade no mapa. O jogador escolhe qual unidade mover, as direções para a qual deseja deslocar e o número de passos disponíveis.
+     * O movimento consome passos da unidade e ouro conforme o terreno atravessado.
+     *
+     */
     @Override
     public void execute(Scanner scanner, Civilization civilization, GameMap gameMap) {
         Civilization.showControlledUnits(civilization);
@@ -70,7 +78,7 @@ public class MenuMoveUnitOption implements MenuOption {
                 if (goldBalance >= totalCost) {
                     civilization.addGoldTreasure(-totalCost);
                     System.out.printf("\nUnidade movida com sucesso. Deslocacoes feitas: %d Passos dados: %s Passos restantes: %d.%n", actualMoves, stepsMade, unit.getStepsRemaining());
-                    System.out.println("customovimento testar " + totalCost + " /////APAGAR/////" + civilization.getGoldTreasure());
+                    System.out.println("Custo de movimento: " + totalCost + " Tesouro da civilizacao atualizado:" + civilization.getGoldTreasure());
                     gameMap.showMap();
                 } else {
                     System.out.println("\nNao tem ouro suficiente para mover a unidade.");
@@ -84,6 +92,12 @@ public class MenuMoveUnitOption implements MenuOption {
         }
     }
 
+    /**
+     * Converte o input do utilizador (um caractere) para uma direção enum
+     *
+     * @param input A direção como string
+     * @return A direção correspondente (UP, DOWN, LEFT, RIGHT), ou null
+     */
     private Direction inputToEnumDirection(String input) {
         switch (input) {
             case "c":
