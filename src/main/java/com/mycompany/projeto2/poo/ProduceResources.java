@@ -13,13 +13,13 @@ public class ProduceResources {
      */
     public static void chooseProduceType(Cell currentCell,City city){
         if(currentCell.getFoodProduction() != 0){
-            city.addFoodResources(produce(currentCell.getFoodProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
+            city.addFoodResources(produce(currentCell.getFoodProduction(), currentCell.getProductivity(), currentCell.getNumWorkers(),1));
         }
         else if(currentCell.getIndustrialProduction()!= 0){
-            city.addIndustrialResources(produce(currentCell.getIndustrialProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
+            city.addIndustrialResources(produce(currentCell.getIndustrialProduction(), currentCell.getProductivity(), currentCell.getNumWorkers(),1));
         }
         else if(currentCell.getGoldProduction() != 0){
-            city.addGoldToCivTreasure(produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
+            city.addGoldToCivTreasure(produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers(),Building.countType(city.getCiv().getControlledBuildings(),0)));
         }
     }
     
@@ -30,8 +30,8 @@ public class ProduceResources {
      * @param numWorkers quantidade de trabalhadores da célula em questão
      * @return cálculo da quantidade de recursos produzida
      */
-    private static double produce(double production,int productivity, int numWorkers){
-        double produced = production*productivity*numWorkers;
+    private static double produce(double production,int productivity, int numWorkers, double buildingBoost){
+        double produced = production*productivity*numWorkers*buildingBoost;
         return produced;
     }
     

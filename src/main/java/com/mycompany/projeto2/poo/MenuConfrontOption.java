@@ -223,7 +223,9 @@ public class MenuConfrontOption implements MenuOption {
     private void attackTarget(Scanner scanner, Object targetToAttack, Unit attacker, GameMap gameMap) {
         if (targetToAttack instanceof Unit) {
             Unit enemyUnit = (Unit) targetToAttack;
-            enemyUnit.takeDamage(attacker.getAttackDamage());
+             double temp = attacker.getAttackDamage()*Math.pow(0.8,Building.countType(enemyUnit.getUnitCiv().getBuildings(),1));
+                    int temp2 = (int)Math.round(temp);
+            enemyUnit.takeDamage(temp2);
 
             if (!enemyUnit.isAlive()) {
                 System.out.printf("\n%s (%d,%d) morreu.%n",
