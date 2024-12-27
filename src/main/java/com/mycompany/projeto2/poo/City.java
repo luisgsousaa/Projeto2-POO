@@ -8,7 +8,7 @@ package com.mycompany.projeto2.poo;
  *
  * @author Admin
  */
-public class City extends Cell{
+public class City extends Cell implements ILife{
     private int population, maxNumWorkers;
     private final int STARTING_POPULATION = 3;
     private final int STARTING_FOOD_RESOURCES = 6;
@@ -20,49 +20,82 @@ public class City extends Cell{
     private int foodWorkers, industrialWorkers, goldWorkers;
     
     private String[] layers;
-    private Map map;
+    private GameMap gameMap;
     private final int coordX, coordY;
 
     private Civilization civilization;
-    
-    
+
+    private static final int MAX_LIFE = 80;
+    private int life;
+
 
     
     /**
      * É criada uma nova célula do tipo cidade usando o construtor da super classe, é criada a cidade e os primeiros trabalhadores são atribuidos aos terrenos
      * @param x coordenada x da cidade, escolhida pelo jogador
      * @param y coordenada y da cidade, escolhida pelo jogador
-     * @param map referencia do objeto mapa
+     * @param gameMap referencia do objeto mapa
      * @param cityNumber número do jogador que é dado à cidade no mapa
+     * @param civilization civilização a qual a cidade pertence
      */
-    public City(int x, int y,Map map,int cityNumber, Civilization civilization){
+    public City(int x, int y, GameMap gameMap, int cityNumber, Civilization civilization){
         super("C ");
-        setCityVariables(map,cityNumber);
+        setCityVariables(gameMap,cityNumber);
         coordX = x;
         coordY = y;
         this.civilization = civilization;
-        
-        
+
         createCity();
         setFirstWorkers();
 
         civilization.addCityToCiv(this);
-        
+        this.life = MAX_LIFE;
 
-        // teste
-        addWorkers(1,200);
-        addWorkers(3,200);
-        produceResourcesForCycle();
-        
-        System.out.println("Food " + foodResources);
-        System.out.println("Gold " + goldResources);
-        System.out.println("Industrial " + industrialResources);
-        //teste
-        
-        
-    } 
-  
-  public int getCityCivNum() {return civilization.getNumber();}
+
+    }
+
+    /*
+    Métodos que retornam as coordenadas da cidade
+    */
+    public int getCoordX() {return coordX;}
+    public int getCoordY() {return coordY;}
+
+
+    /**
+     * Getters, setters e outros metodos para a vida
+     */
+    public int getCityMaxLife() {return MAX_LIFE;} // Retorna o valor máximo de vida para esta unidade
+    @Override
+    public int getLife() {return life;}
+    @Override
+    public void takeDamage(int damage) {this.life -= damage; if (this.life < 0) {this.life = 0;}}
+    @Override
+    public void heal(int amount) {this.life += amount;}
+    @Override
+    public boolean isAlive() {return this.life > 0;}
+    @Override
+    public void setLife(int life) {this.life = life;}
+    public void die(GameMap gameMap) {
+        Cell c = gameMap.getCell(coordX, coordY);
+        if (c != null) {
+            c.setSomethingOnTop(false);
+            c.setTypeShown("CX");
+        }
+        removeCityFromCiv();
+    }
+
+
+
+    /**
+     * Getters, setters e outros metodos para a civilizacao
+     */
+    public void removeCityFromCiv() {civilization.getControlledCities().remove(this);}
+    public Civilization getCityCiv() {return civilization;}
+    public int getCityCivNum() {return civilization.getNumber();}
+    public void setCivilization(Civilization civilization) {this.civilization = civilization;}
+
+
+
     /**
      * Array que guarda as camadas de terrenos da cidade, o primeiro é (g)old, o segundo é (i)dustry e o terceiro é (f)ood
      */
@@ -82,21 +115,30 @@ public class City extends Cell{
      */
     private void createCity(){
                 
-        map.setCell(coordX,coordY,this);
+        gameMap.setCell(coordX,coordY,this);
         String newType = this.getType().trim() + cityNumber ;
         this.setTypeShown(newType);
-        
-        
+
+        Cell cell = gameMap.getCell(coordX, coordY);
+        cell.setSomethingOnTop(true);
+
+
         layers[0] = newType;
         int index = 1;
         while(index <= 3){
             for(int y = -1*index ; y <= 1*index; y++){
                 for(int x = -1*index ; x <= 1*index; x++){
-                    String symbol = map.getCellTypeShown(x+coordX,y+coordY);
+                    String symbol = gameMap.getCellTypeShown(x+coordX,y+coordY);
+
+
+
                     if(!symbol.equals(layers[0]) && !symbol.equals(layers[1]) && !symbol.equals(layers[2])){
-                        map.setCellTypeShown(x+coordX,y+coordY,layers[index]);
-                        map.setCellBelongsToCity(x+coordX,y+coordY, true);
-                        maxNumWorkers+= map.getCellMaxNumWorkers(x+coordX,y+coordY);
+                        gameMap.setCellTypeShown(x+coordX,y+coordY,layers[index]);
+                        gameMap.setCellBelongsToCity(x+coordX,y+coordY, true);
+
+
+
+                        maxNumWorkers+= gameMap.getCellMaxNumWorkers(x+coordX,y+coordY);
                         setProductionType(x+coordX,y+coordY,index);
                     }                
                 }         
@@ -115,13 +157,13 @@ public class City extends Cell{
     private void setProductionType(int x,int y,int index){
         switch(index){
             case 1:
-                map.setCellToGoldProduction(x, y);
+                gameMap.setCellToGoldProduction(x, y);
                 break;
             case 2:
-                map.setCellToIndustrialProduction(x, y);
+                gameMap.setCellToIndustrialProduction(x, y);
                 break;
             case 3:
-                map.setCellToFoodProduction(x, y);
+                gameMap.setCellToFoodProduction(x, y);
                 break;
             
         }
@@ -130,7 +172,7 @@ public class City extends Cell{
     /**
      * Adiciona os primeiros trabalhadores aos terrenos, 1 por cada tipo de produção
      */
-    private void setFirstWorkers(){
+    public void setFirstWorkers(){
         addWorkers(1,1);
         addWorkers(2,1);
         addWorkers(3,1);
@@ -140,39 +182,23 @@ public class City extends Cell{
     
     
     
-    /**
-     * Apenas para ajudar
-     */
-    private void loopThroughEntireCity(){
-        int index = 1;
-        while(index <= 3){
-            for(int y = -1*index ; y <= 1*index; y++){
-                for(int x = -1*index ; x <= 1*index; x++){
-                    map.getCellType(x+coordX,y+coordY);
-                    
-                                   
-                }         
-            }
-            index++;  
 
-        }
-    }
     
     
     
     /**
      * É chamada no construtor, dá os valores às variáveis da cidade
-     * @param map referencia do objeto mapa
+     * @param gameMap referencia do objeto mapa
      * @param cityNumber número do jogador a quem pertence a cidade
      */
-    private void setCityVariables(Map map,int cityNumber){
+    private void setCityVariables(GameMap gameMap, int cityNumber){
         population = STARTING_POPULATION;
-        foodResources = STARTING_FOOD_RESOURCES;
+        foodResources = 0;
       
-        foodReserve = 0;
+        foodReserve = STARTING_FOOD_RESOURCES;
         industrialResources = 0;
         maxNumWorkers = 0;
-        this.map=map;
+        this.gameMap = gameMap;
         this.cityNumber = cityNumber;
         this.setBelongsToCity(true);
         updateFoodNecessity();
@@ -188,7 +214,7 @@ public class City extends Cell{
     /**
      * Determina se a população irá crescer ou não tendo em conta o excesso de comida na reserva
      */
-    private void populationGrowth(){ // ao fim do turno
+    public void populationGrowth(){ // ao fim do turno
         double abundance = foodNecessity * (POPULATION_GROWTH_FOOD_MARGIN + 1);
         if(foodReserve > abundance ){
             population+=2;
@@ -198,7 +224,7 @@ public class City extends Cell{
     /**
      * Determina se a população irá diminuir ou não tendo em conta a falta de comida na reserva
      */
-    private void populationDecrease(){ // ao fim do turno
+    public void populationDecrease(){ // ao fim do turno
         if(foodReserve < 0){
             population-=1;
         }
@@ -215,10 +241,8 @@ public class City extends Cell{
      * @return Número total de trabalhadores na cidade, é overwrite da classe cell que diz apenas o número de trabalhadores nessa célula
      */
     @Override
-    public int getNumWorkers(){
-        return foodWorkers + industrialWorkers + goldWorkers;
-    }
-    
+    public int getNumWorkers(){return foodWorkers + industrialWorkers + goldWorkers;}
+    public int getPopulation(){return population;}
     
     
     /**
@@ -237,16 +261,16 @@ public class City extends Cell{
         for(int y = -1*layer ; y <= 1*layer; y++){
             for(int x = -1*layer ; x <= 1*layer; x++){
                 
-                if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
+                if(gameMap.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
                     
                     
-                    int maxWorkers = map.getCellMaxNumWorkers(x+coordX,y+coordY);
+                    int maxWorkers = gameMap.getCellMaxNumWorkers(x+coordX,y+coordY);
                     
-                    if(map.getCellNumWorkers(x+coordX,y+coordY) == maxWorkers){continue;}
+                    if(gameMap.getCellNumWorkers(x+coordX,y+coordY) == maxWorkers){continue;}
                     else{
-                        while(map.getCellNumWorkers(x+coordX,y+coordY) < maxWorkers){
+                        while(gameMap.getCellNumWorkers(x+coordX,y+coordY) < maxWorkers){
                             if(workersAdded<quantity){
-                                map.changeCellNumWorkers(x+coordX,y+coordY,+1);
+                                gameMap.changeCellNumWorkers(x+coordX,y+coordY,+1);
                                 workersAdded++;
                                 countWorkers(layer,1);
                             }
@@ -276,12 +300,12 @@ public class City extends Cell{
         for(int y = -1*layer ; y <= 1*layer; y++){
             for(int x = -1*layer ; x <= 1*layer; x++){
                
-                if(map.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
-                    if(map.getCellNumWorkers(x+coordX,y+coordY) == 0){continue;}
+                if(gameMap.getCellTypeShown(x+coordX,y+coordY).equals(layers[layer])){
+                    if(gameMap.getCellNumWorkers(x+coordX,y+coordY) == 0){continue;}
                     else{
-                        while(map.getCellNumWorkers(x+coordX,y+coordY) > 0){
+                        while(gameMap.getCellNumWorkers(x+coordX,y+coordY) > 0){
                             if(workersRemoved<quantity){
-                                map.changeCellNumWorkers(x+coordX,y+coordY,-1);
+                                gameMap.changeCellNumWorkers(x+coordX,y+coordY,-1);
                                 workersRemoved++;
                                 countWorkers(layer,-1);
                             }
@@ -323,14 +347,27 @@ public class City extends Cell{
     
     
     /**
+     * verifica se ta tudo cheio
+     * @return true se ta cheio e false se ainda tem producoes vazias
+     */
+    public boolean areAllLayersFull() {
+        if(getNumWorkers() == this.maxNumWorkers){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    /**
      * Percorre todas as células da cidade, se uma célula tiver 0 trabalhadores continua, caso contrário chama a função da classe utilitaria ProduceResources,
      * que irá calcular a produção dessa célula e adicionar à cidade.
      */
-    private void produceResourcesForCycle(){
+    public void produceResourcesForCycle(){
         final int CITY_SIZE = 3;
         for(int y = -1*CITY_SIZE ; y <= 1*CITY_SIZE; y++){
             for(int x = -1*CITY_SIZE ; x <= 1*CITY_SIZE; x++){
-                Cell currentCell = map.getCell(x+coordX, y+coordY);
+                Cell currentCell = gameMap.getCell(x+coordX, y+coordY);
                 if(currentCell.getNumWorkers() == 0){continue;}            
                 else{
                     ProduceResources.chooseProduceType(currentCell,this);
@@ -338,11 +375,33 @@ public class City extends Cell{
             }         
         }
     }
-    
+
+
     /**
-     * Funções usadas para adicionar os recursos que foram produzidos à cidade
+     * Getters, setters e outros metodos para a gestao da comida
      */
-    public void addFoodResources(double a){foodResources+=a;}
+    public void addFoodResources(double a){ // isto é chamado varias vezes no mesmo ciclo para as varias celulas da cidade
+        foodResources+=a;
+        foodReserve+=a;} // adiciona comida do ciclo à reserva de comida da cidade
+    public double getFoodReserve() {return foodReserve;}
+    public void resetFood() {this.foodResources = 0;} // da reset na comida do ciclo da cidade
+    public double getFoodResources() {return foodResources;}
+    @Override
+    public int getMaxNumWorkers(){return maxNumWorkers;}
+    /**
+     * Getters, setters e outros metodos para a gestao dos ouros
+     */
+    public double getGoldResources() {return goldResources;}
+    public void addGoldToCivTreasure(double a){civilization.addGoldTreasure(a);}
+
+    /**
+     * Getters, setters e outros metodos para a gestao dos recursos industriais
+     */
+    public double getIndustrialResources() {return industrialResources;}
+    public void resetIndustrialResources() {this.industrialResources = 0;}
+    public void setIndustrialResources(double industrialResources) {this.industrialResources = industrialResources;}
     public void addIndustrialResources(double a){industrialResources+=a;}
-    public void addGoldResources(double a){goldResources+=a;}
+
+
+
 }

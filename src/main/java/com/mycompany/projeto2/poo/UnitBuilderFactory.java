@@ -1,0 +1,19 @@
+package com.mycompany.projeto2.poo;
+
+
+/**
+ * Fábrica responsável por criar instâncias de unidades Builder
+ */
+class UnitBuilderFactory implements UnitFactory {
+
+    @Override
+    public Unit createUnit(int x, int y, GameMap gameMap, Direction direction, Civilization civilization) {
+        return new UnitBuilder(x, y, gameMap, direction, civilization);}
+
+    @Override
+    public String getUnitName() {return UnitBuilder.NAME;}
+
+    @Override
+    public int getProductionCost() {return UnitBuilder.PRODUCTION_COST;}
+
+}

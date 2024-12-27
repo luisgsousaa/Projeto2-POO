@@ -10,7 +10,8 @@ package com.mycompany.projeto2.poo;
  */
 public class Cell {
 
-    private int productivity, entryCost, cyclesToTraverse, maxNumWorkers, numWorkers;
+    private int productivity, cyclesToTraverse, maxNumWorkers, numWorkers;
+    private double entryCost;
     private double foodProduction, industrialProduction;
     private double goldProduction;
     private String type, typeShown, previousTypeShown;//
@@ -18,6 +19,7 @@ public class Cell {
     private Unit unit;
     private UtilTerrains terrains;
     private ITerrain selectedTerrain;
+    private int originalProductivity;
 
     /**
      * O construtor usa uma classe utilitaria para obter os tipos de terreno que existem e comparar o tipo passado como parâmetro com o tipo que define o terreno
@@ -43,8 +45,9 @@ public class Cell {
         this.typeShown = selectedTerrain.getType();
         this.previousTypeShown = typeShown;
         this.productivity = selectedTerrain.getProductivity();
+        this.originalProductivity = productivity;
         this.entryCost = selectedTerrain.getEntryCost();
-        this.cyclesToTraverse = selectedTerrain.getCyclesToTraverse();
+        this.cyclesToTraverse = selectedTerrain.getStepsToTraverse();
         this.maxNumWorkers = selectedTerrain.getMaxNumWorkers();
         this.numWorkers = 0;
         this.foodProduction = selectedTerrain.getFoodProduction();
@@ -57,13 +60,19 @@ public class Cell {
     /**
      * Setters e Getters para gerir as células
      */
+
+
+    public City getCity() {return (this instanceof City) ? (City) this : null;}
+
+
+
     public Cell getCell(){return this;}
     public Unit getUnit(){return unit;}
     public String getType(){return type;}
     public String getTypeShown(){return typeShown;}
     public String getPreviousTypeShown(){return previousTypeShown;}
     public int getProductivity(){return productivity;}
-    public int getEntryCost(){return entryCost;}
+    public double getEntryCost(){return entryCost;}
     public int getCyclesToTraverse(){return cyclesToTraverse;}
     public int getMaxNumWorkers(){return maxNumWorkers;}
     public int getNumWorkers(){return numWorkers;}
@@ -82,6 +91,8 @@ public class Cell {
     public void setPreviousTypeShown (String input){this.previousTypeShown = input;};
 
     public void multiplyProductivity(double multiplier){this.productivity *=multiplier;}
+
+
     public void setBelongsToCity(boolean input){this.belongsToCity = input;}
     public void setTypeShown(String s){this.typeShown = s;}
     public void changeNumWorkers(int num){this.numWorkers += num;}
@@ -100,5 +111,12 @@ public class Cell {
         this.foodProduction=0;
         this.industrialProduction=0;
     }
+
+    public ITerrain getTerrain() {return this.selectedTerrain;}
+
+    public void setProductivity(int productivity) {this.productivity = productivity;}
+    public void increaseProductivityByMultiplier(double multiplier) {this.productivity *= multiplier;}
+    public void resetProductivityToOriginal() {this.productivity = originalProductivity;}
+
     
 }

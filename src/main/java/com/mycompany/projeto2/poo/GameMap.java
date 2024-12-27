@@ -10,14 +10,14 @@ import java.io.IOException;
  *
  * @author Admin
  */
-public class Map {
-   private static Cell[][] map; // mudar para celulas
+public class GameMap {
+   private static Cell[][] map;
    private int width;
    private int height;
    /**
     * Cria o mapa e apresenta-o na consola
     */
-   public Map() throws IOException{
+   public GameMap() throws IOException{
        MapBuilder mapBuilder = new MapBuilder();
        map = mapBuilder.getMap();
        
@@ -55,7 +55,6 @@ public class Map {
             for(int j = 0; j<width;j++){ //Impressão das células do map deixando um espaço entre estas.
                 
                 System.out.print(map[j][i].getTypeShown());
-                //System.out.print(map[j][i].getNumWorkers()); //teste ------------------------------------------------------------------------
                 System.out.print(" ");
             }
             System.out.println(); // linha a baixo
@@ -97,7 +96,7 @@ public class Map {
      */
     public int getWidth(){return map.length;}
     public int getHeight(){return map[0].length;}
-    public int getCellEntryCost(int x, int y){return map[x][y].getEntryCost();}
+    public double getCellEntryCost(int x, int y){return map[x][y].getEntryCost();}
     public boolean getCellIsSomethingOnTop(int x, int y){return map[x][y].isSomethingOnTop();}   
     public boolean getCellBelongsToCity(int x, int y){return map[x][y].getBelongsToCity();}
     public String getCellTypeShown(int x, int y){return map[x][y].getTypeShown();}

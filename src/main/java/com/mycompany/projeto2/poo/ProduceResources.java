@@ -19,7 +19,7 @@ public class ProduceResources {
             city.addIndustrialResources(produce(currentCell.getIndustrialProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
         }
         else if(currentCell.getGoldProduction() != 0){
-            city.addGoldResources(produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
+            city.addGoldToCivTreasure(produce(currentCell.getGoldProduction(), currentCell.getProductivity(), currentCell.getNumWorkers()));
         }
     }
     

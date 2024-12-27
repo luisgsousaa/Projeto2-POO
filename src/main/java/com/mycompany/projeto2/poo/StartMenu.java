@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class StartMenu {
-    private Map map;
+    private GameMap gameMap;
     private static int playerNumbers;
     
     //constantes para o máximo e minimo de jogadores
@@ -63,9 +63,9 @@ public class StartMenu {
      * Chama a função de escolher e criar o mapa
      * @return mapa criado
      */
-    public Map chooseMap()throws IOException{
-        map = new Map();
-        return map;
+    public GameMap chooseMap()throws IOException{
+        gameMap = new GameMap();
+        return gameMap;
     }
     
     
@@ -123,7 +123,7 @@ public class StartMenu {
     public City chooseFirstCity(Civilization civ){
         boolean success = false;
         CityBuilder builder = null;
-        map.showMap();
+        gameMap.showMap();
         System.out.println("Escolha as coordenadas da cidade inicial do jogador " + civ.getNumber() + "\n Escolha a coordenada no eixo dos X, clique enter e depois escolha a do eixo dos Y");
         while(!success){
             try{
@@ -134,10 +134,9 @@ public class StartMenu {
                 coordX = scanner.nextInt();
                 System.out.println("Coordenada Y: ");
                 coordY = scanner.nextInt();
-                
-            
-                
-                builder = new CityBuilder(coordX, coordY,map,civ.getNumber());
+
+
+                builder = new CityBuilder(coordX, coordY, gameMap,civ.getNumber());
                 
                 return builder.createCity(civ);
             }
