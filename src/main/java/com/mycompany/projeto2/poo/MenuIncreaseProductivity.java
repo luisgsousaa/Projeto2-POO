@@ -28,10 +28,10 @@ public class MenuIncreaseProductivity implements MenuOption {
         System.out.println("Tesouro da sua civilizacao: " + civilization.getGoldTreasure());
 
         System.out.println("Escolha um aumento de produtividade:");
-        System.out.println("1- 50% - 250 ouros");
-        System.out.println("2- 100% - 500 ouros");
-        System.out.println("3- 150% - 750 ouros");
-        System.out.println("4- 300% - 1500 ouros");
+        System.out.println("1- 50% - 10 ouros");
+        System.out.println("2- 100% - 15 ouros");
+        System.out.println("3- 150% - 20 ouros");
+        System.out.println("4- 300% - 50 ouros");
 
         int option = 0;
         int cost = 0;
@@ -47,19 +47,19 @@ public class MenuIncreaseProductivity implements MenuOption {
 
         switch (option) {
             case 1 -> {
-                cost = 250;
+                cost = 10;
                 multiplier = 1.5;
             }
             case 2 -> {
-                cost = 500;
+                cost = 15;
                 multiplier = 2.0;
             }
             case 3 -> {
-                cost = 750;
+                cost = 20;
                 multiplier = 2.5;
             }
             case 4 -> {
-                cost = 1500;
+                cost = 50;
                 multiplier = 5.0;
             }
             default -> {

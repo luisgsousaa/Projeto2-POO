@@ -7,7 +7,7 @@ public class UnitSupremeWarrior extends UnitCombat {
     private static final String TYPE = "S";
     private static final int LIFE = 50;
     private static final int MAX_STEPS = 35; /// Número máximo de passos por turno
-    public static final int PRODUCTION_COST = 1000;
+    public static final int PRODUCTION_COST = 12;
     private static final int ATTACK_DAMAGE = 30;
 
     /**

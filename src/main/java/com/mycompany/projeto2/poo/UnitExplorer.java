@@ -5,7 +5,7 @@ public class UnitExplorer extends Unit{
     private GameMap gameMap;
     public static final String NAME = "Explorer";
     private static final String TYPE = "E";
-    public static final int PRODUCTION_COST = 100;
+    public static final int PRODUCTION_COST = 3;
     private static final int LIFE = 70;
     private static final int MAX_STEPS = 10; /// Número máximo de passos por turno
     private static final int ATTACK_DAMAGE = 0;

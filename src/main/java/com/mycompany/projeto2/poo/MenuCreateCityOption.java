@@ -44,7 +44,7 @@ public class MenuCreateCityOption implements MenuOption {
         Unit selectedUnit = colonizerUnits.get(choice - 1);
 
 
-        System.out.println("Onde deseja construir a cidade?");
+        System.out.println("Onde deseja construir a cidade? Custa 35 ouros.");
         System.out.println("1 - Em cima");
         System.out.println("2 - À esquerda");
         System.out.println("3 - À direita");
@@ -75,14 +75,14 @@ public class MenuCreateCityOption implements MenuOption {
 
         CityBuilder cityBuilder = new CityBuilder(newCoordX, newCoordY, gameMap, civilization.getNumber());
         try {
-            if (civilization.getGoldTreasure() < 600) {
+            if (civilization.getGoldTreasure() < 35) {
                 System.out.println("Nao tem ouro suficiente para construir a cidade.");
                 return;
             }
 
             City newCity = cityBuilder.createCity(civilization);
             if (newCity != null) {
-                civilization.addGoldTreasure(-600);
+                civilization.addGoldTreasure(-35);
                 System.out.println("Cidade construida com sucesso.");
             }
         } catch (CoordinatesNotSuitableException e) {

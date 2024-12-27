@@ -107,7 +107,7 @@ public class MenuHealOption implements MenuOption {
             int newY = y + dir[1];
 
             Cell adjacentCell = gameMap.getCell(newX, newY);
-            if (adjacentCell.isSomethingOnTop()) {
+            if (adjacentCell != null && adjacentCell.isSomethingOnTop()) {
                 if (adjacentCell.getUnit() != null) {
                     Unit potentialAlly = adjacentCell.getUnit();
                     if (potentialAlly.getUnitCiv().equals(healer.getUnitCiv()) && potentialAlly.getLife() < potentialAlly.getUnitMaxLife()) {

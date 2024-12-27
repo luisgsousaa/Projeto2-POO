@@ -7,7 +7,7 @@ public class UnitMilitary extends UnitCombat {
     private static final String TYPE = "M";
     private static final int LIFE = 100;
     private static final int MAX_STEPS = 20; /// Número máximo de passos por turno
-    public static final int PRODUCTION_COST = 300;
+    public static final int PRODUCTION_COST = 6;
     private static final int ATTACK_DAMAGE = 10;
 
 

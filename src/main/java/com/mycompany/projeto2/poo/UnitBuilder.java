@@ -11,7 +11,7 @@ public class UnitBuilder extends Unit {
     private GameMap gameMap;
     public static final String NAME = "Builder";
     private static final String TYPE = "B";
-    public static final int PRODUCTION_COST = 150;
+    public static final int PRODUCTION_COST = 2;
     private static final int LIFE = 80;
     private static final int MAX_STEPS = 15;
     private static final int ATTACK_DAMAGE = 0;

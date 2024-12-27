@@ -96,6 +96,7 @@ public class MenuConfrontOption implements MenuOption {
         int y = attacker.getCoordY();
 
         ArrayList<Object> adjacentEnemies = getAdjacentEnemies(x, y, attacker, gameMap);
+        adjacentEnemies.removeIf(enemy -> enemy instanceof Unit && ((Unit) enemy).getAttackDamage() > 0); // não permite a unidades atacantes serem capturas, o que é logico pois podem se defender
 
         if (adjacentEnemies.size() == 1) {
             captureTarget(scanner, adjacentEnemies.get(0), attacker, gameMap); // se so tiver uma opcao para capturar faz diretamente
@@ -297,7 +298,7 @@ public class MenuConfrontOption implements MenuOption {
             int newY = y + dir[1];
 
             Cell adjacentCell = gameMap.getCell(newX, newY);
-            if (adjacentCell.isSomethingOnTop()) {
+            if (adjacentCell != null && adjacentCell.isSomethingOnTop()) {
                 if (adjacentCell.getUnit() != null) {
                     Unit potentialEnemy = adjacentCell.getUnit();
                     if (!potentialEnemy.getUnitCiv().equals(attacker.getUnitCiv())) {
