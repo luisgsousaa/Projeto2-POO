@@ -164,18 +164,6 @@ public class Projeto2POO {
 
 
 
-    /**
-     * verifica se ta tudo cheio
-     * @return true se ta cheio e false se ainda tem producoes vazias
-     */
-    public static boolean areAllLayersFull(City city) {
-        for (int layer = 1; layer <= 3; layer++) {
-            if (city.addWorkers(layer, 0)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 
     /**
@@ -189,9 +177,9 @@ public class Projeto2POO {
 
         while (remainingWorkers > 0) {
             try {
-                //if (areAllLayersFull(city)) {
-                //    break;
-                //}
+                if (city.areAllLayersFull()) {
+                    break;
+                }
 
                 System.out.println("\nJogador: " + civilization.getNumber() + " (" + civilization.getName() + ") | Pessoas disponveis para trabalhar: " + remainingWorkers);
                 System.out.println("\nDeseja distribuir trabalhadores numa funcao/camada especifica? (1 - Sim, 0 - Não)");

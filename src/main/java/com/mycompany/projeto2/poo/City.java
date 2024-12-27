@@ -36,6 +36,7 @@ public class City extends Cell implements ILife{
      * @param y coordenada y da cidade, escolhida pelo jogador
      * @param gameMap referencia do objeto mapa
      * @param cityNumber número do jogador que é dado à cidade no mapa
+     * @param civilization civilização a qual a cidade pertence
      */
     public City(int x, int y, GameMap gameMap, int cityNumber, Civilization civilization){
         super("C ");
@@ -181,23 +182,7 @@ public class City extends Cell implements ILife{
     
     
     
-    /**
-     * Apenas para ajudar
-     */
-    private void loopThroughEntireCity(){
-        int index = 1;
-        while(index <= 3){
-            for(int y = -1*index ; y <= 1*index; y++){
-                for(int x = -1*index ; x <= 1*index; x++){
-                    gameMap.getCellType(x+coordX,y+coordY);
 
-
-                }         
-            }
-            index++;  
-
-        }
-    }
     
     
     
@@ -362,6 +347,19 @@ public class City extends Cell implements ILife{
     
     
     /**
+     * verifica se ta tudo cheio
+     * @return true se ta cheio e false se ainda tem producoes vazias
+     */
+    public boolean areAllLayersFull() {
+        if(getNumWorkers() == this.maxNumWorkers){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    /**
      * Percorre todas as células da cidade, se uma célula tiver 0 trabalhadores continua, caso contrário chama a função da classe utilitaria ProduceResources,
      * que irá calcular a produção dessa célula e adicionar à cidade.
      */
@@ -388,7 +386,8 @@ public class City extends Cell implements ILife{
     public double getFoodReserve() {return foodReserve;}
     public void resetFood() {this.foodResources = 0;} // da reset na comida do ciclo da cidade
     public double getFoodResources() {return foodResources;}
-
+    @Override
+    public int getMaxNumWorkers(){return maxNumWorkers;}
     /**
      * Getters, setters e outros metodos para a gestao dos ouros
      */
