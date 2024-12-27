@@ -112,6 +112,31 @@ public class GameMap {
     public void setCellToIndustrialProduction(int x,int y){map[x][y].setToIndustrialProduction();}
     public void setCellToFoodProduction(int x,int y){map[x][y].setToFoodProduction();}
     public void changeCellNumWorkers(int x,int y,int num){map[x][y].changeNumWorkers(num);}
+   public static int taxiCabDistanceTo(int x1, int y1, int x2, int y2, int width, int height) { //This method cannot go in Cell because cells don't store their own coords
+       
+        
+       int temp0 = x1 - x2;
+       int temp1 = x1 - x2 + width;
+       int temp2 = x1 - x2 - width;
+       temp0 = Math.abs(temp0);
+       temp1 = Math.abs(temp1);
+       temp2 = Math.abs(temp2);
+       
+       int tempX = Math.min(temp2,Math.min(temp0,temp1));
+       
+       temp0 = y1 - y2;
+       temp1 = y1 - y2 + height;
+       temp2 = y1 - y2 - height;
+       temp0 = Math.abs(temp0);
+       temp1 = Math.abs(temp1);
+       temp2 = Math.abs(temp2);
+       
+       int tempY = Math.min(temp2,Math.min(temp0,temp1));
+       
+       return tempX + tempY;
+       
+       
+   }
     
     
     
