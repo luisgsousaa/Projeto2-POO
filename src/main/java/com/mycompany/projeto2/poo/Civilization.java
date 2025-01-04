@@ -12,7 +12,6 @@ public class Civilization {
     private int number; /// numero da civ que tbm pode nr do jogador
     private ArrayList<City> controlledCities; /// ArrayList de cidades controladas pela civilização
     private ArrayList<Unit> controlledUnits; /// ArrayList de unidades controladas pela civilização
-    private ArrayList<Building> controlledBuildings;
     private static ArrayList<String> civNames = new ArrayList<>(); ///// ArrayList estático com os nomes predefinidos de civilizações
     private double GoldTreasure; /// quantidade de ouro que a civilizacao possui
 
@@ -129,13 +128,5 @@ public class Civilization {
             System.out.println("Nao tem cidades na sua civilizacao.");
         }
     }
-    public ArrayList<Building> getBuildings() {
-        return this.controlledBuildings;
-    }
-    public void addBuilding(Building b) {
-        this.controlledBuildings.add(b);
-    }
-
-    
 
 }
